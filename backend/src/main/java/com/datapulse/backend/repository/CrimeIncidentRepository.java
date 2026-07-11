@@ -12,10 +12,7 @@ import java.util.List;
 @Repository
 public interface CrimeIncidentRepository extends JpaRepository<CrimeIncident, Long> {
 
-    // ============================================
-    // BASIC FIND METHODS
-    // ============================================
-
+    // Basic find methods
     CrimeIncident findByCrimeNumber(String crimeNumber);
 
     List<CrimeIncident> findByDistrict(String district);
@@ -28,10 +25,7 @@ public interface CrimeIncidentRepository extends JpaRepository<CrimeIncident, Lo
 
     List<CrimeIncident> findByDistrictAndStatus(String district, Status status);
 
-    // ============================================
-    // ADVANCED FIND METHODS
-    // ============================================
-
+    // Advanced find methods
     List<CrimeIncident> findByIncidentDateBetween(LocalDate startDate, LocalDate endDate);
 
     List<CrimeIncident> findBySeverity(Severity severity);
