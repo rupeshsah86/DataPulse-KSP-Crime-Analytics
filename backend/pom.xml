@@ -123,6 +123,22 @@
 			<version>0.12.6</version>
 			<scope>runtime</scope>
 		</dependency>
+		<!-- ============================================ -->
+		<!-- FILE UPLOAD - CSV and Excel Support          -->
+		<!-- ============================================ -->
+		<!-- Apache POI - For Excel file processing -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>5.4.0</version>
+		</dependency>
+
+		<!-- OpenCSV - For CSV file processing -->
+		<dependency>
+			<groupId>com.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+			<version>5.9</version>
+		</dependency>
 	</dependencies>
 
 	<build>
