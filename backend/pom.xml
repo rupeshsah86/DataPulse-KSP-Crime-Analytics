@@ -99,13 +99,6 @@
 		<!-- ============================================ -->
 		<!-- JWT AUTHENTICATION - ADDED FOR PHASE 20      -->
 		<!-- ============================================ -->
-		<!--
-			JJWT (Java JWT) - Industry standard for JWT handling
-			- jjwt-api: Core API for JWT operations
-			- jjwt-impl: Implementation (runtime only)
-			- jjwt-jackson: JSON serialization support (runtime only)
-		-->
-		<!-- JWT Dependencies -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-api</artifactId>
@@ -123,21 +116,28 @@
 			<version>0.12.6</version>
 			<scope>runtime</scope>
 		</dependency>
+
 		<!-- ============================================ -->
 		<!-- FILE UPLOAD - CSV and Excel Support          -->
 		<!-- ============================================ -->
-		<!-- Apache POI - For Excel file processing -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
 			<version>5.4.0</version>
 		</dependency>
-
-		<!-- OpenCSV - For CSV file processing -->
 		<dependency>
 			<groupId>com.opencsv</groupId>
 			<artifactId>opencsv</artifactId>
 			<version>5.9</version>
+		</dependency>
+
+		<!-- ============================================ -->
+		<!-- SWAGGER - API Documentation                  -->
+		<!-- ============================================ -->
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.6.0</version>
 		</dependency>
 	</dependencies>
 

@@ -41,8 +41,16 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/auth/**").permitAll()
                         .requestMatchers("/actuator/health").permitAll()
 
-                        // Swagger UI (for API documentation)
-                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
+                        // Swagger UI - MUST BE PUBLIC
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/v3/api-docs/**",
+                                "/v3/api-docs",
+                                "/swagger-resources/**",
+                                "/swagger-resources",
+                                "/webjars/**"
+                        ).permitAll()
 
                         // ADMIN only endpoints
                         .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
