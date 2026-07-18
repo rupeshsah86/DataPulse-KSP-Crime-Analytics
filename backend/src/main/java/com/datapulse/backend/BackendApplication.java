@@ -2,21 +2,11 @@ package com.datapulse.backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-/**
- * DataPulse Backend Application
- *
- * Main entry point for the Spring Boot application.
- *
- * @SpringBootApplication → Combines @Configuration, @EnableAutoConfiguration, @ComponentScan
- * @EnableJpaAuditing → Enables JPA auditing (createdBy, createdAt, etc.)
- *
- * Why @EnableJpaAuditing?
- * - Required for @CreatedBy, @LastModifiedBy to work
- * - Enables automatic timestamp management
- * - Professional auditing capabilities
- */
 @SpringBootApplication
 @EnableJpaAuditing
 public class BackendApplication {
@@ -25,4 +15,17 @@ public class BackendApplication {
 		SpringApplication.run(BackendApplication.class, args);
 	}
 
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurer() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/**")
+						.allowedOrigins("http://localhost:3000")
+						.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+						.allowedHeaders("*")
+						.allowCredentials(true);
+			}
+		};
+	}
 }

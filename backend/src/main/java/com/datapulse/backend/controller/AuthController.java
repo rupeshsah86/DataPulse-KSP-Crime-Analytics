@@ -4,6 +4,7 @@ import com.datapulse.backend.entity.com.datapulse.User;
 import com.datapulse.backend.entity.com.datapulse.enums.Role;
 import com.datapulse.backend.repository.UserRepository;
 import com.datapulse.backend.security.JwtTokenProvider;
+import com.datapulse.backend.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,13 +28,6 @@ import java.util.Map;
  * - User Registration
  * - User Login
  * - Token generation
- *
- * Professional Note: This is the entry point for all authentication requests.
- * All endpoints here are PUBLIC (no authentication required).
- *
- * Endpoints:
- * POST /api/v1/auth/register - Register a new user
- * POST /api/v1/auth/login - Login and get JWT token
  */
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -51,27 +45,15 @@ public class AuthController {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
+    @Autowired
+    private EmailService emailService;  // ✅ Added
+
     /**
      * User Login
      * POST /api/v1/auth/login
-     *
-     * Request Body:
-     * {
-     *     "email": "officer@police.com",
-     *     "password": "password123"
-     * }
-     *
-     * Response:
-     * {
-     *     "token": "eyJhbGciOiJIUzI1NiIs...",
-     *     "email": "officer@police.com",
-     *     "role": "OFFICER",
-     *     "fullName": "Officer Ravi"
-     * }
      */
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@RequestBody LoginRequest loginRequest) {
-        // Authenticate user using Spring Security
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getEmail(),
@@ -79,22 +61,19 @@ public class AuthController {
                 )
         );
 
-        // Set authentication in security context
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        // Generate JWT token
         String token = jwtTokenProvider.generateToken(authentication);
-
-        // Get user details
         User user = userRepository.findByEmail(loginRequest.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // Build response
         Map<String, String> response = new HashMap<>();
         response.put("token", token);
         response.put("email", user.getEmail());
         response.put("role", user.getRole().name());
         response.put("fullName", user.getFullName());
+        response.put("phoneNumber", user.getPhoneNumber() != null ? user.getPhoneNumber() : "");
+        response.put("policeStation", user.getPoliceStation() != null ? user.getPoliceStation() : "");
 
         return ResponseEntity.ok(response);
     }
@@ -102,28 +81,10 @@ public class AuthController {
     /**
      * User Registration
      * POST /api/v1/auth/register
-     *
-     * Request Body:
-     * {
-     *     "fullName": "Officer Ravi",
-     *     "email": "ravi@police.com",
-     *     "password": "password123",
-     *     "employeeId": "EMP001",
-     *     "policeStation": "City Center",
-     *     "phoneNumber": "9876543210",
-     *     "role": "OFFICER"
-     * }
-     *
-     * Response:
-     * {
-     *     "message": "User registered successfully",
-     *     "email": "ravi@police.com",
-     *     "role": "OFFICER"
-     * }
      */
     @PostMapping("/register")
     public ResponseEntity<Map<String, String>> register(@RequestBody RegisterRequest registerRequest) {
-        // Check if user already exists
+        // Check if user exists
         if (userRepository.existsByEmail(registerRequest.getEmail())) {
             Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("error", "Email already registered");
@@ -145,6 +106,13 @@ public class AuthController {
 
         userRepository.save(user);
 
+        // ✅ Send welcome email
+        emailService.sendWelcomeEmail(
+                user.getEmail(),
+                user.getFullName(),
+                user.getRole().name()
+        );
+
         Map<String, String> response = new HashMap<>();
         response.put("message", "User registered successfully");
         response.put("email", user.getEmail());
@@ -153,13 +121,7 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    // ============================================
-    // INNER CLASSES FOR REQUEST BODIES
-    // ============================================
-
-    /**
-     * Login Request DTO
-     */
+    // Inner classes for request bodies
     public static class LoginRequest {
         private String email;
         private String password;
@@ -170,9 +132,6 @@ public class AuthController {
         public void setPassword(String password) { this.password = password; }
     }
 
-    /**
-     * Register Request DTO
-     */
     public static class RegisterRequest {
         private String fullName;
         private String email;

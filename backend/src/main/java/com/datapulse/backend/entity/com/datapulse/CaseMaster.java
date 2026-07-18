@@ -108,10 +108,10 @@ public class CaseMaster extends Auditable {
     // ============================================
     // LOCATION (For Maps)
     // ============================================
-    @Column(name = "latitude", precision = 10, scale = 8)
+    @Column(name = "latitude", columnDefinition = "DOUBLE PRECISION")
     private Double latitude;
 
-    @Column(name = "longitude", precision = 11, scale = 8)
+    @Column(name = "longitude", columnDefinition = "DOUBLE PRECISION")
     private Double longitude;
 
     @Column(name = "address", length = 500)
