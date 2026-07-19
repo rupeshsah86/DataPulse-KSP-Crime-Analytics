@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
@@ -43,3 +44,6 @@ next-env.d.ts
 # Environment variables
 .env.local
 .env.*.local
+=======
+codebase_smart.txt
+>>>>>>> 46de6cf078f31ae71ab0e1900c639fc6119d9bd1

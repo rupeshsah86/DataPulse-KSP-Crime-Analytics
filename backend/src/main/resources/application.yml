@@ -1,0 +1,52 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/datapulse_db
+    username: rupeshmacbook
+    password:
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  # ============================================
+  # EMAIL CONFIGURATION - FIXED
+  # ============================================
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: rupeshkumarsah.2024cse@sece.ac.in
+    password: oyrwktmnrbvrtxpl  # ✅ NO SPACES!
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+server:
+  port: 8082
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+
+# ============================================
+# JWT CONFIGURATION
+# ============================================
+app:
+  jwt:
+    secret: DataPulseSecretKeyForJWTGeneration2026Secure
+    expiration: 86400000
+
+# ============================================
+# MANAGEMENT/HEALTH - MOVED TO TOP LEVEL
+# ============================================
+management:
+  health:
+    mail:
+      enabled: false
