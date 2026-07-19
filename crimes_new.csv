@@ -1,0 +1,22 @@
+crimeNumber,title,description,category,severity,status,incidentDate,incidentTime,latitude,longitude,address,district,city,state,country,reportedBy,policeStation
+CRIME-200,Robbery at City Center Mall,Armed robbery at jewelry store in mall,ROBBERY,CRITICAL,OPEN,2026-07-18,19:30:00,12.9856,77.6142,Mall Road,Bangalore Urban,Bangalore,Karnataka,India,Officer Ravi,City Center
+CRIME-201,Theft at Airport Road,Laptop stolen from car,THEFT,HIGH,INVESTIGATING,2026-07-18,14:15:00,12.9495,77.6487,Airport Road,Bangalore Urban,Bangalore,Karnataka,India,Officer Suresh,Airport
+CRIME-202,Murder in J.P. Nagar,Stabbing incident in residential area,MURDER,CRITICAL,OPEN,2026-07-17,23:10:00,12.9118,77.5932,4th Phase,Bangalore Urban,Bangalore,Karnataka,India,Officer Kumar,J.P. Nagar
+CRIME-203,Cyber Fraud in BTM Layout,Online investment scam,CYBER_CRIME,HIGH,INVESTIGATING,2026-07-17,11:45:00,12.9166,77.6104,BTM Layout 1st Stage,Bangalore Urban,Bangalore,Karnataka,India,Officer Priya,BTM Layout
+CRIME-204,Armed Robbery at Petrol Pump,Held up at gunpoint,ROBBERY,CRITICAL,OPEN,2026-07-16,22:00:00,12.9224,77.6193,Outer Ring Road,Bangalore Urban,Bangalore,Karnataka,India,Officer Vikram,HSR Layout
+CRIME-205,Vehicle Theft in Electronic City,Bike stolen from parking,VEHICLE_THEFT,MEDIUM,OPEN,2026-07-16,18:30:00,12.8354,77.6794,Electronics City Phase 1,Bangalore Urban,Bangalore,Karnataka,India,Officer Ananya,Electronic City
+CRIME-206,Assault in Bannerghatta Road,Fight between groups,ASSAULT,HIGH,INVESTIGATING,2026-07-15,21:00:00,12.8993,77.5932,Bannerghatta Road,Bangalore Urban,Bangalore,Karnataka,India,Officer Reddy,Bannerghatta
+CRIME-207,Drug Offense in Kammanahalli,Narcotics peddling,DRUG_OFFENSE,HIGH,CLOSED,2026-07-15,02:45:00,13.0199,77.6432,Kammanahalli Main Road,Bangalore Urban,Bangalore,Karnataka,India,Officer Sharma,Kammanahalli
+CRIME-208,Burglary in Malleswaram,Office break-in at night,BURGLARY,MEDIUM,OPEN,2026-07-14,03:30:00,13.0034,77.5728,8th Cross Malleswaram,Bangalore Urban,Bangalore,Karnataka,India,Officer Reddy,Malleswaram
+CRIME-209,Extortion in Basavanagudi,Threats to businessman,EXTORTION,HIGH,INVESTIGATING,2026-07-14,19:15:00,12.9456,77.5734,Basavanagudi Main Road,Bangalore Urban,Bangalore,Karnataka,India,Officer Priya,Basavanagudi
+CRIME-210,Robbery at Jewellary Store,Gold robbery in broad daylight,ROBBERY,CRITICAL,OPEN,2026-07-13,16:00:00,12.9624,77.6285,Commercial Street,Bangalore Urban,Bangalore,Karnataka,India,Officer Ravi,Commercial Street
+CRIME-211,Theft in Wilson Garden,Phone snatched near bus stop,THEFT,HIGH,INVESTIGATING,2026-07-13,20:30:00,12.9351,77.6017,Wilson Garden Main Road,Bangalore Urban,Bangalore,Karnataka,India,Officer Suresh,Wilson Garden
+CRIME-212,Murder in Hebbal,Body found near lake,MURDER,CRITICAL,OPEN,2026-07-12,06:00:00,13.0491,77.5982,Hebbal Lake,Bangalore Urban,Bangalore,Karnataka,India,Officer Kumar,Hebbal
+CRIME-213,Cyber Crime in Domlur,Phishing attack on company,CYBER_CRIME,HIGH,INVESTIGATING,2026-07-12,10:30:00,12.9562,77.6372,Domlur Layout,Bangalore Urban,Bangalore,Karnataka,India,Officer Priya,Domlur
+CRIME-214,Domestic Violence in Vijayanagar,Family dispute turned violent,ASSAULT,MEDIUM,OPEN,2026-07-11,22:00:00,12.9787,77.5287,Vijayanagar 1st Stage,Bangalore Urban,Bangalore,Karnataka,India,Officer Ananya,Vijayanagar
+CRIME-215,Robbery in Krishnarajapuram,Grocery store robbed,ROBBERY,HIGH,INVESTIGATING,2026-07-11,21:15:00,13.0064,77.6942,Krishnarajapuram Main Road,Bangalore Urban,Bangalore,Karnataka,India,Officer Vikram,Krishnarajapuram
+CRIME-216,Burglary in Sadashivanagar,TV and valuables stolen,BURGLARY,HIGH,OPEN,2026-07-10,02:00:00,13.0089,77.5819,10th Main Sadashivanagar,Bangalore Urban,Bangalore,Karnataka,India,Officer Reddy,Sadashivanagar
+CRIME-217,Theft at Forum Mall,Purse stolen from shopper,THEFT,MEDIUM,INVESTIGATING,2026-07-10,17:30:00,12.9285,77.6278,Forum Mall Main Road,Bangalore Urban,Bangalore,Karnataka,India,Officer Ananya,Forum
+CRIME-218,Arson in Rajajinagar,Car set on fire,ARSON,CRITICAL,OPEN,2026-07-09,01:30:00,12.9998,77.5529,Rajajinagar 3rd Block,Bangalore Urban,Bangalore,Karnataka,India,Officer Kumar,Rajajinagar
+CRIME-219,Fraud in Jayanagar,Cheating in property deal,FRAUD,HIGH,INVESTIGATING,2026-07-09,11:00:00,12.9299,77.5854,Jayanagar 4th Block,Bangalore Urban,Bangalore,Karnataka,India,Officer Priya,Jayanagar
+CRIME-220,Robbery in Banashankari,Chain snatching incident,ROBBERY,HIGH,OPEN,2026-07-08,20:00:00,12.9316,77.5598,Banashankari 2nd Stage,Bangalore Urban,Bangalore,Karnataka,India,Officer Ravi,Banashankari

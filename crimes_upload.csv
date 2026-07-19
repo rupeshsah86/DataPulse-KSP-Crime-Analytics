@@ -1,0 +1,3 @@
+title,description,category,severity,status,incidentDate,incidentTime,latitude,longitude,address,district,city,state,reportedBy,policeStation
+Theft in Indiranagar,Phone stolen from bus,THEFT,HIGH,OPEN,2026-07-18,14:30:00,12.9784,77.6408,100 Feet Road,Bangalore Urban,Bangalore,Karnataka,Officer Kumar,Indiranagar
+Robbery on MG Road,Armed robbery at jewelry store,ROBBERY,CRITICAL,OPEN,2026-07-17,19:00:00,12.9716,77.5946,MG Road,Bangalore Urban,Bangalore,Karnataka,Officer Ravi,City Center
