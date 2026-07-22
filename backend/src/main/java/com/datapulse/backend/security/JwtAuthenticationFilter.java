@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,25 +15,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
-/**
- * JWT Authentication Filter
- *
- * Intercepts every request and validates JWT token
- * - Extracts token from Authorization header
- * - Validates token
- * - Sets authentication in SecurityContext
- *
- * How it works:
- * 1. Every request passes through this filter
- * 2. It checks for "Authorization: Bearer <token>" header
- * 3. If present, it validates the token
- * 4. If valid, it sets the authentication in SecurityContext
- * 5. If invalid or missing, request continues without authentication
- *
- * This is the core of JWT authentication!
- */
 @Component
+@Order(1)
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
@@ -40,6 +27,38 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
     private UserDetailsService userDetailsService;
+
+    // ✅ PUBLIC PATHS - JWT WILL SKIP THESE
+    private static final List<String> PUBLIC_PATHS = Arrays.asList(
+            "/api/v1/auth/",
+            "/api/officers/",
+            "/api/crimes/",
+            "/api/analytics/",
+            "/api/dashboard/",
+            "/actuator/",
+            "/swagger-ui/",
+            "/v3/api-docs/",
+            "/swagger-resources/"
+    );
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String path = request.getRequestURI();
+
+        // Log for debugging
+        System.out.println("🔍 JWT Filter - Path: " + path);
+
+        // Skip JWT validation for public paths
+        for (String publicPath : PUBLIC_PATHS) {
+            if (path.startsWith(publicPath)) {
+                System.out.println("🔍 PUBLIC PATH - Skipping JWT for: " + path);
+                return true;
+            }
+        }
+
+        System.out.println("🔍 PROTECTED PATH - JWT required for: " + path);
+        return false;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -50,26 +69,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String jwt;
         final String userEmail;
 
-        // Check if Authorization header exists and starts with "Bearer "
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        // Extract JWT token (remove "Bearer " prefix)
         jwt = authHeader.substring(7);
         userEmail = jwtTokenProvider.extractUsername(jwt);
 
-        // If user email exists and no authentication in context
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
 
-            // Validate token
             if (jwtTokenProvider.validateToken(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+                System.out.println("✅ JWT validated for: " + userEmail);
             }
         }
 

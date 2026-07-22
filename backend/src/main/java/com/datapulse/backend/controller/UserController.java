@@ -30,20 +30,43 @@ public class UserController {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        if (request.containsKey("fullName") && request.get("fullName") != null) {
-            user.setFullName(request.get("fullName"));
+        if (request.containsKey("firstName") && request.get("firstName") != null) {
+            user.setFirstName(request.get("firstName"));
+        }
+        if (request.containsKey("lastName") && request.get("lastName") != null) {
+            user.setLastName(request.get("lastName"));
         }
         if (request.containsKey("phoneNumber") && request.get("phoneNumber") != null) {
             user.setPhoneNumber(request.get("phoneNumber"));
         }
+        if (request.containsKey("badgeNumber") && request.get("badgeNumber") != null) {
+            user.setBadgeNumber(request.get("badgeNumber"));
+        }
+        if (request.containsKey("department") && request.get("department") != null) {
+            user.setDepartment(request.get("department"));
+        }
+        if (request.containsKey("rankName") && request.get("rankName") != null) {
+            user.setRankName(request.get("rankName"));
+        }
         if (request.containsKey("policeStation") && request.get("policeStation") != null) {
             user.setPoliceStation(request.get("policeStation"));
+        }
+        if (request.containsKey("district") && request.get("district") != null) {
+            user.setDistrict(request.get("district"));
         }
 
         userRepository.save(user);
 
         Map<String, String> response = new HashMap<>();
         response.put("message", "Profile updated successfully");
+        response.put("firstName", user.getFirstName() != null ? user.getFirstName() : "");
+        response.put("lastName", user.getLastName() != null ? user.getLastName() : "");
+        response.put("phoneNumber", user.getPhoneNumber() != null ? user.getPhoneNumber() : "");
+        response.put("badgeNumber", user.getBadgeNumber() != null ? user.getBadgeNumber() : "");
+        response.put("department", user.getDepartment() != null ? user.getDepartment() : "");
+        response.put("rankName", user.getRankName() != null ? user.getRankName() : "");
+        response.put("policeStation", user.getPoliceStation() != null ? user.getPoliceStation() : "");
+        response.put("district", user.getDistrict() != null ? user.getDistrict() : "");
         return ResponseEntity.ok(response);
     }
 
@@ -59,14 +82,12 @@ public class UserController {
         String currentPassword = request.get("currentPassword");
         String newPassword = request.get("newPassword");
 
-        // Verify current password
         if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
             Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("error", "Current password is incorrect");
             return ResponseEntity.badRequest().body(errorResponse);
         }
 
-        // Update password
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
 

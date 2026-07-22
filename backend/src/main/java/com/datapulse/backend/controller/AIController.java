@@ -16,10 +16,6 @@ public class AIController {
     @Autowired
     private AIService aiService;
 
-    /**
-     * Get crime hotspots from AI service
-     * GET /api/v1/ai/hotspots
-     */
     @GetMapping("/hotspots")
     public ResponseEntity<Map<String, Object>> getHotspots() {
         List<Map<String, Object>> hotspots = aiService.getHotspots();
@@ -32,10 +28,6 @@ public class AIController {
         return ResponseEntity.ok(response);
     }
 
-    /**
-     * Get crime patterns from AI service
-     * GET /api/v1/ai/patterns
-     */
     @GetMapping("/patterns")
     public ResponseEntity<Map<String, Object>> getPatterns() {
         Map<String, Object> patterns = aiService.getPatterns();
@@ -47,15 +39,25 @@ public class AIController {
         return ResponseEntity.ok(response);
     }
 
-    /**
-     * Health check for AI service
-     * GET /api/v1/ai/health
-     */
     @GetMapping("/health")
     public ResponseEntity<Map<String, Object>> getAIHealth() {
         Map<String, Object> response = new HashMap<>();
         response.put("status", "AI Service is reachable");
         response.put("aiServiceUrl", "http://localhost:8000");
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/predict")
+    public ResponseEntity<Map<String, Object>> predictCrimes(@RequestBody List<AIService.PredictionRequest> requests) {
+        System.out.println("🔍 AI Predict request received for " + requests.size() + " locations");
+
+        List<Map<String, Object>> predictions = aiService.predictCrimes(requests);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", true);
+        response.put("data", predictions);
+        response.put("count", predictions.size());
 
         return ResponseEntity.ok(response);
     }

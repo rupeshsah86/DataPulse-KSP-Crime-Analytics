@@ -47,5 +47,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @param employeeId Employee ID
      * @return Optional containing user if found
      */
-    Optional<User> findByEmployeeId(String employeeId);
+    //Optional<User> findByEmployeeId(String employeeId);
 }

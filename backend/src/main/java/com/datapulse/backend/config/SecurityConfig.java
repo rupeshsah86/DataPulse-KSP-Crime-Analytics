@@ -61,15 +61,22 @@ public class SecurityConfig {
                         // USER ENDPOINTS - FOR SETTINGS PAGE
                         .requestMatchers("/api/v1/users/**").authenticated()
 
-                        // ============================================
                         // PDF REPORTS ENDPOINT
-                        // ============================================
                         .requestMatchers("/api/v1/reports/**").authenticated()
 
-                        // ============================================
-                        // AI ENDPOINTS - ADDED
-                        // ============================================
+                        // AI ENDPOINTS
                         .requestMatchers("/api/v1/ai/**").authenticated()
+
+                        // OFFICER PERFORMANCE
+                        .requestMatchers("/api/v1/officers/**").authenticated()
+
+                        // REPEAT OFFENDERS
+                        .requestMatchers("/api/v1/offenders/**").authenticated()
+
+                        // ============================================
+                        // CRIMINAL NETWORK - ADDED
+                        // ============================================
+                        .requestMatchers("/api/v1/criminals/**").authenticated()
 
                         // ADMIN only endpoints
                         .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")

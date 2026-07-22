@@ -11,33 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-/**
- * User Entity
- *
- * This represents a system user (Police Officer, Analyst, Investigator, Admin).
- *
- * Why implement UserDetails?
- * - Spring Security uses this for authentication
- * - Provides methods for authorities, account status, etc.
- * - Professional security integration
- *
- * Table: users
- *
- * Fields:
- * - id: Primary key (auto-generated)
- * - fullName: Full name of the user
- * - email: Unique email (used as username for login)
- * - password: BCrypt encrypted password
- * - employeeId: Unique employee ID
- * - policeStation: Which police station they belong to
- * - phoneNumber: Contact number
- * - role: User role (ADMIN, OFFICER, ANALYST, INVESTIGATOR)
- * - isActive: Account active status
- * - isLocked: Account locked status
- *
- * Auditing fields inherited from Auditable:
- * - createdBy, createdAt, lastModifiedBy, updatedAt
- */
 @Entity
 @Table(name = "users")
 @Data
@@ -48,34 +21,47 @@ import java.util.List;
 @ToString(callSuper = true)
 public class User extends Auditable implements UserDetails {
 
-    // ============================================
-    // PRIMARY KEY
-    // ============================================
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     // ============================================
-    // USER INFORMATION
+    // PERSONAL INFORMATION
     // ============================================
 
-    @Column(name = "full_name", nullable = false, length = 100)
-    private String fullName;
+    @Column(name = "first_name", nullable = false, length = 100)
+    private String firstName;
+
+    @Column(name = "last_name", nullable = false, length = 100)
+    private String lastName;
 
     @Column(name = "email", unique = true, nullable = false, length = 100)
     private String email;
 
     @Column(name = "password", nullable = false, length = 255)
-    private String password; // Will be BCrypt encrypted
+    private String password;
 
-    @Column(name = "employee_id", unique = true, length = 50)
-    private String employeeId;
+    @Column(name = "phone_number", length = 15)
+    private String phoneNumber;
+
+    // ============================================
+    // POLICE INFORMATION
+    // ============================================
+
+    @Column(name = "badge_number", unique = true, length = 50)
+    private String badgeNumber;
+
+    @Column(name = "department", length = 100)
+    private String department;
+
+    @Column(name = "rank_name", length = 50)
+    private String rankName;
 
     @Column(name = "police_station", length = 100)
     private String policeStation;
 
-    @Column(name = "phone_number", length = 15)
-    private String phoneNumber;
+    @Column(name = "district", length = 100)
+    private String district;
 
     // ============================================
     // ROLE & STATUS
@@ -92,10 +78,16 @@ public class User extends Auditable implements UserDetails {
     private boolean isLocked = false;
 
     // ============================================
+    // FULL NAME HELPER
+    // ============================================
+
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
+
+    // ============================================
     // SPRING SECURITY - UserDetails Methods
     // ============================================
-    // These methods are required by Spring Security
-    // for authentication and authorization
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
