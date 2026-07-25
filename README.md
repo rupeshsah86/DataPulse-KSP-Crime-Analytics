@@ -38,7 +38,7 @@ DataPulse centralizes crime data and provides:
 
 | Service | URL |
 |---------|-----|
-| **Frontend** | [https://frontend-deploy-wfmnamam.onslate.in](https://frontend-deploy-wfmnamam.onslate.in) |
+| **Frontend** | [https://frontend-deploy-ejcwfbbz.onslate.in](https://frontend-deploy-ejcwfbbz.onslate.in) |
 | **Backend API** | [https://datapulse-backend-50044313424.development.catalystappsail.in](https://datapulse-backend-50044313424.development.catalystappsail.in) |
 
 **Demo Credentials:**
