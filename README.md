@@ -334,9 +334,10 @@ zip -r ../ai-deploy.zip . -x "venv/*" -x "__pycache__/*"
 
 ## 👥 Contributors
 
-| Name | Role |
-|------|------|
-| Rupesh Kumar Sah | Lead Developer |
+| Name | Role | GitHub | LinkedIn |
+|------|------|--------|----------|
+| Rupesh Kumar Sah | Lead Developer | [rupeshsah86](https://github.com/rupeshsah86) | [Rupesh Kumar Sah](https://www.linkedin.com/in/rupesh-shah-a480b8324/) |
+| Ravi Kushwaha | Frontend Developer | - | - |
 
 ## 📝 License
 
@@ -352,6 +353,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - Email: rupeshkumarsah.2024cse@sece.ac.in
 - GitHub: [rupeshsah86](https://github.com/rupeshsah86)
-- LinkedIn: [Rupesh Kumar Sah](https://linkedin.com/in/rupesh-kumar-sah)
+- LinkedIn: [Rupesh Kumar Sah](https://www.linkedin.com/in/rupesh-shah-a480b8324/)
 
 <div align="center">Made with ❤️ for the Karnataka State Police Hackathon 2026</div>
