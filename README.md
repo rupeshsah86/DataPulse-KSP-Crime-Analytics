@@ -337,7 +337,7 @@ zip -r ../ai-deploy.zip . -x "venv/*" -x "__pycache__/*"
 | Name | Role | GitHub | LinkedIn |
 |------|------|--------|----------|
 | Rupesh Kumar Sah | Lead Developer | [rupeshsah86](https://github.com/rupeshsah86) | [Rupesh Kumar Sah](https://www.linkedin.com/in/rupesh-shah-a480b8324/) |
-| Ravi Kushwaha | Frontend Developer | - | - |
+| Ravi Kushwaha | Frontend Developer | | |
 
 ## 📝 License
 
