@@ -1,26 +1,53 @@
 spring:
+  # ============================================
+  # DATABASE CONFIGURATION
+  # ============================================
   datasource:
-    url: jdbc:postgresql://localhost:5432/datapulse_db
-    username: rupeshmacbook
-    password:
+    # ============================================
+    # OPTION 1: PostgreSQL (for deployment)
+    # ============================================
+    url: jdbc:postgresql://aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres?sslmode=require
+    username: postgres.lopkghlfaoypqweufhvx
+    password: yablkwgtnrkayujtbeem
     driver-class-name: org.postgresql.Driver
+
+    # ============================================
+    # OPTION 2: H2 (for local testing - COMMENT OUT PostgreSQL and UNCOMMENT this)
+    # ============================================
+    # url: jdbc:h2:mem:datapulse_db
+    # driver-class-name: org.h2.Driver
+    # username: sa
+    # password:
 
   jpa:
     hibernate:
+      # For PostgreSQL: Use "update" or "none"
       ddl-auto: update
+
+      # For H2: Use "create" or "create-drop"
+      # ddl-auto: create
     show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     properties:
       hibernate:
         format_sql: true
 
   # ============================================
-  # EMAIL CONFIGURATION - FIXED
+  # H2 CONSOLE (for local testing)
+  # ============================================
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  # ============================================
+  # EMAIL CONFIGURATION
   # ============================================
   mail:
     host: smtp.gmail.com
     port: 587
     username: rupeshkumarsah.2024cse@sece.ac.in
-    password: oyrwktmnrbvrtxpl  # ✅ NO SPACES!
+    password: oyrwktmnrbvrtxpl
     properties:
       mail:
         smtp:
@@ -28,12 +55,19 @@ spring:
           starttls:
             enable: true
 
+# ============================================
+# SERVER
+# ============================================
 server:
-  port: 8082
+  port: 8083
 
+# ============================================
+# LOGGING
+# ============================================
 logging:
   level:
     org.hibernate.SQL: DEBUG
+    org.springframework.security: DEBUG
 
 # ============================================
 # JWT CONFIGURATION
@@ -44,7 +78,7 @@ app:
     expiration: 86400000
 
 # ============================================
-# MANAGEMENT/HEALTH - MOVED TO TOP LEVEL
+# MANAGEMENT/HEALTH
 # ============================================
 management:
   health:

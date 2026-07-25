@@ -1,0 +1,30 @@
+{
+  "defaults": {
+    "project": 1,
+    "env": 1
+  },
+  "actives": {
+    "project": 1,
+    "env": 1
+  },
+  "projects": [
+    {
+      "idx": 1,
+      "id": "52745000000023001",
+      "name": "DataPulse",
+      "domain": {
+        "id": "50044313424",
+        "name": "datapulse-60076344172.development"
+      },
+      "timezone": "Asia/Kolkata",
+      "env": [
+        {
+          "idx": 1,
+          "id": "60076344172",
+          "name": "Development",
+          "type": 3
+        }
+      ]
+    }
+  ]
+}

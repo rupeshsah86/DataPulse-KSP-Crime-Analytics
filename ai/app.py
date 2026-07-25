@@ -2,15 +2,19 @@
 DataPulse - AI Crime Analytics Service
 
 This is the main FastAPI application for AI-powered crime analytics.
-It provides endpoints for crime prediction, hotspot detection, and pattern analysis.
+It provides endpoints for crime prediction, hotspot detection, pattern analysis,
+and RAG chatbot for natural language querying.
 
 Endpoints:
 - GET /health → Health check
 - POST /api/predict → Crime prediction
 - GET /api/hotspots → Hotspot detection
 - GET /api/patterns → Pattern detection
+- POST /api/chat → RAG Chatbot
+- GET /api/chat/stats → Chatbot statistics
 """
 
+from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -23,11 +27,37 @@ from datetime import datetime, timedelta
 from services.data_loader import load_crime_data
 from models.predictor import CrimePredictor
 
+# ============================================
+# RAG CHATBOT IMPORTS
+# ============================================
+from models.rag_chatbot import RAGChatbot
+
+# ============================================
+# LIFESPAN
+# ============================================
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    print("🚀 Loading crime data and training model...")
+    crime_data = load_crime_data()
+    if not crime_data.empty:
+        predictor.train(crime_data)
+        predictor.save_model()
+        print(f"✅ Model trained with {len(crime_data)} records")
+    else:
+        print("⚠️ No crime data available. Using sample data.")
+
+    if chatbot.initialized:
+        print("✅ RAG Chatbot initialized successfully")
+    else:
+        print("⚠️ RAG Chatbot not initialized. Check API key.")
+    yield
+
 # Initialize FastAPI
 app = FastAPI(
     title="DataPulse AI Service",
     description="AI-powered crime analytics and prediction engine",
-    version="1.0.0"
+    version="1.0.0",
+    lifespan=lifespan
 )
 
 # CORS middleware - Allow frontend and backend to communicate
@@ -39,20 +69,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Initialize predictor
+# ============================================
+# INITIALIZE PREDICTOR
+# ============================================
 predictor = CrimePredictor()
 
-# Load data and train model on startup
-@app.on_event("startup")
-async def startup_event():
-    print("🚀 Loading crime data and training model...")
-    crime_data = load_crime_data()
-    if not crime_data.empty:
-        predictor.train(crime_data)
-        predictor.save_model()
-        print(f"✅ Model trained with {len(crime_data)} records")
-    else:
-        print("⚠️ No crime data available. Using sample data.")
+# ============================================
+# INITIALIZE RAG CHATBOT
+# ============================================
+chatbot = RAGChatbot()
 
 # ============================================
 # HEALTH CHECK
@@ -64,7 +89,8 @@ async def health_check():
         "status": "healthy",
         "service": "DataPulse AI Service",
         "timestamp": datetime.now().isoformat(),
-        "hotspots_count": len(predictor.hotspots)
+        "hotspots_count": len(predictor.hotspots),
+        "chatbot_ready": chatbot.initialized
     }
 
 # ============================================
@@ -79,9 +105,12 @@ async def root():
             "health": "/health",
             "predict": "/api/predict (POST)",
             "hotspots": "/api/hotspots (GET)",
-            "patterns": "/api/patterns (GET)"
+            "patterns": "/api/patterns (GET)",
+            "chat": "/api/chat (POST)",
+            "chat_stats": "/api/chat/stats (GET)"
         },
-        "hotspots_count": len(predictor.hotspots)
+        "hotspots_count": len(predictor.hotspots),
+        "chatbot_ready": chatbot.initialized
     }
 
 # ============================================
@@ -219,6 +248,49 @@ async def get_patterns():
         patterns["districts"] = crime_data['district'].nunique()
     
     return patterns
+
+# ============================================
+# RAG CHATBOT ENDPOINTS
+# ============================================
+class ChatRequest(BaseModel):
+    """Request model for chat"""
+    question: str
+
+class ChatResponse(BaseModel):
+    """Response model for chat"""
+    answer: str
+    question: str
+    timestamp: str
+
+@app.post("/api/chat", response_model=ChatResponse)
+async def chat(request: ChatRequest):
+    """
+    Chat with the RAG chatbot powered by Gemini
+    
+    Ask questions about crime data like:
+    - "How many crimes were reported in Bangalore?"
+    - "What are the most common crime categories?"
+    - "Show me high severity crimes"
+    - "Which district has the most crimes?"
+    """
+    try:
+        answer = chatbot.ask(request.question)
+        return ChatResponse(
+            answer=answer,
+            question=request.question,
+            timestamp=datetime.now().isoformat()
+        )
+    except Exception as e:
+        return ChatResponse(
+            answer=f"Error: {str(e)}",
+            question=request.question,
+            timestamp=datetime.now().isoformat()
+        )
+
+@app.get("/api/chat/stats")
+async def get_chat_stats():
+    """Get crime statistics for context"""
+    return chatbot.get_crime_stats()
 
 # ============================================
 # RUN THE APP

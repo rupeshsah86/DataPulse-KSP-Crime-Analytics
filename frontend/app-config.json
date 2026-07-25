@@ -1,0 +1,14 @@
+{
+	"command": "node server.js",
+	"build_path": ".next/standalone/",
+	"stack": "node18",
+	"env_variables": {
+		"NEXT_PUBLIC_API_URL": "https://datapulse-backend-50044313424.development.catalystappsail.in",
+		"NEXT_PUBLIC_AI_URL": "https://datapulse-ai-50044313424.development.catalystappsail.in",
+		"NEXT_PUBLIC_DEBUG": "false",
+		"NODE_ENV": "production"
+	},
+	"memory": 512,
+	"port": 3000,
+	"scripts": {}
+}

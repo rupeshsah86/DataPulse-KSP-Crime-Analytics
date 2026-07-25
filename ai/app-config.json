@@ -1,0 +1,18 @@
+{
+	"command": "uvicorn app:app --host 0.0.0.0 --port 8000",
+	"build_path": "./",
+	"stack": "python_3_12",
+	"env_variables": {
+		"GROQ_API_KEY": "your-groq-api-key-here",
+		"DB_HOST": "aws-0-ap-southeast-1.pooler.supabase.com",
+		"DB_PORT": "5432",
+		"DB_NAME": "postgres",
+		"DB_USER": "postgres.lopkghlfaoypqweufhvx",
+		"DB_PASSWORD": "yablkwgtnrkayujtbeem"
+	},
+	"memory": 512,
+	"port": 8000,
+	"scripts": {
+		"preinstall": "pip install -r requirements.txt"
+	}
+}

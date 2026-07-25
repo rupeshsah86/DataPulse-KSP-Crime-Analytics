@@ -1,0 +1,234 @@
+"""
+RAG Chatbot - Uses Groq and HuggingFace for crime data Q&A
+"""
+
+import os
+import json
+from dotenv import load_dotenv
+import pandas as pd
+
+# LangChain imports
+from langchain_groq import ChatGroq
+from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_community.vectorstores import Chroma
+from langchain.chains import RetrievalQA
+from langchain.prompts import PromptTemplate
+
+from services.rag_service import load_crime_data, format_crime_text
+
+# Load environment variables
+load_dotenv()
+
+class RAGChatbot:
+    def __init__(self):
+        self.llm = None
+        self.embeddings = None
+        self.vectorstore = None
+        self.qa_chain = None
+        self.initialized = False
+        
+        # Initialize components
+        self._initialize_groq()
+        self._initialize_embeddings()
+        self._build_vectorstore()
+
+    def _initialize_groq(self):
+        """Initialize Groq LLM with active model"""
+        try:
+            api_key = os.getenv('GROQ_API_KEY')
+            if not api_key or api_key == 'your-groq-api-key-here':
+                print("❌ GROQ_API_KEY not found in .env file")
+                print("📝 Get your key from: https://console.groq.com")
+                return
+            
+            # Initialize Groq LLM with ACTIVE model
+            self.llm = ChatGroq(
+                model="llama-3.3-70b-versatile",  # ✅ Active model (replaced mixtral)
+                api_key=api_key,
+                temperature=0.3,
+                max_tokens=1024,
+                timeout=60,
+                max_retries=2,
+            )
+            print("✅ Groq LLM initialized successfully")
+        except Exception as e:
+            print(f"❌ Groq initialization error: {e}")
+
+    def _initialize_embeddings(self):
+        """Initialize HuggingFace embeddings (free, local)"""
+        try:
+            self.embeddings = HuggingFaceEmbeddings(
+                model_name="all-MiniLM-L6-v2",  # Small, fast, free
+                model_kwargs={'device': 'cpu'},
+                encode_kwargs={'normalize_embeddings': True}
+            )
+            print("✅ HuggingFace embeddings initialized")
+        except Exception as e:
+            print(f"❌ Embeddings error: {e}")
+            print("⚠️ Run: pip install sentence-transformers")
+
+    def _create_sample_data(self):
+        """Create sample crime data if database is empty"""
+        print("📊 Creating sample data for RAG...")
+        data = {
+            'id': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+            'title': [
+                'Bank Robbery at State Bank',
+                'Cyber Fraud Case',
+                'Murder Investigation',
+                'Vehicle Theft Ring',
+                'Domestic Violence Case',
+                'Robbery at Jewelry Store',
+                'Burglary in Residential Area',
+                'Drug Trafficking',
+                'Kidnapping Case',
+                'Financial Fraud'
+            ],
+            'category': [
+                'ROBBERY', 'CYBER_CRIME', 'MURDER', 'VEHICLE_THEFT',
+                'DOMESTIC_VIOLENCE', 'ROBBERY', 'BURGLARY', 'DRUG_OFFENSE',
+                'KIDNAPPING', 'FRAUD'
+            ],
+            'severity': [
+                'CRITICAL', 'HIGH', 'CRITICAL', 'MEDIUM',
+                'HIGH', 'HIGH', 'MEDIUM', 'CRITICAL',
+                'CRITICAL', 'HIGH'
+            ],
+            'district': [
+                'Bangalore Urban', 'Bangalore Urban', 'Mysore', 'Hubli',
+                'Bangalore Urban', 'Bangalore Urban', 'Bangalore Urban',
+                'Bangalore Urban', 'Bangalore Urban', 'Mangalore'
+            ],
+            'status': [
+                'OPEN', 'INVESTIGATING', 'OPEN', 'OPEN',
+                'INVESTIGATING', 'OPEN', 'INVESTIGATING',
+                'OPEN', 'INVESTIGATING', 'OPEN'
+            ],
+            'incident_date': [
+                '2026-07-20', '2026-07-19', '2026-07-18', '2026-07-17',
+                '2026-07-16', '2026-07-15', '2026-07-14', '2026-07-13',
+                '2026-07-12', '2026-07-11'
+            ],
+            'reported_by': [
+                'Officer Ravi Kumar', 'Officer Priya Sharma', 'Officer Kumar Reddy',
+                'Officer Sharma', 'Officer Reddy', 'Officer Ravi Kumar',
+                'Officer Priya Sharma', 'Officer Kumar Reddy', 'Officer Ravi Kumar',
+                'Officer Sharma'
+            ],
+            'police_station': [
+                'Whitefield Police', 'Cyber Cell', 'Mysore Police',
+                'Hubli Police', 'Women Cell', 'Commercial Street',
+                'JP Nagar Police', 'Railway Police', 'Malleshwaram Police',
+                'Mangalore Police'
+            ]
+        }
+        return pd.DataFrame(data)
+
+    def _build_vectorstore(self):
+        """Build vector store from crime data"""
+        try:
+            if self.embeddings is None:
+                print("❌ Embeddings not initialized")
+                return
+            
+            # Load crime data
+            df = load_crime_data()
+            
+            # If no data, use sample data
+            if df.empty:
+                print("⚠️ No data from database, using sample data")
+                df = self._create_sample_data()
+                print(f"✅ Created {len(df)} sample records")
+            
+            # Create documents
+            documents = []
+            for _, row in df.iterrows():
+                text = format_crime_text(row.to_dict())
+                metadata = {
+                    'id': str(row.get('id', '')),
+                    'title': row.get('title', ''),
+                    'category': row.get('category', ''),
+                    'severity': row.get('severity', ''),
+                    'district': row.get('district', ''),
+                    'incident_date': str(row.get('incident_date', ''))
+                }
+                documents.append({
+                    'page_content': text,
+                    'metadata': metadata
+                })
+            
+            # Create vector store
+            texts = [doc['page_content'] for doc in documents]
+            metadatas = [doc['metadata'] for doc in documents]
+            
+            self.vectorstore = Chroma.from_texts(
+                texts=texts,
+                embedding=self.embeddings,
+                metadatas=metadatas,
+                persist_directory="./chroma_db"
+            )
+            
+            # Create QA chain
+            if self.llm and self.vectorstore:
+                retriever = self.vectorstore.as_retriever(
+                    search_kwargs={"k": 5}
+                )
+                
+                prompt_template = """
+                You are a helpful crime analytics assistant for DataPulse platform.
+                Answer the question based only on the following context from crime records.
+                If you don't know the answer, say "I don't have information about that."
+                
+                Context from crime records:
+                {context}
+                
+                Question: {question}
+                
+                Answer:
+                """
+                
+                PROMPT = PromptTemplate(
+                    template=prompt_template,
+                    input_variables=["context", "question"]
+                )
+                
+                self.qa_chain = RetrievalQA.from_chain_type(
+                    llm=self.llm,
+                    chain_type="stuff",
+                    retriever=retriever,
+                    chain_type_kwargs={"prompt": PROMPT}
+                )
+                
+                self.initialized = True
+                print(f"✅ RAG Chatbot initialized with {len(documents)} crime records")
+                
+        except Exception as e:
+            print(f"❌ Vector store build error: {e}")
+            import traceback
+            traceback.print_exc()
+
+    def ask(self, question: str) -> str:
+        """Ask a question to the RAG chatbot"""
+        if not self.initialized:
+            return "⚠️ Chatbot is not initialized. Please check the logs."
+        
+        try:
+            result = self.qa_chain.invoke({"query": question})
+            return result.get('result', "I couldn't find an answer.")
+        except Exception as e:
+            return f"❌ Error: {str(e)}"
+
+    def get_crime_stats(self):
+        """Get crime statistics for context"""
+        df = load_crime_data()
+        if df.empty:
+            df = self._create_sample_data()
+        
+        return {
+            "total_crimes": len(df),
+            "categories": df['category'].value_counts().head(5).to_dict(),
+            "districts": df['district'].value_counts().head(5).to_dict(),
+            "severity": df['severity'].value_counts().to_dict(),
+            "latest_crime": df.iloc[0].to_dict() if len(df) > 0 else None
+        }

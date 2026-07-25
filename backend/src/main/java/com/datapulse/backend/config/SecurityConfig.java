@@ -43,11 +43,12 @@ public class SecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // Public endpoints (no authentication required)
+                        // ✅ Public endpoints (NO authentication required)
                         .requestMatchers("/api/v1/auth/**").permitAll()
                         .requestMatchers("/actuator/health").permitAll()
+                        .requestMatchers("/h2-console/**").permitAll()  // ✅ H2 Console
 
-                        // Swagger UI (for API documentation)
+                        // ✅ Swagger UI (API documentation)
                         .requestMatchers(
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
@@ -58,38 +59,38 @@ public class SecurityConfig {
                                 "/webjars/**"
                         ).permitAll()
 
-                        // USER ENDPOINTS - FOR SETTINGS PAGE
+                        // ✅ USER ENDPOINTS - Settings page
                         .requestMatchers("/api/v1/users/**").authenticated()
 
-                        // PDF REPORTS ENDPOINT
+                        // ✅ PDF REPORTS
                         .requestMatchers("/api/v1/reports/**").authenticated()
 
-                        // AI ENDPOINTS
+                        // ✅ AI ENDPOINTS
                         .requestMatchers("/api/v1/ai/**").authenticated()
 
-                        // OFFICER PERFORMANCE
+                        // ✅ OFFICER PERFORMANCE
                         .requestMatchers("/api/v1/officers/**").authenticated()
 
-                        // REPEAT OFFENDERS
+                        // ✅ REPEAT OFFENDERS
                         .requestMatchers("/api/v1/offenders/**").authenticated()
 
-                        // ============================================
-                        // CRIMINAL NETWORK - ADDED
-                        // ============================================
+                        // ✅ CRIMINAL NETWORK
                         .requestMatchers("/api/v1/criminals/**").authenticated()
 
-                        // ADMIN only endpoints
+                        // ✅ ADMIN only endpoints
                         .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
 
-                        // OFFICER and ADMIN endpoints
+                        // ✅ OFFICER, ADMIN, ANALYST, INVESTIGATOR
                         .requestMatchers("/api/v1/crimes/**").hasAnyRole("ADMIN", "OFFICER", "ANALYST", "INVESTIGATOR")
 
-                        // ANALYST and ADMIN endpoints
+                        // ✅ ANALYST and ADMIN
                         .requestMatchers("/api/v1/analytics/**").hasAnyRole("ADMIN", "ANALYST")
 
-                        // All other requests need authentication
+                        // ✅ All other requests need authentication
                         .anyRequest().authenticated()
-                );
+                )
+                // ✅ Disable CSRF for H2 Console
+                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()));
 
         http.authenticationProvider(authenticationProvider());
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
@@ -100,7 +101,10 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
+        configuration.setAllowedOrigins(List.of(
+                "http://localhost:3000",
+                "https://frontend-deploy-wfmnamam.onslate.in"
+        ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);

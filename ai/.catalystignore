@@ -1,0 +1,12 @@
+venv
+venv/
+.venv
+__pycache__
+__pycache__/
+models/__pycache__
+services/__pycache__
+.env
+*.pyc
+*.pyo
+*.pyo
+models/rag_chatbot.py.save

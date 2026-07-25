@@ -44,11 +44,21 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
+
+		<!-- Database Drivers -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+
+		<!-- ✅ H2 Database Driver (Added for in-memory testing) -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -103,17 +113,13 @@
 			<version>2.6.0</version>
 		</dependency>
 
-		<!-- ============================================ -->
-		<!-- EMAIL NOTIFICATIONS                          -->
-		<!-- ============================================ -->
+		<!-- Email Notifications -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
 
-		<!-- ============================================ -->
-		<!-- PDF REPORT GENERATION                        -->
-		<!-- ============================================ -->
+		<!-- PDF Report Generation -->
 		<dependency>
 			<groupId>com.itextpdf</groupId>
 			<artifactId>itext7-core</artifactId>
