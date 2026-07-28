@@ -1,53 +1,21 @@
 spring:
-  # ============================================
-  # DATABASE CONFIGURATION
-  # ============================================
   datasource:
-    # ============================================
-    # OPTION 1: PostgreSQL (for deployment)
-    # ============================================
-    url: jdbc:postgresql://aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres?sslmode=require
-    username: postgres.lopkghlfaoypqweufhvx
-    password: yablkwgtnrkayujtbeem
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/datapulse_db}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:}
     driver-class-name: org.postgresql.Driver
-
-    # ============================================
-    # OPTION 2: H2 (for local testing - COMMENT OUT PostgreSQL and UNCOMMENT this)
-    # ============================================
-    # url: jdbc:h2:mem:datapulse_db
-    # driver-class-name: org.h2.Driver
-    # username: sa
-    # password:
 
   jpa:
     hibernate:
-      # For PostgreSQL: Use "update" or "none"
       ddl-auto: update
-
-      # For H2: Use "create" or "create-drop"
-      # ddl-auto: create
-    show-sql: true
+    show-sql: false
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    properties:
-      hibernate:
-        format_sql: true
 
-  # ============================================
-  # H2 CONSOLE (for local testing)
-  # ============================================
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-
-  # ============================================
-  # EMAIL CONFIGURATION
-  # ============================================
   mail:
     host: smtp.gmail.com
     port: 587
-    username: rupeshkumarsah.2024cse@sece.ac.in
-    password: oyrwktmnrbvrtxpl
+    username: ${MAIL_USERNAME:rupeshkumarsah.2024cse@sece.ac.in}
+    password: ${MAIL_PASSWORD:}
     properties:
       mail:
         smtp:
@@ -55,31 +23,18 @@ spring:
           starttls:
             enable: true
 
-# ============================================
-# SERVER
-# ============================================
 server:
-  port: 8083
+  port: ${PORT:8083}
 
-# ============================================
-# LOGGING
-# ============================================
 logging:
   level:
-    org.hibernate.SQL: DEBUG
-    org.springframework.security: DEBUG
+    root: INFO
 
-# ============================================
-# JWT CONFIGURATION
-# ============================================
 app:
   jwt:
-    secret: DataPulseSecretKeyForJWTGeneration2026Secure
+    secret: ${JWT_SECRET:DataPulseSecretKeyForJWTGeneration2026Secure}
     expiration: 86400000
 
-# ============================================
-# MANAGEMENT/HEALTH
-# ============================================
 management:
   health:
     mail:

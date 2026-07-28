@@ -63,7 +63,7 @@ app = FastAPI(
 # CORS middleware - Allow frontend and backend to communicate
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:8082"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
