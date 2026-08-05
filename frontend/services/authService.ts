@@ -94,7 +94,7 @@ export const authService = {
     removeToken();
     removeUser();
     if (typeof window !== "undefined") {
-      window.location.href = "/login";
+      window.location.href = "/";
     }
   },
 
