@@ -165,95 +165,93 @@ export default function DashboardPage() {
                         </div>
                     </div>
 
-                    {/* Real-time Crime Stream Ticker */}
-                    <LiveAlerts
-                        status={streamStatus}
-                        liveCrimes={liveCrimes}
-                        onReconnect={reconnectStream}
-                        onSelectCrime={(crime) => {
-                            router.push(`/crimes?search=${encodeURIComponent(crime.title)}`);
-                        }}
-                    />
-
-                    {/* Alerts Panel */}
-                    <AlertsPanel
-                        crimes={crimes || []}
-                        onAlertClick={(crime) => {
-                            console.log('Alert clicked:', crime);
-                            router.push(`/crimes?search=${encodeURIComponent(crime.title)}`);
-                        }}
-                    />
-                    {/* Repeat Offenders */}
-                    <RepeatOffenderCard limit={5} />
-
-                    {/* ✅ OFFICER PERFORMANCE - ADDED */}
-                    <OfficerPerformance limit={5} />
-
                     {/* KPI Cards */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                        <Card className="border-l-4 border-l-primary-500">
+                        <Card className="border-l-4 border-l-blue-600 shadow-xs hover:shadow-md transition-shadow">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm text-gray-500">Total Crimes</p>
-                                    <p className="text-2xl font-bold text-gray-800">{totalCrimes}</p>
-                                    <p className="text-xs text-green-600 flex items-center gap-1">
-                                        <TrendingUp className="w-3 h-3" />
+                                    <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">Total Crimes</p>
+                                    <p className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-1">{totalCrimes}</p>
+                                    <p className="text-xs text-emerald-600 font-medium flex items-center gap-1 mt-1">
+                                        <TrendingUp className="w-3.5 h-3.5" />
                                         +5.2% from last month
                                     </p>
                                 </div>
-                                <div className="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center">
-                                    <FileText className="w-5 h-5 text-primary-500" />
+                                <div className="w-11 h-11 bg-blue-50 dark:bg-blue-950/40 rounded-xl flex items-center justify-center text-blue-600 dark:text-blue-400">
+                                    <FileText className="w-5 h-5" />
                                 </div>
                             </div>
                         </Card>
 
-                        <Card className="border-l-4 border-l-status-investigating">
+                        <Card className="border-l-4 border-l-cyan-500 shadow-xs hover:shadow-md transition-shadow">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm text-gray-500">Active Cases</p>
-                                    <p className="text-2xl font-bold text-gray-800">{activeCases}</p>
-                                    <p className="text-xs text-gray-500 flex items-center gap-1">
-                                        <Clock className="w-3 h-3" />
+                                    <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">Active Cases</p>
+                                    <p className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-1">{activeCases}</p>
+                                    <p className="text-xs text-cyan-600 font-medium flex items-center gap-1 mt-1">
+                                        <Clock className="w-3.5 h-3.5" />
                                         Under investigation
                                     </p>
                                 </div>
-                                <div className="w-10 h-10 bg-cyan-100 rounded-lg flex items-center justify-center">
-                                    <Activity className="w-5 h-5 text-cyan-600" />
+                                <div className="w-11 h-11 bg-cyan-50 dark:bg-cyan-950/40 rounded-xl flex items-center justify-center text-cyan-600 dark:text-cyan-400">
+                                    <Activity className="w-5 h-5" />
                                 </div>
                             </div>
                         </Card>
 
-                        <Card className="border-l-4 border-l-status-low">
+                        <Card className="border-l-4 border-l-emerald-500 shadow-xs hover:shadow-md transition-shadow">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm text-gray-500">Resolved Cases</p>
-                                    <p className="text-2xl font-bold text-gray-800">{resolvedCases}</p>
-                                    <p className="text-xs text-gray-500 flex items-center gap-1">
-                                        <CheckCircle className="w-3 h-3 text-green-600" />
+                                    <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">Resolved Cases</p>
+                                    <p className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-1">{resolvedCases}</p>
+                                    <p className="text-xs text-emerald-600 font-medium flex items-center gap-1 mt-1">
+                                        <CheckCircle className="w-3.5 h-3.5" />
                                         {resolutionRate}% resolution rate
                                     </p>
                                 </div>
-                                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                                    <CheckCircle className="w-5 h-5 text-green-600" />
+                                <div className="w-11 h-11 bg-emerald-50 dark:bg-emerald-950/40 rounded-xl flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                                    <CheckCircle className="w-5 h-5" />
                                 </div>
                             </div>
                         </Card>
 
-                        <Card className="border-l-4 border-l-status-critical">
+                        <Card className="border-l-4 border-l-rose-500 shadow-xs hover:shadow-md transition-shadow">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-sm text-gray-500">Critical Alerts</p>
-                                    <p className="text-2xl font-bold text-status-critical">{criticalCount}</p>
-                                    <p className="text-xs text-status-critical flex items-center gap-1">
-                                        <AlertTriangle className="w-3 h-3" />
-                                        Need immediate attention
+                                    <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">Critical Alerts</p>
+                                    <p className="text-2xl font-bold text-rose-600 mt-1">{criticalCount}</p>
+                                    <p className="text-xs text-rose-600 font-medium flex items-center gap-1 mt-1">
+                                        <AlertTriangle className="w-3.5 h-3.5" />
+                                        Immediate action needed
                                     </p>
                                 </div>
-                                <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
-                                    <AlertTriangle className="w-5 h-5 text-status-critical" />
+                                <div className="w-11 h-11 bg-rose-50 dark:bg-rose-950/40 rounded-xl flex items-center justify-center text-rose-600 dark:text-rose-400">
+                                    <AlertTriangle className="w-5 h-5" />
                                 </div>
                             </div>
                         </Card>
+                    </div>
+
+                    {/* Real-time Feeds & Alerts Section (2-Column Grid) */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        {/* Real-time Crime Stream Ticker */}
+                        <LiveAlerts
+                            status={streamStatus}
+                            liveCrimes={liveCrimes}
+                            onReconnect={reconnectStream}
+                            onSelectCrime={(crime) => {
+                                router.push(`/crimes?search=${encodeURIComponent(crime.title)}`);
+                            }}
+                        />
+
+                        {/* High-Priority Active Alerts Panel */}
+                        <AlertsPanel
+                            crimes={crimes || []}
+                            onAlertClick={(crime) => {
+                                console.log('Alert clicked:', crime);
+                                router.push(`/crimes?search=${encodeURIComponent(crime.title)}`);
+                            }}
+                        />
                     </div>
 
                     {/* Recent Crimes */}

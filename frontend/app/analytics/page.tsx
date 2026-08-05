@@ -200,28 +200,55 @@ export default function AnalyticsPage() {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div className="bg-white rounded-xl shadow-sm border border-gray-200/50 p-4">
-                            <p className="text-sm text-gray-500">Total Crimes</p>
-                            <p className="text-2xl font-bold text-gray-800">{crimes.length}</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200/80 dark:border-slate-800 p-5 flex items-center justify-between border-l-4 border-l-indigo-500">
+                            <div>
+                                <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">Total Crimes</p>
+                                <p className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-1">{crimes.length}</p>
+                                <p className="text-[11px] text-slate-500 mt-0.5">Tracked incidents</p>
+                            </div>
+                            <div className="w-11 h-11 bg-indigo-50 dark:bg-indigo-950/40 rounded-xl flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+                                <FileSpreadsheet className="w-5 h-5" />
+                            </div>
                         </div>
-                        <div className="bg-white rounded-xl shadow-sm border border-gray-200/50 p-4">
-                            <p className="text-sm text-gray-500">Categories</p>
-                            <p className="text-2xl font-bold text-gray-800">
-                                {new Set(crimes.map(c => c.category)).size}
-                            </p>
+
+                        <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200/80 dark:border-slate-800 p-5 flex items-center justify-between border-l-4 border-l-purple-500">
+                            <div>
+                                <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">Categories</p>
+                                <p className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-1">
+                                    {new Set(crimes.map(c => c.category)).size}
+                                </p>
+                                <p className="text-[11px] text-slate-500 mt-0.5">Crime classifications</p>
+                            </div>
+                            <div className="w-11 h-11 bg-purple-50 dark:bg-purple-950/40 rounded-xl flex items-center justify-center text-purple-600 dark:text-purple-400">
+                                <Download className="w-5 h-5" />
+                            </div>
                         </div>
-                        <div className="bg-white rounded-xl shadow-sm border border-gray-200/50 p-4">
-                            <p className="text-sm text-gray-500">Districts</p>
-                            <p className="text-2xl font-bold text-gray-800">
-                                {new Set(crimes.map(c => c.district)).size}
-                            </p>
+
+                        <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200/80 dark:border-slate-800 p-5 flex items-center justify-between border-l-4 border-l-emerald-500">
+                            <div>
+                                <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">Districts</p>
+                                <p className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-1">
+                                    {new Set(crimes.map(c => c.district)).size}
+                                </p>
+                                <p className="text-[11px] text-slate-500 mt-0.5">Active jurisdictions</p>
+                            </div>
+                            <div className="w-11 h-11 bg-emerald-50 dark:bg-emerald-950/40 rounded-xl flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                                <Download className="w-5 h-5" />
+                            </div>
                         </div>
-                        <div className="bg-white rounded-xl shadow-sm border border-gray-200/50 p-4">
-                            <p className="text-sm text-gray-500">Average per Day</p>
-                            <p className="text-2xl font-bold text-gray-800">
-                                {(crimes.length / 30).toFixed(1)}
-                            </p>
+
+                        <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200/80 dark:border-slate-800 p-5 flex items-center justify-between border-l-4 border-l-amber-500">
+                            <div>
+                                <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">Average per Day</p>
+                                <p className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-1">
+                                    {(crimes.length / 30).toFixed(1)}
+                                </p>
+                                <p className="text-[11px] text-slate-500 mt-0.5">Past 30 days avg</p>
+                            </div>
+                            <div className="w-11 h-11 bg-amber-50 dark:bg-amber-950/40 rounded-xl flex items-center justify-center text-amber-600 dark:text-amber-400">
+                                <Download className="w-5 h-5" />
+                            </div>
                         </div>
                     </div>
 
