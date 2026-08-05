@@ -15,6 +15,7 @@ import {
     Brain,
     Users,
     Network,
+    Compass,
     ChevronLeft,
     ChevronRight,
 } from 'lucide-react';
@@ -60,6 +61,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed = false, onToggle 
             label: 'AI Insights',
             href: '/ai',
             icon: <Brain className="w-5 h-5 shrink-0" />,
+        },
+        {
+            label: 'Patrol Routes',
+            href: '/patrol',
+            icon: <Compass className="w-5 h-5 shrink-0" />,
         },
         {
             label: 'Repeat Offenders',

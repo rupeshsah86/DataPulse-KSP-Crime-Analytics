@@ -59,12 +59,21 @@ export const useAI = () => {
   }, []);
 
   // ============================================
-  // FETCH PATTERNS
+  // FETCH PATTERNS - UNWRAP RESPONSE
   // ============================================
   const fetchPatterns = useCallback(async () => {
     try {
-      const response = await aiService.getPatterns();
-      setPatterns(response);
+      const response: any = await aiService.getPatterns();
+      console.log("🔍 Patterns raw response:", response);
+
+      let patternsData = response;
+      if (response && response.data && typeof response.data === "object" && "time_patterns" in response.data) {
+        patternsData = response.data;
+      } else if (response && response.time_patterns) {
+        patternsData = response;
+      }
+
+      setPatterns(patternsData);
     } catch (err: any) {
       const message = err.response?.data?.message || "Failed to fetch patterns";
       toast.error(message);
