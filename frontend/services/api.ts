@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// Get API URL from environment variables
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8082";
+// Get API URL from environment variables (Default to Spring Boot port 8083)
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8083";
 
 // Create axios instance
 export const api = axios.create({
@@ -9,7 +9,7 @@ export const api = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  timeout: 60000,
+  timeout: 8000, // 8 second timeout max to prevent long hanging UI requests
 });
 
 // ============================================
