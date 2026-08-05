@@ -17,11 +17,25 @@ export interface CrimeStreamEvent {
 export function useCrimeStream(onNewCrime?: (crime: Crime) => void) {
   const [status, setStatus] = useState<StreamStatus>('DISCONNECTED');
   const [liveCrimes, setLiveCrimes] = useState<Crime[]>([]);
+  
   const socketRef = useRef<WebSocket | null>(null);
   const reconnectTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isUnmountedRef = useRef(false);
+
+  // Store latest onNewCrime callback in ref to prevent re-triggering connect() effect
+  const onNewCrimeRef = useRef(onNewCrime);
+  useEffect(() => {
+    onNewCrimeRef.current = onNewCrime;
+  }, [onNewCrime]);
 
   const connect = useCallback(() => {
-    if (socketRef.current && (socketRef.current.readyState === WebSocket.OPEN || socketRef.current.readyState === WebSocket.CONNECTING)) {
+    if (isUnmountedRef.current) return;
+
+    if (
+      socketRef.current &&
+      (socketRef.current.readyState === WebSocket.OPEN ||
+        socketRef.current.readyState === WebSocket.CONNECTING)
+    ) {
       return;
     }
 
@@ -32,6 +46,10 @@ export function useCrimeStream(onNewCrime?: (crime: Crime) => void) {
     socketRef.current = ws;
 
     ws.onopen = () => {
+      if (isUnmountedRef.current) {
+        ws.close();
+        return;
+      }
       console.log('⚡ WebSocket Connected to Crime Stream');
       setStatus('CONNECTED');
     };
@@ -42,11 +60,11 @@ export function useCrimeStream(onNewCrime?: (crime: Crime) => void) {
 
         if (payload.type === 'CRIME_ADDED' && payload.data) {
           const newCrime = payload.data;
-          
+
           setLiveCrimes((prev) => [newCrime, ...prev.slice(0, 49)]);
 
-          // Callback to parent listener if provided
-          onNewCrime?.(newCrime);
+          // Call the latest callback ref
+          onNewCrimeRef.current?.(newCrime);
 
           // Play sound for CRITICAL and HIGH severity crimes
           if (newCrime.severity === 'CRITICAL' || newCrime.severity === 'HIGH') {
@@ -68,11 +86,15 @@ export function useCrimeStream(onNewCrime?: (crime: Crime) => void) {
     };
 
     ws.onclose = () => {
+      if (isUnmountedRef.current) return;
       console.log('❌ WebSocket Disconnected. Reconnecting in 5s...');
       setStatus('DISCONNECTED');
       socketRef.current = null;
 
-      // Auto reconnect after 5 seconds
+      // Schedule reconnect if component is still mounted
+      if (reconnectTimeoutRef.current) {
+        clearTimeout(reconnectTimeoutRef.current);
+      }
       reconnectTimeoutRef.current = setTimeout(() => {
         connect();
       }, 5000);
@@ -80,19 +102,27 @@ export function useCrimeStream(onNewCrime?: (crime: Crime) => void) {
 
     ws.onerror = (error) => {
       console.error('WebSocket Error:', error);
-      ws.close();
+      // Let onclose handle state transition & reconnect
     };
-  }, [onNewCrime]);
+  }, []); // Empty dependency array ensures connection is stable across renders
 
   useEffect(() => {
+    isUnmountedRef.current = false;
     connect();
 
     return () => {
+      isUnmountedRef.current = true;
       if (reconnectTimeoutRef.current) {
         clearTimeout(reconnectTimeoutRef.current);
       }
       if (socketRef.current) {
+        // Remove handlers before closing to prevent reconnection on unmount
+        socketRef.current.onopen = null;
+        socketRef.current.onmessage = null;
+        socketRef.current.onerror = null;
+        socketRef.current.onclose = null;
         socketRef.current.close();
+        socketRef.current = null;
       }
     };
   }, [connect]);
