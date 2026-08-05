@@ -160,14 +160,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed = false, onToggle 
             <div className="p-3 border-t border-[#15425E]/60 bg-[#071924]">
                 <button
                     onClick={handleLogout}
-                    title={isCollapsed ? 'Logout' : undefined}
+                    title={isCollapsed ? 'Logout & Exit' : undefined}
                     className={cn(
-                        'flex items-center gap-3 w-full py-3 rounded-xl text-sm font-semibold text-slate-300 hover:bg-rose-900/40 hover:text-rose-300 transition-all duration-200',
+                        'flex items-center gap-3 w-full py-3 rounded-xl text-sm font-bold bg-rose-950/60 border border-rose-800/50 text-rose-300 hover:bg-rose-600 hover:text-white transition-all duration-200 shadow-sm',
                         isCollapsed ? 'justify-center px-0' : 'px-4'
                     )}
                 >
                     <LogOut className="w-5 h-5 shrink-0" />
-                    {!isCollapsed && <span>Logout</span>}
+                    {!isCollapsed && <span>Logout & Exit</span>}
                 </button>
             </div>
         </aside>
