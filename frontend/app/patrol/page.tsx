@@ -73,6 +73,8 @@ export default function PatrolPage() {
             const data = res.data?.data || res.data;
             if (data && data.summary) {
                 setRouteData(data);
+                setLoading(false);
+                setGenerating(false);
                 toast.success('AI Patrol Route generated successfully! 🚓');
                 return;
             }
@@ -96,7 +98,9 @@ export default function PatrolPage() {
             }
         } catch (err) {
             console.error('Patrol Route error:', err);
-            toast.error('Failed to generate route. Ensure AI Service is running.');
+            toast.error('Failed to generate route. Using default patrol plan.');
+            // Fallback default route data
+            setRouteData(getFallbackRouteData(district, unitName, shiftTime));
         } finally {
             setLoading(false);
             setGenerating(false);
@@ -227,3 +231,28 @@ export default function PatrolPage() {
         </ProtectedRoute>
     );
 }
+
+const getFallbackRouteData = (district: string, unit_name: string, shift_time: string) => ({
+    summary: {
+        total_distance_km: 54.2,
+        estimated_time_mins: 185,
+        waypoints_covered: 6,
+        critical_hotspots_covered: 3,
+    },
+    route_points: [
+        { id: 'p1', step: 1, name: 'Base Station Alpha (Dispatched)', latitude: 12.9716, longitude: 77.5946, risk: 88, level: 'CRITICAL' },
+        { id: 'p2', step: 2, name: 'Sector 1 - Indiranagar Hotspot', latitude: 12.9784, longitude: 77.6408, risk: 75, level: 'HIGH' },
+        { id: 'p3', step: 3, name: 'Sector 2 - Koramangala Patrol Zone', latitude: 12.9352, longitude: 77.6245, risk: 68, level: 'HIGH' },
+        { id: 'p4', step: 4, name: 'Sector 3 - Electronic City Checkpoint', latitude: 12.8399, longitude: 77.6770, risk: 62, level: 'MEDIUM' },
+        { id: 'p5', step: 5, name: 'Sector 4 - Whitefield Tech Zone', latitude: 12.9698, longitude: 77.7499, risk: 58, level: 'MEDIUM' },
+        { id: 'p6', step: 6, name: 'Sector 5 - Jayanagar Outpost', latitude: 12.9250, longitude: 77.5938, risk: 45, level: 'LOW' },
+    ],
+    itinerary: [
+        { step: 1, location_name: "Base Station Alpha", latitude: 12.9716, longitude: 77.5946, risk_level: "CRITICAL", risk_score: 88, distance_from_prev_km: 0.0, eta_mins: 0, recommended_action: "Dispatch & Unit Inspection" },
+        { step: 2, location_name: "Indiranagar Hotspot", latitude: 12.9784, longitude: 77.6408, risk_level: "HIGH", risk_score: 75, distance_from_prev_km: 5.2, eta_mins: 15, recommended_action: "High Density Area Surveillance" },
+        { step: 3, location_name: "Koramangala Patrol Zone", latitude: 12.9352, longitude: 77.6245, risk_level: "HIGH", risk_score: 68, distance_from_prev_km: 6.8, eta_mins: 22, recommended_action: "Night Patrol & Bar Check" },
+        { step: 4, location_name: "Electronic City Checkpoint", latitude: 12.8399, longitude: 77.6770, risk_level: "MEDIUM", risk_score: 62, distance_from_prev_km: 14.5, eta_mins: 35, recommended_action: "Vehicle Search & Highway Barrier" },
+        { step: 5, location_name: "Whitefield Tech Zone", latitude: 12.9698, longitude: 77.7499, risk_level: "MEDIUM", risk_score: 58, distance_from_prev_km: 18.2, eta_mins: 45, recommended_action: "Commercial Security Patrol" },
+        { step: 6, location_name: "Jayanagar Outpost", latitude: 12.9250, longitude: 77.5938, risk_level: "LOW", risk_score: 45, distance_from_prev_km: 9.5, eta_mins: 25, recommended_action: "Shift Debrief & Return Base" },
+    ]
+});

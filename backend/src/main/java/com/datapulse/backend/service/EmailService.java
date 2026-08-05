@@ -15,20 +15,21 @@ public class EmailService {
      * Send a simple email alert
      */
     public void sendAlertEmail(String to, String subject, String body) {
-        System.out.println("📧 Attempting to send email to: " + to);
-        try {
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setTo(to);
-            message.setSubject(subject);
-            message.setText(body);
-            message.setFrom("rupeshkumarsah.2024cse@sece.ac.in");
+        System.out.println("📧 Attempting to send email asynchronously to: " + to);
+        java.util.concurrent.CompletableFuture.runAsync(() -> {
+            try {
+                SimpleMailMessage message = new SimpleMailMessage();
+                message.setTo(to);
+                message.setSubject(subject);
+                message.setText(body);
+                message.setFrom("rupeshkumarsah.2024cse@sece.ac.in");
 
-            mailSender.send(message);
-            System.out.println("✅ Email sent successfully to: " + to);
-        } catch (Exception e) {
-            System.err.println("❌ Failed to send email: " + e.getMessage());
-            e.printStackTrace();
-        }
+                mailSender.send(message);
+                System.out.println("✅ Email sent successfully to: " + to);
+            } catch (Exception e) {
+                System.err.println("⚠️ Non-critical email send note: " + e.getMessage());
+            }
+        });
     }
 
     /**

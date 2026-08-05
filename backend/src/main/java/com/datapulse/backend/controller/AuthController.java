@@ -80,6 +80,8 @@ public class AuthController {
             return ResponseEntity.badRequest().body(errorResponse);
         }
 
+        Role userRole = registerRequest.getRole() != null ? registerRequest.getRole() : Role.OFFICER;
+
         User user = User.builder()
                 .firstName(registerRequest.getFirstName())
                 .lastName(registerRequest.getLastName())
@@ -91,7 +93,7 @@ public class AuthController {
                 .rankName(registerRequest.getRankName())
                 .policeStation(registerRequest.getPoliceStation())
                 .district(registerRequest.getDistrict())
-                .role(registerRequest.getRole())
+                .role(userRole)
                 .isActive(true)
                 .isLocked(false)
                 .build();
