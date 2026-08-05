@@ -26,6 +26,7 @@ from datetime import datetime, timedelta
 # Import our modules
 from services.data_loader import load_crime_data
 from models.predictor import CrimePredictor
+from api.investigation_routes import router as investigation_router
 
 # ============================================
 # RAG CHATBOT IMPORTS
@@ -68,6 +69,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Mount Investigation Router
+app.include_router(investigation_router)
 
 # ============================================
 # INITIALIZE PREDICTOR

@@ -1,16 +1,39 @@
 'use client';
 
 import React from 'react';
-import { Bell, Search, ChevronDown } from 'lucide-react';
+import { Search, ChevronDown, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
 import { getUser } from '@/utils/storage';
+import { NotificationDropdown } from './NotificationDropdown';
 
-export const Navbar: React.FC = () => {
+interface NavbarProps {
+    isCollapsed?: boolean;
+    onToggleSidebar?: () => void;
+}
+
+export const Navbar: React.FC<NavbarProps> = ({ isCollapsed = false, onToggleSidebar }) => {
     const user = getUser();
 
     return (
-        <header className="fixed top-0 right-0 left-64 h-16 bg-white border-b border-slate-200 z-40 flex items-center justify-between px-6 shadow-xs">
-            {/* Left side - Search */}
-            <div className="flex items-center flex-1 max-w-md">
+        <header
+            className={`fixed top-0 right-0 h-16 bg-white border-b border-slate-200 z-40 flex items-center justify-between px-6 shadow-xs transition-all duration-300 ease-in-out ${
+                isCollapsed ? 'left-20' : 'left-64'
+            }`}
+        >
+            {/* Left side - Sidebar Toggle & Search */}
+            <div className="flex items-center gap-3 flex-1 max-w-md">
+                {onToggleSidebar && (
+                    <button
+                        onClick={onToggleSidebar}
+                        className="p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-xl transition-colors shrink-0"
+                        title={isCollapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
+                    >
+                        {isCollapsed ? (
+                            <PanelLeftOpen className="w-5 h-5" />
+                        ) : (
+                            <PanelLeftClose className="w-5 h-5" />
+                        )}
+                    </button>
+                )}
                 <div className="relative w-full">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                     <input
@@ -23,12 +46,8 @@ export const Navbar: React.FC = () => {
 
             {/* Right side */}
             <div className="flex items-center gap-4">
-                {/* Notifications */}
-                <button className="relative p-2 text-slate-500 hover:text-slate-700 transition-colors rounded-lg hover:bg-slate-100">
-                    <Bell className="w-5 h-5" />
-                    <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-500 rounded-full animate-ping"></span>
-                    <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-rose-500 rounded-full"></span>
-                </button>
+                {/* Interactive Notification Dropdown */}
+                <NotificationDropdown />
 
                 {/* User Profile */}
                 <div className="flex items-center gap-3 pl-4 border-l border-slate-200">

@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/Button';
 import { Spinner } from '@/components/ui/Spinner';
 import { useNetwork } from '@/hooks/useNetwork';
 import { NetworkGraph } from '@/components/network/NetworkGraph';
-import { Users, User, Link, Activity, TrendingUp, AlertTriangle } from 'lucide-react';
+import { Users, Link as LinkIcon, Activity, AlertTriangle, Network as NetworkIcon, ListFilter } from 'lucide-react';
 
 export default function NetworkPage() {
     const router = useRouter();
@@ -27,7 +27,7 @@ export default function NetworkPage() {
 
     const [viewMode, setViewMode] = useState<'graph' | 'list'>('graph');
 
-if (loading) {
+    if (loading) {
         return (
             <ProtectedRoute>
                 <Layout>
@@ -39,8 +39,13 @@ if (loading) {
         );
     }
 
-    // Get neighbors of selected node
     const neighbors = selectedNode ? getNeighbors(selectedNode.id) : [];
+
+    const rawLastUpdated = networkData?.metadata?.lastUpdated;
+    const formattedLastUpdated =
+        rawLastUpdated && !isNaN(new Date(rawLastUpdated).getTime())
+            ? new Date(rawLastUpdated).toLocaleDateString()
+            : 'Today';
 
     return (
         <ProtectedRoute>
@@ -49,9 +54,12 @@ if (loading) {
                     {/* Header */}
                     <div className="flex items-center justify-between">
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-800">🔗 Criminal Network Analysis</h1>
-                            <p className="text-sm text-gray-500">
-                                Visualize relationships between criminals and their connections
+                            <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
+                                <NetworkIcon className="w-7 h-7 text-indigo-600" />
+                                Criminal Network Intelligence
+                            </h1>
+                            <p className="text-sm font-medium text-slate-500 mt-0.5">
+                                Interactive force graph mapping relationship nodes and crime associations
                             </p>
                         </div>
                         <div className="flex gap-2">
@@ -59,97 +67,96 @@ if (loading) {
                                 variant={viewMode === 'graph' ? 'primary' : 'outline'}
                                 size="sm"
                                 onClick={() => setViewMode('graph')}
+                                className={viewMode === 'graph' ? 'bg-indigo-600 text-white font-semibold' : 'border-slate-300 text-slate-700 font-medium'}
                             >
+                                <NetworkIcon className="w-4 h-4 mr-1" />
                                 Graph View
                             </Button>
                             <Button
                                 variant={viewMode === 'list' ? 'primary' : 'outline'}
                                 size="sm"
                                 onClick={() => setViewMode('list')}
+                                className={viewMode === 'list' ? 'bg-indigo-600 text-white font-semibold' : 'border-slate-300 text-slate-700 font-medium'}
                             >
+                                <ListFilter className="w-4 h-4 mr-1" />
                                 List View
                             </Button>
                         </div>
                     </div>
 
                     {/* Stats Cards */}
-                    {networkData && (
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            <Card>
-                                <div className="flex items-center gap-3">
-                                    <Users className="w-5 h-5 text-primary-500" />
-                                    <div>
-                                        <p className="text-sm text-gray-500">Total Nodes</p>
-                                        <p className="text-xl font-bold">{networkData.metadata?.totalNodes || nodes.length}</p>
-                                    </div>
-                                </div>
-                            </Card>
-                            <Card>
-                                <div className="flex items-center gap-3">
-                                    <Link className="w-5 h-5 text-primary-500" />
-                                    <div>
-                                        <p className="text-sm text-gray-500">Total Connections</p>
-                                        <p className="text-xl font-bold">{networkData.metadata?.totalEdges || edges.length}</p>
-                                    </div>
-                                </div>
-                            </Card>
-                            <Card>
-                                <div className="flex items-center gap-3">
-                                    <AlertTriangle className="w-5 h-5 text-status-critical" />
-                                    <div>
-                                        <p className="text-sm text-gray-500">High Risk Nodes</p>
-                                        <p className="text-xl font-bold text-status-critical">
-                                            {nodes.filter(n => n.riskLevel === 'CRITICAL' || n.riskLevel === 'HIGH').length}
-                                        </p>
-                                    </div>
-                                </div>
-                            </Card>
-                            <Card>
-                                <div className="flex items-center gap-3">
-                                    <Activity className="w-5 h-5 text-primary-500" />
-                                    <div>
-                                        <p className="text-sm text-gray-500">Last Updated</p>
-                                        <p className="text-sm font-medium">
-                                            {networkData?.metadata?.lastUpdated ?
-                                                new Date(networkData.metadata.lastUpdated).toLocaleDateString() :
-                                                'Today'}
-                                        </p>
-                                    </div>
-                                </div>
-                            </Card>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5 flex items-center justify-between border-l-4 border-l-indigo-600">
+                            <div>
+                                <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Total Nodes</p>
+                                <p className="text-2xl font-extrabold text-slate-900 mt-1">{networkData?.metadata?.totalNodes || nodes.length}</p>
+                            </div>
+                            <div className="w-11 h-11 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600">
+                                <Users className="w-5 h-5" />
+                            </div>
                         </div>
-                    )}
 
-                    {/* Network Graph */}
+                        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5 flex items-center justify-between border-l-4 border-l-purple-600">
+                            <div>
+                                <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Connections</p>
+                                <p className="text-2xl font-extrabold text-slate-900 mt-1">{networkData?.metadata?.totalEdges || edges.length}</p>
+                            </div>
+                            <div className="w-11 h-11 bg-purple-50 rounded-xl flex items-center justify-center text-purple-600">
+                                <LinkIcon className="w-5 h-5" />
+                            </div>
+                        </div>
+
+                        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5 flex items-center justify-between border-l-4 border-l-rose-500">
+                            <div>
+                                <p className="text-xs font-bold uppercase tracking-wider text-slate-500">High Risk Nodes</p>
+                                <p className="text-2xl font-extrabold text-rose-600 mt-1">
+                                    {nodes.filter(n => n.riskLevel === 'CRITICAL' || n.riskLevel === 'HIGH').length}
+                                </p>
+                            </div>
+                            <div className="w-11 h-11 bg-rose-50 rounded-xl flex items-center justify-center text-rose-600">
+                                <AlertTriangle className="w-5 h-5" />
+                            </div>
+                        </div>
+
+                        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5 flex items-center justify-between border-l-4 border-l-emerald-600">
+                            <div>
+                                <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Last Updated</p>
+                                <p className="text-xl font-extrabold text-slate-900 mt-1">{formattedLastUpdated}</p>
+                            </div>
+                            <div className="w-11 h-11 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600">
+                                <Activity className="w-5 h-5" />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Main Graph or List View */}
                     {viewMode === 'graph' ? (
-                        <Card className="p-0 overflow-hidden">
-                            <NetworkGraph
-                                nodes={nodes}
-                                edges={edges}
-                                loading={loading}
-                                onNodeClick={(node) => setSelectedNode(node)}
-                            />
-                        </Card>
+                        <NetworkGraph
+                            nodes={nodes}
+                            edges={edges}
+                            loading={loading}
+                            onNodeClick={(node) => setSelectedNode(node)}
+                        />
                     ) : (
-                        <Card>
-                            <div className="space-y-3">
+                        <Card className="bg-white border border-slate-200 shadow-sm">
+                            <div className="space-y-2.5">
                                 {nodes.map((node) => (
                                     <div
                                         key={node.id}
-                                        className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+                                        className="flex items-center justify-between p-3.5 bg-slate-50 hover:bg-slate-100/80 border border-slate-200 rounded-xl transition-all cursor-pointer shadow-xs"
                                         onClick={() => setSelectedNode(node)}
                                     >
                                         <div className="flex items-center gap-3">
                                             <div
-                                                className="w-3 h-3 rounded-full"
+                                                className="w-3.5 h-3.5 rounded-full shrink-0 shadow-xs"
                                                 style={{ backgroundColor: getNodeColor(node.riskLevel) }}
                                             />
                                             <div>
-                                                <p className="font-medium text-gray-800">{node.name}</p>
-                                                <p className="text-xs text-gray-500">Type: {node.type || 'Unknown'}</p>
+                                                <p className="font-bold text-sm text-slate-900">{node.name}</p>
+                                                <p className="text-xs font-medium text-slate-500">Type: {node.type || 'Criminal'}</p>
                                             </div>
                                         </div>
-                                        <div className="flex gap-2">
+                                        <div className="flex items-center gap-2">
                                             {node.crimeCount && (
                                                 <Badge variant="default">{node.crimeCount} crimes</Badge>
                                             )}
@@ -165,33 +172,35 @@ if (loading) {
                         </Card>
                     )}
 
-                    {/* Selected Node Details - FIXED */}
+                    {/* Selected Node Details Drawer */}
                     {selectedNode ? (
-                        <Card title={`🔍 ${selectedNode.name}`} subtitle="Node Details">
+                        <Card title={`🔍 Node Details: ${selectedNode.name}`} subtitle="Detailed relationship metadata" className="bg-white border border-slate-200 shadow-sm">
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                 <div>
-                                    <p className="text-sm text-gray-500">Type</p>
-                                    <p className="font-medium">{selectedNode.type || 'Unknown'}</p>
+                                    <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Type</p>
+                                    <p className="font-bold text-slate-900 text-sm mt-0.5">{selectedNode.type || 'Criminal'}</p>
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-500">Risk Level</p>
-                                    <Badge variant={selectedNode.riskLevel?.toLowerCase() as any || 'default'}>
-                                        {selectedNode.riskLevel || 'Unknown'}
-                                    </Badge>
+                                    <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Risk Level</p>
+                                    <div className="mt-0.5">
+                                        <Badge variant={selectedNode.riskLevel?.toLowerCase() as any || 'default'}>
+                                            {selectedNode.riskLevel || 'Unknown'}
+                                        </Badge>
+                                    </div>
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-500">Crimes</p>
-                                    <p className="font-medium">{selectedNode.crimeCount || 0}</p>
+                                    <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Recorded Crimes</p>
+                                    <p className="font-bold text-slate-900 text-sm mt-0.5">{selectedNode.crimeCount || 0}</p>
                                 </div>
                                 <div>
-                                    <p className="text-sm text-gray-500">Connections</p>
-                                    <p className="font-medium">{neighbors.length}</p>
+                                    <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Direct Connections</p>
+                                    <p className="font-bold text-slate-900 text-sm mt-0.5">{neighbors.length}</p>
                                 </div>
                             </div>
 
                             {neighbors.length > 0 && (
-                                <div className="mt-4">
-                                    <p className="text-sm font-medium text-gray-700 mb-2">Connected To:</p>
+                                <div className="mt-4 pt-4 border-t border-slate-100">
+                                    <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Connected Entities:</p>
                                     <div className="flex flex-wrap gap-2">
                                         {neighbors.map((neighbor) => (
                                             <button
@@ -208,31 +217,20 @@ if (loading) {
                                 </div>
                             )}
 
-                            <div className="mt-4 flex gap-2">
-                                <Button variant="outline" size="sm" onClick={() => setSelectedNode(null)}>
-                                    Close
-                                </Button>
-                                <Button
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={() => {
-                                        alert(`Node: ${selectedNode.name}\nRisk: ${selectedNode.riskLevel}\nCrimes: ${selectedNode.crimeCount}\nConnections: ${neighbors.length}`);
-                                    }}
-                                >
-                                    View Details
+                            <div className="mt-4 pt-3 border-t border-slate-100 flex gap-2">
+                                <Button variant="outline" size="sm" onClick={() => setSelectedNode(null)} className="border-slate-300 text-slate-700 font-medium">
+                                    Close Inspector
                                 </Button>
                             </div>
                         </Card>
                     ) : (
-                        <Card>
-                            <div className="text-center py-8 text-gray-500">
-                                <p>👆 Click on a node in the graph above to view details</p>
-                                <p className="text-xs mt-1">Or switch to List View and click on any row</p>
-                            </div>
+                        <Card className="bg-white border border-slate-200 shadow-sm text-center py-6">
+                            <p className="text-sm font-bold text-slate-700">👆 Select any node in the graph to inspect relationship metadata</p>
+                            <p className="text-xs font-medium text-slate-500 mt-1">Double click a node to zoom directly into its criminal cluster</p>
                         </Card>
                     )}
                 </div>
             </Layout>
-        </ProtectedRoute >
+        </ProtectedRoute>
     );
 }

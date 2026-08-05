@@ -3,18 +3,18 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { NetworkNode, NetworkEdge } from '@/services/criminalService';
 import { Spinner } from '@/components/ui/Spinner';
+import { ZoomIn, ZoomOut, RefreshCw, Maximize2, ShieldAlert } from 'lucide-react';
 
-// vis-network imports
 import { Network } from 'vis-network';
 import 'vis-network/styles/vis-network.css';
 
 const getNodeColor = (riskLevel?: string): string => {
     switch (riskLevel) {
-        case 'CRITICAL': return '#dc3545';
-        case 'HIGH': return '#fd7e14';
-        case 'MEDIUM': return '#ffc107';
-        case 'LOW': return '#28a745';
-        default: return '#6c757d';
+        case 'CRITICAL': return '#EF4444'; // Bright Red
+        case 'HIGH': return '#F97316';     // Vibrant Orange
+        case 'MEDIUM': return '#F59E0B';   // Amber Gold
+        case 'LOW': return '#10B981';      // Emerald Green
+        default: return '#64748B';         // Slate
     }
 };
 
@@ -34,7 +34,6 @@ export const NetworkGraph: React.FC<NetworkGraphProps> = ({
     const containerRef = useRef<HTMLDivElement>(null);
     const networkRef = useRef<Network | null>(null);
     const [isMounted, setIsMounted] = useState(false);
-    const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
 
     useEffect(() => {
         setIsMounted(true);
@@ -43,67 +42,77 @@ export const NetworkGraph: React.FC<NetworkGraphProps> = ({
     useEffect(() => {
         if (!isMounted || loading || !containerRef.current || nodes.length === 0) return;
 
-        // Clean up previous network
         if (networkRef.current) {
             networkRef.current.destroy();
             networkRef.current = null;
         }
 
-        // Prepare data for vis-network with proper node styling
+        // Format Vis.js Nodes with prominent size & clear high-contrast text
         const visNodes = nodes.map((node) => ({
             id: node.id,
             label: node.name,
-            title: `${node.name}\nRisk: ${node.riskLevel || 'Unknown'}\nCrimes: ${node.crimeCount || 0}`,
+            title: `<b>${node.name}</b><br/>Type: ${node.type || 'Criminal'}<br/>Risk: ${node.riskLevel || 'Unknown'}<br/>Crimes: ${node.crimeCount || 0}`,
             color: {
                 background: getNodeColor(node.riskLevel),
-                border: getNodeColor(node.riskLevel),
+                border: '#FFFFFF',
                 highlight: {
                     background: getNodeColor(node.riskLevel),
-                    border: '#ffffff',
+                    border: '#0F172A',
                 },
+                hover: {
+                    background: getNodeColor(node.riskLevel),
+                    border: '#4F46E5',
+                }
             },
-            size: 15 + (node.crimeCount || 1) * 3,
-            borderWidth: 2,
-            borderWidthSelected: 4,
+            size: 26 + Math.min((node.crimeCount || 1) * 3, 14),
+            borderWidth: 3,
+            borderWidthSelected: 5,
             font: {
-                size: 12,
-                color: '#ffffff',
-                strokeWidth: 2,
-                strokeColor: '#000000',
+                size: 13,
+                color: '#0F172A',
+                face: 'Inter, system-ui, sans-serif',
+                strokeWidth: 4,
+                strokeColor: '#FFFFFF',
+                bold: { color: '#0F172A', size: 14 },
             },
             shape: 'dot',
-            scaling: {
-                min: 10,
-                max: 30,
-                label: {
-                    enabled: true,
-                },
+            shadow: {
+                enabled: true,
+                color: 'rgba(0,0,0,0.12)',
+                size: 8,
+                x: 2,
+                y: 3,
             },
         }));
 
-        // ✅ FIXED: Added roundness to smooth property
-        const visEdges = edges.map((edge) => ({
-            from: edge.source,
-            to: edge.target,
-            label: edge.relationship || 'Connected',
-            title: edge.relationship || 'Connected',
-            width: edge.strength ? edge.strength * 0.5 + 1 : 2,
-            arrows: 'to',
-            font: {
-                size: 10,
-                align: 'top',
-                color: '#666666',
-            },
-            color: {
-                color: '#888888',
-                highlight: '#1a5276',
-            },
-            smooth: {
-                enabled: true,
-                type: 'dynamic',
-                roundness: 0.5,  // ← REQUIRED by vis-network types
-            },
-        }));
+        // Format Vis.js Edges with thick visible lines & clean labels
+        const visEdges = edges.map((edge) => {
+            const isSameCategory = edge.relationship?.toLowerCase().includes('category');
+            return {
+                from: edge.source,
+                to: edge.target,
+                label: edge.relationship === 'Connected' ? '' : edge.relationship || '',
+                title: edge.relationship || 'Associated Incident Connection',
+                width: 3,
+                color: {
+                    color: isSameCategory ? '#818CF8' : '#CBD5E1',
+                    highlight: '#4F46E5',
+                    hover: '#6366F1',
+                },
+                font: {
+                    size: 10,
+                    align: 'top',
+                    color: '#475569',
+                    strokeWidth: 3,
+                    strokeColor: '#FFFFFF',
+                },
+                smooth: {
+                    enabled: true,
+                    type: 'continuous',
+                    roundness: 0.4,
+                },
+            };
+        });
 
         const data = {
             nodes: visNodes,
@@ -111,120 +120,88 @@ export const NetworkGraph: React.FC<NetworkGraphProps> = ({
         };
 
         const options: any = {
-            layout: {
-                hierarchical: false,
-                improvedLayout: true,
-            },
-            physics: {
-                enabled: true,
-                solver: 'forceAtlas2Based',
-                stabilization: {
-                    iterations: 150,
-                    updateInterval: 25,
-                },
-                forceAtlas2Based: {
-                    gravitationalConstant: -50,
-                    centralGravity: 0.01,
-                    springLength: 100,
-                    springConstant: 0.08,
-                    damping: 0.4,
-                },
-            },
-            interaction: {
-                hover: true,
-                tooltipDelay: 100,
-                navigationButtons: true,
-                zoomView: true,
-                dragView: true,
-                multiselect: false,
-            },
             nodes: {
                 shape: 'dot',
-                scaling: {
-                    min: 10,
-                    max: 30,
-                    label: {
-                        enabled: true,
-                    },
-                },
             },
             edges: {
                 smooth: {
                     enabled: true,
-                    type: 'dynamic',
-                    roundness: 0.5,  // ← Also added here for consistency
+                    type: 'continuous',
                 },
+            },
+            physics: {
+                enabled: true,
+                solver: 'barnesHut',
+                barnesHut: {
+                    gravitationalConstant: -3000,
+                    centralGravity: 0.3,
+                    springLength: 140,
+                    springConstant: 0.04,
+                    damping: 0.09,
+                    avoidOverlap: 0.5,
+                },
+                stabilization: {
+                    enabled: true,
+                    iterations: 1000,
+                    updateInterval: 50,
+                    onlyDynamicEdges: false,
+                    fit: true,
+                },
+            },
+            interaction: {
+                hover: true,
+                tooltipDelay: 50,
+                navigationButtons: false,
+                zoomView: true,
+                dragView: true,
+                multiselect: false,
             },
         };
 
-        // Create network
         const network = new Network(containerRef.current, data, options);
         networkRef.current = network;
 
-        // ✅ FIXED: Click handler with proper event handling
+        // Auto zoom and center on node graph
+        network.once('stabilized', () => {
+            network.fit({
+                animation: {
+                    duration: 500,
+                    easingFunction: 'easeInOutQuad',
+                },
+            });
+            // Ensure optimal scale so nodes are prominent and easily clickable
+            if (network.getScale() < 0.8) {
+                network.moveTo({ scale: 1.0, animation: true });
+            }
+        });
+
+        // Event Handlers
         network.on('click', (params) => {
-            console.log('🔍 Network click event:', params);
-
-            if (params.nodes && params.nodes.length > 0) {
-                const nodeId = params.nodes[0];
-                console.log('🔍 Node clicked - ID:', nodeId);
-
-                const nodeData = nodes.find((n) => n.id === nodeId);
-                console.log('🔍 Node data found:', nodeData);
-
-                if (nodeData) {
-                    setSelectedNodeId(nodeId);
-                    if (onNodeClick) {
-                        onNodeClick(nodeData);
-                    }
-                }
-            } else {
-                // Clicked on empty space - deselect
-                setSelectedNodeId(null);
-                if (onNodeClick) {
-                    onNodeClick(null);
-                }
-            }
-        });
-
-        // Double click handler - zoom to node
-        network.on('doubleClick', (params) => {
-            if (params.nodes && params.nodes.length > 0) {
-                const nodeId = params.nodes[0];
-                const nodeData = nodes.find((n) => n.id === nodeId);
-                if (nodeData) {
-                    // Focus on the node
-                    network.focus(nodeId, {
-                        scale: 1.5,
-                        animation: true,
-                    });
-                }
-            }
-        });
-
-        // Hover handler
-        network.on('hoverNode', (params) => {
-            if (params.node) {
-                containerRef.current!.style.cursor = 'pointer';
-            }
-        });
-
-        network.on('blurNode', () => {
-            containerRef.current!.style.cursor = 'default';
-        });
-
-        // Right-click handler
-        network.on('oncontext', (params) => {
             if (params.nodes && params.nodes.length > 0) {
                 const nodeId = params.nodes[0];
                 const nodeData = nodes.find((n) => n.id === nodeId);
                 if (nodeData && onNodeClick) {
                     onNodeClick(nodeData);
                 }
+            } else {
+                if (onNodeClick) {
+                    onNodeClick(null);
+                }
             }
         });
 
-        // Cleanup on unmount
+        network.on('hoverNode', () => {
+            if (containerRef.current) {
+                containerRef.current.style.cursor = 'pointer';
+            }
+        });
+
+        network.on('blurNode', () => {
+            if (containerRef.current) {
+                containerRef.current.style.cursor = 'default';
+            }
+        });
+
         return () => {
             if (networkRef.current) {
                 networkRef.current.destroy();
@@ -233,57 +210,109 @@ export const NetworkGraph: React.FC<NetworkGraphProps> = ({
         };
     }, [nodes, edges, loading, isMounted, onNodeClick]);
 
+    const handleZoomIn = () => {
+        if (networkRef.current) {
+            const scale = networkRef.current.getScale();
+            networkRef.current.moveTo({ scale: scale * 1.3, animation: true });
+        }
+    };
+
+    const handleZoomOut = () => {
+        if (networkRef.current) {
+            const scale = networkRef.current.getScale();
+            networkRef.current.moveTo({ scale: scale * 0.7, animation: true });
+        }
+    };
+
+    const handleReset = () => {
+        if (networkRef.current) {
+            networkRef.current.fit({ animation: true });
+            if (networkRef.current.getScale() < 0.8) {
+                networkRef.current.moveTo({ scale: 1.0, animation: true });
+            }
+        }
+    };
+
     if (loading || !isMounted) {
         return (
-            <div className="flex items-center justify-center h-[500px] bg-gray-50 rounded-xl">
+            <div className="flex flex-col items-center justify-center h-[550px] bg-slate-50 rounded-2xl border border-slate-200">
                 <Spinner size="lg" />
+                <p className="text-sm font-semibold text-slate-500 mt-3">Rendering Intelligence Graph...</p>
             </div>
         );
     }
 
     if (nodes.length === 0 || edges.length === 0) {
         return (
-            <div className="flex items-center justify-center h-[500px] bg-gray-50 rounded-xl">
-                <div className="text-center">
-                    <p className="text-gray-500">No network data available</p>
-                    <p className="text-xs text-gray-400 mt-1">Add more crime data to build the network</p>
+            <div className="flex items-center justify-center h-[550px] bg-slate-50 rounded-2xl border border-slate-200">
+                <div className="text-center p-6">
+                    <ShieldAlert className="w-10 h-10 mx-auto text-slate-400 mb-2" />
+                    <p className="text-sm font-bold text-slate-700">No network connections available</p>
+                    <p className="text-xs text-slate-500 mt-1">Add crime incidents to automatically map suspect and officer relationships.</p>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="relative">
+        <div className="relative bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            {/* Graph Canvas */}
             <div
                 ref={containerRef}
-                className="h-[500px] w-full border border-gray-200 rounded-xl overflow-hidden bg-white"
+                className="h-[560px] w-full bg-slate-50/50"
             />
-            {/* Legend */}
-            <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm p-3 rounded-lg shadow-md border border-gray-200">
-                <p className="text-xs font-medium text-gray-700 mb-2">Risk Levels:</p>
-                <div className="flex gap-3">
-                    <div className="flex items-center gap-1">
-                        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: '#dc3545' }}></div>
-                        <span className="text-xs text-gray-600">Critical</span>
+
+            {/* Interactive Control Floating Toolbar */}
+            <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-md p-1.5 rounded-xl shadow-md border border-slate-200 flex items-center gap-1 z-10">
+                <button
+                    onClick={handleZoomIn}
+                    className="p-2 text-slate-600 hover:text-indigo-600 hover:bg-slate-100 rounded-lg transition-colors"
+                    title="Zoom In"
+                >
+                    <ZoomIn className="w-4 h-4" />
+                </button>
+                <button
+                    onClick={handleZoomOut}
+                    className="p-2 text-slate-600 hover:text-indigo-600 hover:bg-slate-100 rounded-lg transition-colors"
+                    title="Zoom Out"
+                >
+                    <ZoomOut className="w-4 h-4" />
+                </button>
+                <button
+                    onClick={handleReset}
+                    className="p-2 text-slate-600 hover:text-indigo-600 hover:bg-slate-100 rounded-lg transition-colors"
+                    title="Reset Fit View"
+                >
+                    <Maximize2 className="w-4 h-4" />
+                </button>
+            </div>
+
+            {/* Clean Legend Box */}
+            <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-md p-3.5 rounded-xl shadow-md border border-slate-200 z-10">
+                <p className="text-xs font-bold text-slate-700 mb-2">Risk Classification:</p>
+                <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-1.5">
+                        <span className="w-3 h-3 rounded-full bg-rose-500"></span>
+                        <span className="text-xs font-semibold text-slate-700">Critical</span>
                     </div>
-                    <div className="flex items-center gap-1">
-                        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: '#fd7e14' }}></div>
-                        <span className="text-xs text-gray-600">High</span>
+                    <div className="flex items-center gap-1.5">
+                        <span className="w-3 h-3 rounded-full bg-amber-500"></span>
+                        <span className="text-xs font-semibold text-slate-700">High</span>
                     </div>
-                    <div className="flex items-center gap-1">
-                        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: '#ffc107' }}></div>
-                        <span className="text-xs text-gray-600">Medium</span>
+                    <div className="flex items-center gap-1.5">
+                        <span className="w-3 h-3 rounded-full bg-yellow-500"></span>
+                        <span className="text-xs font-semibold text-slate-700">Medium</span>
                     </div>
-                    <div className="flex items-center gap-1">
-                        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: '#28a745' }}></div>
-                        <span className="text-xs text-gray-600">Low</span>
+                    <div className="flex items-center gap-1.5">
+                        <span className="w-3 h-3 rounded-full bg-emerald-500"></span>
+                        <span className="text-xs font-semibold text-slate-700">Low</span>
                     </div>
                 </div>
             </div>
 
-            {/* Instructions */}
-            <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm p-2 rounded-lg shadow-md border border-gray-200 text-xs text-gray-500">
-                💡 Click node to view details
+            {/* Instruction Tip */}
+            <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-xl shadow-sm border border-slate-200 text-xs font-medium text-slate-600 z-10">
+                💡 Click any node to inspect relationship details
             </div>
         </div>
     );
