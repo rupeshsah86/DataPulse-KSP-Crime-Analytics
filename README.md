@@ -1,358 +1,194 @@
-# DataPulse - AI-Driven Crime Analytics Platform
+# DataPulse - AI-Driven Crime Analytics & Spatial Intelligence Platform
 
 <div align="center">
   <img src="https://img.shields.io/badge/Next.js-16.2.10-black?style=flat&logo=next.js" alt="Next.js"/>
   <img src="https://img.shields.io/badge/Spring%20Boot-3.5.16-brightgreen?style=flat&logo=springboot" alt="Spring Boot"/>
   <img src="https://img.shields.io/badge/Python-3.12-blue?style=flat&logo=python" alt="Python"/>
+  <img src="https://img.shields.io/badge/Groq%20LLM-Llama--3.3--70b-purple?style=flat&logo=groq" alt="Groq"/>
+  <img src="https://img.shields.io/badge/Three.js-WebGL-black?style=flat&logo=three.js" alt="Three.js"/>
+  <img src="https://img.shields.io/badge/React%20Native-Expo-blue?style=flat&logo=expo" alt="React Native"/>
   <img src="https://img.shields.io/badge/PostgreSQL-17-orange?style=flat&logo=postgresql" alt="PostgreSQL"/>
-  <img src="https://img.shields.io/badge/Deployed-Catalyst-success?style=flat&logo=zoho" alt="Catalyst"/>
 </div>
+
+---
 
 ## 📌 Overview
 
-**DataPulse** is an AI-powered crime analytics platform designed for law enforcement agencies. It transforms raw crime data into actionable intelligence through interactive dashboards, geospatial visualization, predictive analytics, and criminal network analysis.
+**DataPulse** is a next-generation AI-driven crime analytics and predictive spatial intelligence platform built for law enforcement agencies. It unifies raw incident feeds, FIR document scans, and multi-state crime registries into real-time operational intelligence.
 
-Built for the **Karnataka State Police Hackathon 2026**, DataPulse helps police departments make data-driven decisions, detect crime patterns, and proactively allocate resources.
+Built for the **Karnataka State Police Hackathon 2026**, DataPulse empowers officers with **Groq LLM RAG case briefings**, **NetworkX predictive patrol routing**, **Three.js WebGL 3D spatial height maps**, **OCR FIR document extraction**, **Web Speech voice commands**, and a **React Native field mobile app**.
 
-### 🎯 Problem Statement
-
-Law enforcement agencies face challenges with:
-- Fragmented crime data across multiple systems
-- Manual analysis and reporting
-- Limited predictive capabilities
-- Difficulty identifying crime hotspots
-- No automated criminal relationship analysis
-
-### 💡 Solution
-
-DataPulse centralizes crime data and provides:
-- **Real-time analytics** with interactive dashboards
-- **AI-powered crime prediction** and hotspot detection
-- **Geospatial mapping** with crime location visualization
-- **Criminal network analysis** with relationship graphs
-- **Repeat offender tracking** with risk scoring
-- **Bulk data upload** with CSV/Excel support
-- **PDF report generation** and data export
-
-## 🚀 Live Demo
-
-| Service | URL |
-|---------|-----|
-| **Frontend** | [https://frontend-deploy-ejcwfbbz.onslate.in](https://frontend-deploy-ejcwfbbz.onslate.in) |
-| **Backend API** | [https://datapulse-backend-50044313424.development.catalystappsail.in](https://datapulse-backend-50044313424.development.catalystappsail.in) |
-
-**Demo Credentials:**
-- Email: `admin@datapulse.com`
-- Password: `admin123`
+---
 
 ## 🛠️ Technology Stack
 
-### Frontend
+### Frontend & Web Visuals
 | Technology | Version | Purpose |
 |------------|---------|---------|
-| Next.js | 16.2.10 | React framework |
-| TypeScript | 5.x | Type safety |
-| Tailwind CSS | 4.x | Styling |
-| Recharts | 3.9.2 | Charts & analytics |
-| Leaflet | 1.9.4 | Interactive maps |
-| vis-network | 10.1.0 | Network graphs |
-| Zustand | 5.0.14 | State management |
-| Axios | 1.18.1 | API calls |
+| Next.js | 16.2.10 | React App Router framework |
+| TypeScript | 5.x | Type safety & strict compilation |
+| Tailwind CSS | 4.x | Styling & responsive layouts |
+| Three.js | Latest | 3D WebGL spatial height elevation rendering |
+| Recharts | 3.9.2 | Dual-axis charts & analytics |
+| Leaflet | 1.9.4 | 2D Spatial maps & hotspot GIS |
+| Vis Network | 10.1.0 | Criminal network relationship force graphs |
+| Zustand | 5.0.14 | Client state management |
+| Web Speech API | Native | Voice recognition & Text-to-Speech audio |
 
-### Backend
+### Backend Service (Port 8083)
 | Technology | Version | Purpose |
 |------------|---------|---------|
-| Spring Boot | 3.5.16 | REST API framework |
-| Java | 21 | Programming language |
-| PostgreSQL | 17 | Database |
-| JWT | 0.12.6 | Authentication |
-| Hibernate | 6.6.53 | ORM |
-| Maven | 3.9+ | Build tool |
+| Spring Boot | 3.5.16 | Core enterprise REST API framework |
+| Java | 21/24 | Programming runtime |
+| PostgreSQL | 17 | Relational crime database |
+| Spring Security | 6.x | JWT authentication & role-based authorization |
+| Hibernate | 6.6.53 | JPA ORM persistence layer |
+| Maven | 3.9+ | Dependency management |
 
-### AI Service
+### AI Engine (Port 8000)
 | Technology | Version | Purpose |
 |------------|---------|---------|
-| Python | 3.12 | Programming language |
-| FastAPI | 0.115.6 | API framework |
-| Groq | 0.1.0 | LLM for RAG |
-| HuggingFace | - | Embeddings |
-| ChromaDB | 0.5.3 | Vector database |
-| Scikit-learn | 1.6.1 | Machine learning |
+| Python | 3.12 | AI engine runtime |
+| FastAPI | 0.115.6 | Async REST API framework |
+| Groq LLM | Llama-3.3-70b | High-speed LLM reasoning & RAG synthesis |
+| NetworkX | Latest | Spatial graph algorithms & Dijkstra shortest paths |
+| PyPDF & Tesseract | Latest | FIR document OCR text extraction |
+| Scikit-learn | 1.6.1 | Machine learning clustering & risk scoring |
 
-### Deployment
-| Platform | Service |
-|----------|---------|
-| Zoho Catalyst | Slate (Frontend) |
-| Zoho Catalyst | AppSail (Backend & AI) |
+### Mobile Application
+| Technology | Framework | Purpose |
+|------------|-----------|---------|
+| React Native | Expo | Cross-platform officer field mobile app |
+| AsyncStorage | Offline Cache | Offline crime feed caching |
+| Location Telemetry | Expo Location | Real-time officer GPS tracking |
 
-## ✨ Key Features
+---
 
-### 🔐 Authentication
-- Secure JWT-based authentication
-- Role-based access control (ADMIN, OFFICER, ANALYST, INVESTIGATOR)
-- User registration and profile management
+## ✨ Key Features & AI Engines
 
-### 📊 Dashboard
-- Real-time KPI cards (Total Crimes, Active Cases, Resolution Rate)
-- Crime trend charts
-- Alerts panel for critical crimes
-- Officer performance tracking
+### 🤖 1. AI Investigation Assistant (Groq LLM RAG)
+* **Auto-Summarize Cases**: Generates structured executive briefs from raw police incident logs.
+* **Tactical Lead Generation**: Recommends immediate field investigation steps.
+* **Precedent Analysis**: Matches current modus operandi against historical crime registries.
 
-### 🗺️ Geospatial Mapping
-- Interactive crime location map
-- Crime heatmaps
-- District-wise crime visualization
-- Clickable markers with crime details
+### 🧭 2. Predictive Patrol Routes (NetworkX Optimization)
+* **Spatial Graph Routing**: Computes optimal risk-weighted patrol paths connecting high-density crime hotspots.
+* **Dijkstra Dispatching**: Minimizes officer response times with turn-by-turn dispatch itineraries.
 
-### 🤖 AI-Powered Insights
-- Crime risk prediction
-- Hotspot detection
-- Crime pattern analysis
-- RAG chatbot for natural language queries
-- Trend analysis (peak times, categories)
+### 🌐 3. Multi-State Crime Analytics
+* **Cross-Jurisdictional Intelligence**: Aggregates crime statistics across Karnataka, Maharashtra, Tamil Nadu, Telangana, Kerala, and Delhi.
+* **Comparative Benchmarking**: Multi-state crime distribution bar charts and national threat level metrics.
 
-### 🔗 Criminal Network Analysis
-- Interactive network graph
-- Relationship visualization
-- Node details and connections
-- Risk level indicators
+### 🧊 4. 3D Crime Spatial Heatmaps (Three.js WebGL)
+* **3D Height Elevation Towers**: Visualizes crime volume in WebGL 3D space with elevation bars corresponding to incident severity (`CRITICAL`, `HIGH`, `MEDIUM`, `LOW`).
+* **Interactive Raycasting**: Click or hover 3D crime towers to inspect sector risk telemetry.
 
-### 🔄 Repeat Offender Tracking
-- Identify criminals with 2+ offenses
-- Risk scoring (LOW, MEDIUM, HIGH, CRITICAL)
-- Offense history tracking
-- Crime pattern detection
+### 📄 5. OCR FIR Document Scanner (PyPDF & Tesseract)
+* **Automated Data Ingestion**: Extracts text from scanned paper FIR PDFs and image uploads.
+* **Structured Parsing**: Uses Groq LLM to auto-fill official crime registry forms with zero manual typing.
 
-### 📈 Analytics & Reports
-- Category distribution charts
-- District-wise crime analysis
-- Status and severity breakdown
-- CSV/Excel export
-- PDF report generation
+### 🎙️ 6. Voice Search & AI Voice Assistant (Web Speech API)
+* **Voice Search Bar**: Speak crime queries directly into the search bar (`"Search armed robbery in Indiranagar"`).
+* **Voice Navigation & TTS**: Hands-free spoken route navigation (`"Go to Patrol Routes"`, `"Open 3D Map"`) with spoken audio responses.
 
-### 📤 Data Management
-- Bulk upload (CSV, Excel)
-- Data validation
-- Search and filter
-- CRUD operations
+### 📱 7. DataPulse Mobile Field App (React Native Expo)
+* **Field Officer Companion**: Offline crime caching, GPS location tracking, and mobile camera evidence capture.
+
+---
 
 ## 📁 Project Structure
 
 ```
 DataPulse-KSP-Crime-Analytics/
-├── frontend/                  # Next.js frontend application
-│   ├── app/                   # Next.js App Router pages
-│   ├── components/            # React components
-│   ├── hooks/                 # Custom React hooks
-│   ├── services/              # API service layer
+├── frontend/                  # Next.js 16 Web Application
+│   ├── app/                   # App Router pages (/map, /map/3d, /patrol, /ai, /upload/document)
+│   ├── components/            # React UI components (3D map, Patrol, Network, Voice)
+│   ├── hooks/                 # Custom hooks (useAI, use3DMap, useVoiceCommands, useCrimeStream)
+│   ├── services/              # API service layer (Spring Boot & FastAPI integration)
 │   ├── store/                 # Zustand state management
-│   ├── utils/                 # Utility functions
-│   └── public/                # Static assets
+│   └── utils/                 # Spatial data processors & speech recognition helpers
 │
-├── backend/                   # Spring Boot backend
+├── backend/                   # Spring Boot 3.5 REST Backend (Port 8083)
 │   ├── src/main/java/
-│   │   ├── controller/        # REST controllers
-│   │   ├── service/           # Business logic
-│   │   ├── repository/        # JPA repositories
-│   │   ├── entity/            # JPA entities
-│   │   ├── config/            # Configuration
-│   │   └── security/          # JWT security
-│   └── src/main/resources/    # Application config
+│   │   ├── controller/        # REST controllers (Auth, Crimes, Patrol, Document, Analytics)
+│   │   ├── service/           # Business logic & non-blocking email alerts
+│   │   ├── repository/        # Spring Data JPA repositories
+│   │   ├── entity/            # JPA entities (CrimeIncident, User, Criminal)
+│   │   ├── config/            # SecurityConfig role permission matrix
+│   │   └── security/          # JWT authentication filter
+│   └── src/main/resources/    # application.yml configuration
 │
-├── ai/                        # Python AI service
-│   ├── models/                # ML models
-│   ├── services/              # AI services
-│   └── app.py                 # FastAPI application
+├── ai/                        # Python FastAPI AI Service (Port 8000)
+│   ├── api/                   # FastAPI routers (investigation, patrol, ocr, voice)
+│   ├── algorithms/            # NetworkX route optimizer
+│   ├── models/                # ML predictor & investigation prompts
+│   ├── services/              # Document processor & Groq LLM service
+│   └── app.py                 # Main FastAPI application entrypoint
 │
-├── database/                  # Database scripts
-├── docs/                      # Documentation
-├── diagrams/                  # UML diagrams
-└── presentation/              # Presentation materials
+└── mobile/                    # React Native Expo Mobile App
+    ├── app/screens/           # Login, Dashboard, Crimes, Map screens
+    ├── app/components/        # Crime cards & evidence camera
+    └── store/                 # Offline AsyncStorage state
 ```
 
-## 🚀 Local Development Setup
+---
 
-### Prerequisites
+## 🚀 Quick Execution Guide
 
-| Tool | Version |
-|------|---------|
-| Node.js | 22+ |
-| Java | 21+ |
-| Python | 3.12+ |
-| PostgreSQL | 17+ |
-| Maven | 3.9+ |
-| npm | 10+ |
+Run the 3 core platform services in separate terminal windows:
 
-### Step 1: Clone the Repository
-
-```bash
-git clone https://github.com/rupeshsah86/DataPulse-KSP-Crime-Analytics.git
-cd DataPulse-KSP-Crime-Analytics
-```
-
-### Step 2: Setup Database
-
-```bash
-brew services start postgresql@17
-psql -U postgres -c "CREATE DATABASE datapulse_db;"
-```
-
-### Step 3: Setup Backend
-
+### 1. Spring Boot Backend (Port 8083)
 ```bash
 cd backend
-# Update application.yml with your database credentials
-mvn clean install
 mvn spring-boot:run
 ```
 
-### Step 4: Setup AI Service
-
+### 2. Python FastAPI AI Engine (Port 8000)
 ```bash
 cd ai
-python3.12 -m venv venv
 source venv/bin/activate
-pip install -r requirements.txt
-
-cat > .env <<EOF
-GROQ_API_KEY=your-groq-api-key
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=datapulse_db
-DB_USER=your-username
-DB_PASSWORD=your-password
-EOF
-
-python app.py
+uvicorn app:app --reload --port 8000
 ```
 
-### Step 5: Setup Frontend
-
+### 3. Next.js Frontend (Port 3000)
 ```bash
 cd frontend
-npm install
-
-cat > .env.local <<EOF
-NEXT_PUBLIC_API_URL=http://localhost:8082
-NEXT_PUBLIC_AI_URL=http://localhost:8000
-EOF
-
 npm run dev
 ```
 
-### Step 6: Access Application
+---
 
-| Service | URL |
-|---------|-----|
-| Frontend | http://localhost:3000 |
-| Backend API | http://localhost:8082 |
-| AI Service | http://localhost:8000 |
-| Swagger UI | http://localhost:8082/swagger-ui/index.html |
+## 📊 Core API Endpoints
 
-## 🔧 Environment Variables
+### Authentication & Users
+| Method | Endpoint | Access | Description |
+|--------|----------|--------|-------------|
+| POST | `/api/v1/auth/register` | Public | Register officer badge & account |
+| POST | `/api/v1/auth/login` | Public | Authenticate officer & receive JWT |
 
-### Frontend (`.env.local`)
+### AI & Predictive Intelligence
+| Method | Endpoint | Access | Description |
+|--------|----------|--------|-------------|
+| POST | `/api/investigation/analyze` | Officer | Groq LLM case briefing & lead generation |
+| POST | `/api/patrol/routes` | Officer | NetworkX spatial graph route optimization |
+| POST | `/api/ocr/extract` | Officer | OCR text extraction & FIR form auto-fill |
+| POST | `/api/voice/intent` | Officer | Voice transcript intent parsing & TTS audio |
 
-```env
-NEXT_PUBLIC_API_URL=http://localhost:8082
-NEXT_PUBLIC_AI_URL=http://localhost:8000
-NEXT_PUBLIC_DEBUG=true
-```
+### Analytics & Multi-State
+| Method | Endpoint | Access | Description |
+|--------|----------|--------|-------------|
+| GET | `/api/v1/analytics/multi-state` | Officer | Cross-state crime benchmarking statistics |
+| GET | `/api/v1/criminals/network` | Officer | Vis Network relationship graph nodes |
 
-### Backend (`application.yml`)
-
-```yaml
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/datapulse_db
-    username: your-username
-    password: your-password
-server:
-  port: 8082
-```
-
-### AI Service (`.env`)
-
-```env
-GROQ_API_KEY=your-groq-api-key
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=datapulse_db
-DB_USER=your-username
-DB_PASSWORD=your-password
-```
-
-## 📊 API Endpoints
-
-### Authentication
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | /api/v1/auth/register | Register new user |
-| POST | /api/v1/auth/login | Login and get JWT |
-
-### Crimes
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | /api/v1/crimes | Get all crimes |
-| POST | /api/v1/crimes | Create crime |
-| GET | /api/v1/crimes/{id} | Get crime by ID |
-| PUT | /api/v1/crimes/{id} | Update crime |
-| DELETE | /api/v1/crimes/{id} | Delete crime |
-
-### AI
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | /api/ai/predict | Predict crime risk |
-| GET | /api/ai/hotspots | Get crime hotspots |
-| GET | /api/ai/patterns | Get crime patterns |
-| POST | /api/ai/chat | RAG chatbot query |
-
-## 🌐 Deployment on Zoho Catalyst
-
-### Deploy Frontend
-```bash
-cd frontend
-zip -r ../frontend-source.zip . -x "node_modules/*" -x ".next/*"
-# Upload to Catalyst Slate → Deploy By Direct Upload
-# Framework: Next.js, Node Runtime: Node 22
-```
-
-### Deploy Backend
-```bash
-cd backend
-mvn clean package -DskipTests
-catalyst deploy
-```
-
-### Deploy AI Service
-```bash
-cd ai
-zip -r ../ai-deploy.zip . -x "venv/*" -x "__pycache__/*"
-# Upload to Catalyst AppSail
-# Runtime: Python 3.12, Command: uvicorn app:app --host 0.0.0.0 --port 8000
-```
+---
 
 ## 👥 Contributors
 
 | Name | Role | GitHub | LinkedIn |
 |------|------|--------|----------|
-| Rupesh Kumar Sah | Lead Developer | [rupeshsah86](https://github.com/rupeshsah86) | [Rupesh Kumar Sah](https://www.linkedin.com/in/rupesh-shah-a480b8324/) |
-| Ravi Kushwaha | Frontend Developer | | |
+| **Rupesh Kumar Sah** | Lead Developer | [@rupeshsah86](https://github.com/rupeshsah86) | [Rupesh Kumar Sah](https://www.linkedin.com/in/rupesh-shah-a480b8324/) |
+| **Ravi Kushwaha** | Frontend Developer | | |
 
-## 📝 License
+---
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- Karnataka State Police Hackathon
-- Zoho Catalyst for cloud deployment
-- Groq for AI inference
-
-## 📧 Contact
-
-- Email: rupeshkumarsah.2024cse@sece.ac.in
-- GitHub: [rupeshsah86](https://github.com/rupeshsah86)
-- LinkedIn: [Rupesh Kumar Sah](https://www.linkedin.com/in/rupesh-shah-a480b8324/)
-
-<div align="center">Made with ❤️ for the Karnataka State Police Hackathon 2026</div>
+<div align="center">Made with ❤️ for the <b>Karnataka State Police Hackathon 2026</b></div>
