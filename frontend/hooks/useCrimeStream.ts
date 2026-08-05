@@ -116,12 +116,17 @@ export function useCrimeStream(onNewCrime?: (crime: Crime) => void) {
         clearTimeout(reconnectTimeoutRef.current);
       }
       if (socketRef.current) {
-        // Remove handlers before closing to prevent reconnection on unmount
-        socketRef.current.onopen = null;
-        socketRef.current.onmessage = null;
-        socketRef.current.onerror = null;
-        socketRef.current.onclose = null;
-        socketRef.current.close();
+        const ws = socketRef.current;
+        ws.onopen = null;
+        ws.onmessage = null;
+        ws.onerror = null;
+        ws.onclose = null;
+
+        if (ws.readyState === WebSocket.CONNECTING) {
+          ws.onopen = () => ws.close();
+        } else {
+          ws.close();
+        }
         socketRef.current = null;
       }
     };
