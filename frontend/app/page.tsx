@@ -12,89 +12,114 @@ import {
   Users,
   FileText,
   ArrowRight,
-  CheckCircle,
+  CheckCircle2,
   Clock,
-  LayoutDashboard
+  LayoutDashboard,
+  Bot,
+  Compass,
+  Globe,
+  Box,
+  Smartphone,
+  Network,
+  Sparkles,
+  ShieldAlert,
+  ChevronRight
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
 export default function LandingPage() {
-  const features = [
+  const updatedFeatures = [
     {
-      icon: <LayoutDashboard className="w-8 h-8 text-primary-500" />,
-      title: 'Interactive Dashboards',
-      description: 'Real-time crime analytics with KPI cards, charts, and trend visualization.'
+      icon: <Bot className="w-7 h-7 text-indigo-600" />,
+      tag: 'Groq Llama-3.3-70b',
+      title: 'AI Investigation Assistant',
+      description: 'Generates structured executive case briefings, tactical field leads, suspect network correlation, and historical precedent matches.'
     },
     {
-      icon: <MapPin className="w-8 h-8 text-primary-500" />,
-      title: 'Geospatial Mapping',
-      description: 'Interactive maps with crime hotspots, heatmaps, and district-wise visualization.'
+      icon: <Compass className="w-7 h-7 text-indigo-600" />,
+      tag: 'NetworkX Graph Engine',
+      title: 'Predictive Patrol Routes',
+      description: 'Computes optimal risk-weighted patrol paths connecting high-density crime hotspots with turn-by-turn dispatch itineraries.'
     },
     {
-      icon: <BarChart3 className="w-8 h-8 text-primary-500" />,
-      title: 'AI-Powered Analytics',
-      description: 'Advanced crime prediction, pattern detection, and anomaly identification using AI.'
+      icon: <Globe className="w-7 h-7 text-indigo-600" />,
+      tag: 'Cross-State Intelligence',
+      title: 'Multi-State Crime Analytics',
+      description: 'Provides cross-jurisdictional crime volume benchmarks across Karnataka, Maharashtra, Tamil Nadu, Telangana, Kerala, and Delhi.'
     },
     {
-      icon: <Upload className="w-8 h-8 text-primary-500" />,
-      title: 'Bulk Data Upload',
-      description: 'Upload CSV and Excel files to import large crime datasets instantly.'
+      icon: <Box className="w-7 h-7 text-indigo-600" />,
+      tag: 'Three.js WebGL Engine',
+      title: '3D Spatial Heatmap Towers',
+      description: 'Visualizes crime density in 3D WebGL space with height elevation columns, spatial threat radii, and orbit camera controls.'
     },
     {
-      icon: <TrendingUp className="w-8 h-8 text-primary-500" />,
-      title: 'Crime Trends',
-      description: 'Visualize crime patterns over time with interactive charts and reports.'
+      icon: <FileText className="w-7 h-7 text-indigo-600" />,
+      tag: 'Tesseract OCR & PyPDF',
+      title: 'OCR FIR Document Scanner',
+      description: 'Scans paper FIR PDF & image documents, extracts raw text, and auto-fills official crime registry forms with one click.'
     },
     {
-      icon: <AlertTriangle className="w-8 h-8 text-primary-500" />,
-      title: 'Intelligent Alerts',
-      description: 'Get real-time alerts for critical crimes and high-risk areas.'
+      icon: <Smartphone className="w-7 h-7 text-indigo-600" />,
+      tag: 'React Native & Expo',
+      title: 'DataPulse Mobile Officer App',
+      description: 'Equips field officers with offline AsyncStorage data caching, live GPS telemetry tracking, and camera evidence capture.'
+    },
+    {
+      icon: <Network className="w-7 h-7 text-indigo-600" />,
+      tag: 'Vis Network Graph',
+      title: 'Criminal Network Analysis',
+      description: 'Maps complex gang relationships, accomplice node connections, and repeat offender criminal histories.'
+    },
+    {
+      icon: <MapPin className="w-7 h-7 text-indigo-600" />,
+      tag: 'Leaflet GIS Engine',
+      title: 'Real-Time Heatmap & Feed',
+      description: 'Live WebSocket crime stream and interactive GIS maps with critical hotspot cluster detection.'
     },
   ];
 
-  const stats = [
-    { value: '15+', label: 'Crime Categories' },
-    { value: '1000+', label: 'Crimes Analyzed' },
-    { value: '24/7', label: 'Real-time Monitoring' },
-    { value: '99.9%', label: 'Data Accuracy' },
+  const systemStats = [
+    { value: '6+', label: 'AI & Analytics Modules' },
+    { value: '100%', label: 'Real-Time WebSocket Stream' },
+    { value: '50-100%', label: 'Crime Deterrence Impact' },
+    { value: '24/7', label: 'Command Center Uptime' },
   ];
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* ============================================
-          NAVBAR
-          ============================================ */}
-      <nav className="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-sm border-b border-gray-200 z-50">
+    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-indigo-500 selection:text-white">
+      {/* Top Police Command Navbar */}
+      <nav className="fixed top-0 left-0 right-0 bg-slate-900/80 backdrop-blur-md border-b border-slate-800 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 bg-gradient-to-br from-indigo-600 to-indigo-800 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/20">
                 <Shield className="w-5 h-5 text-white" />
               </div>
-              <span className="text-xl font-bold text-primary-700">DataPulse</span>
+              <div>
+                <span className="text-lg font-black text-white tracking-wider">DATAPULSE</span>
+                <span className="text-[10px] font-bold text-indigo-400 block -mt-1 tracking-widest uppercase">KSP Crime Analytics</span>
+              </div>
             </div>
 
             {/* Navigation Links */}
-            <div className="hidden md:flex items-center gap-8">
-              <Link href="#features" className="text-sm text-gray-600 hover:text-primary-600 transition-colors">
-                Features
-              </Link>
-              <Link href="#about" className="text-sm text-gray-600 hover:text-primary-600 transition-colors">
-                About
-              </Link>
+            <div className="hidden md:flex items-center gap-8 text-xs font-bold text-slate-300 uppercase tracking-wider">
+              <a href="#features" className="hover:text-indigo-400 transition-colors">Features & AI Engine</a>
+              <a href="#architecture" className="hover:text-indigo-400 transition-colors">Architecture</a>
+              <a href="#mobile" className="hover:text-indigo-400 transition-colors">Mobile App</a>
             </div>
 
             {/* Auth Buttons */}
             <div className="flex items-center gap-3">
               <Link href="/login">
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" className="border-slate-700 text-slate-200 hover:bg-slate-800 font-bold text-xs">
                   Sign In
                 </Button>
               </Link>
               <Link href="/register">
-                <Button size="sm">
-                  Get Started
+                <Button size="sm" className="bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow-md shadow-indigo-600/30">
+                  Register Officer
                 </Button>
               </Link>
             </div>
@@ -102,99 +127,107 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      {/* ============================================
-          HERO SECTION
-          ============================================ */}
-      <section className="pt-32 pb-20 px-4 bg-gradient-to-br from-primary-50 via-white to-primary-50/30">
+      {/* Hero Section */}
+      <section className="pt-32 pb-24 px-4 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-950/40 via-slate-950 to-slate-950 relative overflow-hidden">
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-indigo-600/10 blur-[120px] pointer-events-none rounded-full" />
+        
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Left - Content */}
-            <div className="space-y-6">
-              <div className="inline-flex items-center gap-2 bg-primary-100 text-primary-700 px-4 py-2 rounded-full text-sm font-medium">
-                <Shield className="w-4 h-4" />
-                AI-Powered Crime Analytics
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            {/* Left Content */}
+            <div className="lg:col-span-7 space-y-6">
+              <div className="inline-flex items-center gap-2 bg-indigo-950/80 border border-indigo-700/50 text-indigo-300 px-4 py-1.5 rounded-full text-xs font-bold shadow-inner">
+                <Sparkles className="w-4 h-4 text-indigo-400 animate-pulse" />
+                Karnataka State Police Next-Gen AI Intelligence Platform
               </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                Transform Crime Data Into{' '}
-                <span className="text-primary-600">Actionable Intelligence</span>
+
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight tracking-tight">
+                Transforming Crime Data Into{' '}
+                <span className="bg-gradient-to-r from-indigo-400 via-sky-300 to-emerald-400 bg-clip-text text-transparent">
+                  Predictive Police Intelligence
+                </span>
               </h1>
-              <p className="text-lg text-gray-600 max-w-lg">
-                DataPulse is an AI-driven crime analytics platform that helps law enforcement
-                agencies detect patterns, predict hotspots, and make data-driven decisions.
+
+              <p className="text-base text-slate-400 max-w-xl leading-relaxed font-medium">
+                DataPulse empowers law enforcement agencies with Groq LLM case reasoning, NetworkX spatial patrol routing, 3D WebGL spatial heatmaps, multi-state analytics, and OCR document scanning.
               </p>
-              <div className="flex flex-wrap gap-4">
-                <Link href="/register">
-                  <Button size="lg">
-                    Get Started
+
+              <div className="flex flex-wrap gap-4 pt-2">
+                <Link href="/login">
+                  <Button size="lg" className="bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold px-8 shadow-lg shadow-indigo-600/40">
+                    Access Police Portal
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </Link>
-                <Link href="#features">
-                  <Button variant="outline" size="lg">
-                    Learn More
+                <a href="#features">
+                  <Button variant="outline" size="lg" className="border-slate-700 text-slate-300 hover:bg-slate-800 font-bold">
+                    Explore Platform Features
                   </Button>
-                </Link>
+                </a>
               </div>
 
               {/* Stats */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-8">
-                {stats.map((stat, index) => (
-                  <div key={index}>
-                    <p className="text-2xl font-bold text-primary-600">{stat.value}</p>
-                    <p className="text-sm text-gray-500">{stat.label}</p>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-8 border-t border-slate-800/80">
+                {systemStats.map((stat, idx) => (
+                  <div key={idx}>
+                    <p className="text-2xl font-black text-white">{stat.value}</p>
+                    <p className="text-xs font-bold text-slate-500 uppercase mt-0.5">{stat.label}</p>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Right - Illustration */}
-            <div className="hidden lg:flex items-center justify-center">
-              <div className="relative">
-                <div className="w-80 h-80 bg-primary-500/10 rounded-full absolute -top-10 -right-10"></div>
-                <div className="w-80 h-80 bg-primary-500/5 rounded-full absolute -bottom-10 -left-10"></div>
-                <div className="relative bg-white rounded-2xl shadow-2xl p-6 border border-gray-200">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                    <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                    <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                    <span className="ml-2 text-sm font-medium text-gray-600">Dashboard Preview</span>
+            {/* Right Card Preview */}
+            <div className="lg:col-span-5">
+              <div className="relative bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl shadow-indigo-950/50 space-y-4">
+                <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+                  <div className="flex items-center gap-2">
+                    <span className="w-3 h-3 rounded-full bg-rose-500" />
+                    <span className="w-3 h-3 rounded-full bg-amber-500" />
+                    <span className="w-3 h-3 rounded-full bg-emerald-500" />
+                    <span className="text-xs font-bold text-slate-400 ml-2">Command Center Stream</span>
                   </div>
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-primary-100 rounded-lg flex items-center justify-center">
-                          <FileText className="w-4 h-4 text-primary-600" />
-                        </div>
-                        <div>
-                          <p className="text-sm font-medium">Total Crimes</p>
-                          <p className="text-xs text-gray-500">Last 30 days</p>
-                        </div>
-                      </div>
-                      <p className="text-lg font-bold text-gray-900">1,247</p>
+                  <span className="px-2 py-0.5 bg-emerald-950 text-emerald-400 border border-emerald-800/60 rounded-md text-[10px] font-mono font-bold">
+                    LIVE WEBSOCKET
+                  </span>
+                </div>
+
+                <div className="space-y-3 font-sans">
+                  <div className="p-3.5 bg-slate-950 border border-slate-800 rounded-2xl flex items-start gap-3">
+                    <div className="w-8 h-8 bg-rose-950 border border-rose-800 rounded-xl flex items-center justify-center text-rose-400 shrink-0">
+                      <ShieldAlert className="w-4 h-4" />
                     </div>
-                    <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-cyan-100 rounded-lg flex items-center justify-center">
-                          <Clock className="w-4 h-4 text-cyan-600" />
-                        </div>
-                        <div>
-                          <p className="text-sm font-medium">Active Cases</p>
-                          <p className="text-xs text-gray-500">Under investigation</p>
-                        </div>
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-white">Armed Heist on MG Road</span>
+                        <span className="text-[10px] font-mono text-rose-400 font-bold">CRITICAL</span>
                       </div>
-                      <p className="text-lg font-bold text-gray-900">342</p>
+                      <p className="text-[11px] text-slate-400 mt-0.5">Bangalore Urban • AI Auto-Summarized</p>
                     </div>
-                    <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
-                          <CheckCircle className="w-4 h-4 text-green-600" />
-                        </div>
-                        <div>
-                          <p className="text-sm font-medium">Resolved Cases</p>
-                          <p className="text-xs text-gray-500">Closed successfully</p>
-                        </div>
+                  </div>
+
+                  <div className="p-3.5 bg-slate-950 border border-slate-800 rounded-2xl flex items-start gap-3">
+                    <div className="w-8 h-8 bg-indigo-950 border border-indigo-800 rounded-xl flex items-center justify-center text-indigo-400 shrink-0">
+                      <Compass className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-white">Patrol Unit Alpha-1 Dispatched</span>
+                        <span className="text-[10px] font-mono text-indigo-400 font-bold">54.0 km</span>
                       </div>
-                      <p className="text-lg font-bold text-gray-900">905</p>
+                      <p className="text-[11px] text-slate-400 mt-0.5">NetworkX 6-Stop Optimized Route</p>
+                    </div>
+                  </div>
+
+                  <div className="p-3.5 bg-slate-950 border border-slate-800 rounded-2xl flex items-start gap-3">
+                    <div className="w-8 h-8 bg-emerald-950 border border-emerald-800 rounded-xl flex items-center justify-center text-emerald-400 shrink-0">
+                      <FileText className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-white">OCR FIR Document Scanned</span>
+                        <span className="text-[10px] font-mono text-emerald-400 font-bold">AUTO-FILLED</span>
+                      </div>
+                      <p className="text-[11px] text-slate-400 mt-0.5">FIR/2026/BLR/9941 Extracted</p>
                     </div>
                   </div>
                 </div>
@@ -204,75 +237,54 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ============================================
-          FEATURES SECTION
-          ============================================ */}
-      <section id="features" className="py-20 px-4 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-              Why Choose <span className="text-primary-600">DataPulse</span>?
+      {/* Features Grid */}
+      <section id="features" className="py-24 px-4 bg-slate-900 border-t border-slate-800">
+        <div className="max-w-7xl mx-auto space-y-12">
+          <div className="text-center space-y-3">
+            <h2 className="text-3xl md:text-4xl font-black text-white tracking-tight">
+              Platform Features & <span className="text-indigo-400">AI Intelligence Core</span>
             </h2>
-            <p className="text-gray-500 mt-2 max-w-2xl mx-auto">
-              Empower your law enforcement agency with cutting-edge AI and analytics.
+            <p className="text-sm font-medium text-slate-400 max-w-2xl mx-auto">
+              Built for modern law enforcement operations across Spring Boot, Python FastAPI, Next.js, and React Native.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {features.map((feature, index) => (
-              <div key={index} className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition-shadow">
-                <div className="w-12 h-12 bg-primary-50 rounded-lg flex items-center justify-center mb-4">
-                  {feature.icon}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {updatedFeatures.map((feat, idx) => (
+              <div
+                key={idx}
+                className="p-6 bg-slate-950 border border-slate-800 hover:border-indigo-600/50 rounded-3xl space-y-3 transition-all hover:shadow-xl hover:shadow-indigo-950/40 group"
+              >
+                <div className="w-12 h-12 bg-indigo-950/80 border border-indigo-800/60 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                  {feat.icon}
                 </div>
-                <h3 className="text-lg font-semibold text-gray-800 mb-2">{feature.title}</h3>
-                <p className="text-sm text-gray-500">{feature.description}</p>
+                <span className="px-2.5 py-0.5 bg-slate-900 border border-slate-800 text-indigo-400 rounded-md text-[10px] font-mono font-bold">
+                  {feat.tag}
+                </span>
+                <h3 className="text-base font-extrabold text-white">{feat.title}</h3>
+                <p className="text-xs text-slate-400 leading-relaxed font-medium">{feat.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ============================================
-          ABOUT/CTA SECTION
-          ============================================ */}
-      <section id="about" className="py-20 px-4 bg-primary-50">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Ready to Transform Your Crime Analytics?
-          </h2>
-          <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
-            Join thousands of law enforcement agencies using DataPulse to make data-driven decisions.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/register">
-              <Button size="lg">
-                Get Started Now
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-            </Link>
-            <Link href="/login">
-              <Button variant="outline" size="lg">
-                Sign In
-              </Button>
-            </Link>
+      {/* Footer */}
+      <footer className="py-12 px-4 bg-slate-950 border-t border-slate-800">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
+              <Shield className="w-4 h-4 text-white" />
+            </div>
+            <div>
+              <span className="font-bold text-white text-sm">DATAPULSE</span>
+              <span className="text-xs text-slate-500 block">Karnataka State Police Crime Analytics Platform © 2026</span>
+            </div>
           </div>
-        </div>
-      </section>
-
-      {/* ============================================
-          FOOTER
-          ============================================ */}
-      <footer className="py-8 px-4 bg-primary-900 text-white">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <Shield className="w-5 h-5 text-accent-500" />
-            <span className="font-bold">DataPulse</span>
-            <span className="text-primary-400 text-sm">© 2026 All rights reserved</span>
-          </div>
-          <div className="flex gap-6 text-sm text-primary-300">
-            <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link>
-            <Link href="#" className="hover:text-white transition-colors">Terms of Service</Link>
-            <Link href="#" className="hover:text-white transition-colors">Support</Link>
+          <div className="flex gap-6 text-xs font-bold text-slate-400">
+            <Link href="/login" className="hover:text-white transition-colors">Sign In</Link>
+            <Link href="/register" className="hover:text-white transition-colors">Register</Link>
+            <a href="#features" className="hover:text-white transition-colors">Features</a>
           </div>
         </div>
       </footer>
