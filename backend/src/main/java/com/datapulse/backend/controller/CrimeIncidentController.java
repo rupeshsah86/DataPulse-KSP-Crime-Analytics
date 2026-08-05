@@ -5,6 +5,7 @@ import com.datapulse.backend.entity.com.datapulse.enums.Severity;
 import com.datapulse.backend.entity.com.datapulse.enums.Status;
 import com.datapulse.backend.service.CrimeIncidentService;
 import com.datapulse.backend.service.EmailService;
+import com.datapulse.backend.websocket.CrimeWebSocketHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,9 @@ public class CrimeIncidentController {
     @Autowired
     private EmailService emailService;  // ✅ Email Service
 
+    @Autowired
+    private CrimeWebSocketHandler webSocketHandler; // ✅ WebSocket Handler
+
     // ============================================
     // 1. CREATE - Save a New Crime
     // ============================================
@@ -37,6 +41,9 @@ public class CrimeIncidentController {
         System.out.println("🔍 Severity: " + crimeIncident.getSeverity());
 
         CrimeIncident savedCrime = crimeService.saveCrime(crimeIncident);
+
+        // ✅ Broadcast real-time WebSocket update
+        webSocketHandler.broadcastCrimeUpdate(savedCrime);
 
         // ✅ Send email for CRITICAL crimes
         if (crimeIncident.getSeverity() == Severity.CRITICAL) {

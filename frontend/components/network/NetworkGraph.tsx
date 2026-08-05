@@ -8,6 +8,16 @@ import { Spinner } from '@/components/ui/Spinner';
 import { Network } from 'vis-network';
 import 'vis-network/styles/vis-network.css';
 
+const getNodeColor = (riskLevel?: string): string => {
+    switch (riskLevel) {
+        case 'CRITICAL': return '#dc3545';
+        case 'HIGH': return '#fd7e14';
+        case 'MEDIUM': return '#ffc107';
+        case 'LOW': return '#28a745';
+        default: return '#6c757d';
+    }
+};
+
 interface NetworkGraphProps {
     nodes: NetworkNode[];
     edges: NetworkEdge[];
@@ -222,16 +232,6 @@ export const NetworkGraph: React.FC<NetworkGraphProps> = ({
             }
         };
     }, [nodes, edges, loading, isMounted, onNodeClick]);
-
-    const getNodeColor = (riskLevel?: string): string => {
-        switch (riskLevel) {
-            case 'CRITICAL': return '#dc3545';
-            case 'HIGH': return '#fd7e14';
-            case 'MEDIUM': return '#ffc107';
-            case 'LOW': return '#28a745';
-            default: return '#6c757d';
-        }
-    };
 
     if (loading || !isMounted) {
         return (

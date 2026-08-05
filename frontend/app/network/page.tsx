@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Layout } from '@/components/layout';
 import { ProtectedRoute } from '@/components/auth';
@@ -27,12 +27,7 @@ export default function NetworkPage() {
 
     const [viewMode, setViewMode] = useState<'graph' | 'list'>('graph');
 
-    // Debug: log when selectedNode changes
-    useEffect(() => {
-        console.log('🔄 selectedNode changed:', selectedNode);
-    }, [selectedNode]);
-
-    if (loading) {
+if (loading) {
         return (
             <ProtectedRoute>
                 <Layout>
@@ -132,10 +127,7 @@ export default function NetworkPage() {
                                 nodes={nodes}
                                 edges={edges}
                                 loading={loading}
-                                onNodeClick={(node) => {
-                                    console.log('📌 Node clicked in page:', node);
-                                    setSelectedNode(node);
-                                }}
+                                onNodeClick={(node) => setSelectedNode(node)}
                             />
                         </Card>
                     ) : (
@@ -145,10 +137,7 @@ export default function NetworkPage() {
                                     <div
                                         key={node.id}
                                         className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
-                                        onClick={() => {
-                                            console.log('📌 List item clicked:', node);
-                                            setSelectedNode(node);
-                                        }}
+                                        onClick={() => setSelectedNode(node)}
                                     >
                                         <div className="flex items-center gap-3">
                                             <div
@@ -208,10 +197,7 @@ export default function NetworkPage() {
                                             <button
                                                 key={neighbor.id}
                                                 className="cursor-pointer hover:opacity-80 transition-opacity"
-                                                onClick={() => {
-                                                    console.log('📌 Neighbor clicked:', neighbor);
-                                                    setSelectedNode(neighbor);
-                                                }}
+                                                onClick={() => setSelectedNode(neighbor)}
                                             >
                                                 <Badge variant="default">
                                                     {neighbor.name}

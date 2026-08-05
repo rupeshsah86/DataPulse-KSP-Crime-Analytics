@@ -10,7 +10,9 @@ import { Spinner } from '@/components/ui/Spinner';
 import { Button } from '@/components/ui/Button';
 import { useDashboard } from '@/hooks/useDashboard';
 import { useCrimes } from '@/hooks/useCrimes';
+import { useCrimeStream } from '@/hooks/useCrimeStream';
 import { AlertsPanel } from '@/components/dashboard/AlertsPanel';
+import { LiveAlerts } from '@/components/dashboard/LiveAlerts';
 import { OfficerPerformance } from '@/components/dashboard/OfficerPerformance'; // ✅ ADDED
 import { RepeatOffenderCard } from '@/components/dashboard/RepeatOffenderCard';
 import * as XLSX from 'xlsx';
@@ -28,8 +30,17 @@ import toast from 'react-hot-toast';
 
 export default function DashboardPage() {
     const router = useRouter();
-    const { stats, loading: statsLoading } = useDashboard();
-    const { crimes, loading: crimesLoading } = useCrimes();
+    const { stats, loading: statsLoading, fetchStats } = useDashboard();
+    const { crimes, loading: crimesLoading, fetchCrimes } = useCrimes();
+
+    // ✅ Real-time WebSocket crime stream hook
+    const { status: streamStatus, liveCrimes, reconnect: reconnectStream } = useCrimeStream(
+        () => {
+            // Auto-refresh dashboard stats & crimes list when a live crime event arrives
+            fetchStats();
+            fetchCrimes();
+        }
+    );
 
     // ============================================
     // EXPORT TO CSV
@@ -153,6 +164,16 @@ export default function DashboardPage() {
                             <span className="text-xs text-gray-500">Last updated: Today</span>
                         </div>
                     </div>
+
+                    {/* Real-time Crime Stream Ticker */}
+                    <LiveAlerts
+                        status={streamStatus}
+                        liveCrimes={liveCrimes}
+                        onReconnect={reconnectStream}
+                        onSelectCrime={(crime) => {
+                            router.push(`/crimes?search=${encodeURIComponent(crime.title)}`);
+                        }}
+                    />
 
                     {/* Alerts Panel */}
                     <AlertsPanel

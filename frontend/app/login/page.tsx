@@ -97,14 +97,7 @@ export default function LoginPage() {
                         </p>
                     </div>
 
-                    <div className="mt-4 text-center">
-                        <p className="text-sm text-gray-500">
-                            Demo Credentials:
-                        </p>
-                        <p className="text-xs text-gray-400 mt-1">
-                            Email: ravi@police.com | Password: password123
-                        </p>
-                    </div>
+
 
                     <div className="mt-4 text-center">
                         <p className="text-xs text-gray-400">

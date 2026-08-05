@@ -1,0 +1,11 @@
+title,description,category,severity,status,incidentDate,incidentTime,latitude,longitude,address,district,city,state,country,reportedBy,policeStation
+Theft in Indiranagar,Phone stolen from bus,THEFT,HIGH,OPEN,2026-07-18,14:30:00,12.9784,77.6408,100 Feet Road,Bangalore Urban,Bangalore,Karnataka,India,Officer Kumar,Indiranagar
+Robbery on MG Road,Armed robbery at jewelry store,ROBBERY,CRITICAL,OPEN,2026-07-17,19:00:00,12.9716,77.5946,MG Road,Bangalore Urban,Bangalore,Karnataka,India,Officer Ravi,City Center
+Murder in Whitefield,Shooting incident in residential area,MURDER,CRITICAL,OPEN,2026-07-16,23:45:00,12.9698,77.7499,ITPL Road,Bangalore Urban,Bangalore,Karnataka,India,Officer Kumar,Whitefield
+Cyber Fraud in Koramangala,Online banking fraud,CYBER_CRIME,HIGH,INVESTIGATING,2026-07-15,10:15:00,12.9352,77.6245,80 Feet Road,Bangalore Urban,Bangalore,Karnataka,India,Officer Priya,Koramangala
+Robbery at Jewel Store,Armed robbery at jewelry store,ROBBERY,CRITICAL,CLOSED,2026-07-14,19:00:00,12.9421,77.5718,Commercial Street,Bangalore Urban,Bangalore,Karnataka,India,Officer Ravi,Commercial Street
+Vehicle Theft in Jayanagar,Car stolen from parking lot,VEHICLE_THEFT,MEDIUM,OPEN,2026-07-13,20:30:00,12.9299,77.5854,4th Block,Bangalore Urban,Bangalore,Karnataka,India,Officer Ananya,Jayanagar
+Assault in Electronic City,Physical assault in office campus,ASSAULT,HIGH,INVESTIGATING,2026-07-12,16:45:00,12.8354,77.6794,Electronics City Phase 1,Bangalore Urban,Bangalore,Karnataka,India,Officer Vikram,Electronic City
+Drug Offense in Yelahanka,Narcotics possession,DRUG_OFFENSE,HIGH,CLOSED,2026-07-11,02:30:00,13.1007,77.5963,Yelahanka New Town,Bangalore Urban,Bangalore,Karnataka,India,Officer Sharma,Yelahanka
+Burglary in Rajajinagar,House break-in,BURGLARY,MEDIUM,OPEN,2026-07-10,03:15:00,12.9988,77.5529,Rajajinagar 1st Block,Bangalore Urban,Bangalore,Karnataka,India,Officer Reddy,Rajajinagar
+Extortion in Bellandur,Threats and extortion case,EXTORTION,HIGH,INVESTIGATING,2026-07-09,18:00:00,12.9268,77.6762,Bellandur Outer Ring Road,Bangalore Urban,Bangalore,Karnataka,India,Officer Priya,Bellandur

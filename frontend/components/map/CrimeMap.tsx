@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -61,28 +61,19 @@ const getMarkerColor = (severity: string): string => {
     }
 };
 
-// Create custom marker icon
+// Cache marker icons by severity
+const markerIconCache: Record<string, L.DivIcon> = {};
+
 const createMarkerIcon = (severity: string) => {
+    if (markerIconCache[severity]) return markerIconCache[severity];
     const color = getMarkerColor(severity);
-    return L.divIcon({
+    markerIconCache[severity] = L.divIcon({
         className: 'custom-marker',
-        html: `<div style="
-      width: 24px;
-      height: 24px;
-      background-color: ${color};
-      border: 3px solid white;
-      border-radius: 50%;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 10px;
-      color: white;
-      font-weight: bold;
-    ">📍</div>`,
+        html: `<div style="width:24px;height:24px;background-color:${color};border:3px solid white;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;font-size:10px;color:white;font-weight:bold;">📍</div>`,
         iconSize: [30, 30],
         iconAnchor: [15, 15],
     });
+    return markerIconCache[severity];
 };
 
 export const CrimeMap: React.FC<CrimeMapProps> = ({ crimes, loading = false }) => {

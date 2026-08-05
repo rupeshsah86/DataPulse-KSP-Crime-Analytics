@@ -47,6 +47,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/auth/**").permitAll()
                         .requestMatchers("/actuator/health").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()  // ✅ H2 Console
+                        .requestMatchers("/ws/**").permitAll()  // ✅ WebSocket endpoints
 
                         // ✅ Swagger UI (API documentation)
                         .requestMatchers(

@@ -1,0 +1,11 @@
+crimeNumber,title,description,category,severity,status,incidentDate,incidentTime,latitude,longitude,address,district,city,state,country,reportedBy,policeStation
+CRIME-001,Bank Robbery on MG Road,Armed robbery at State Bank of India,ROBBERY,CRITICAL,OPEN,2026-07-15,14:30:00,12.9716,77.5946,123 MG Road,Bangalore Urban,Bangalore,Karnataka,India,Officer Ravi,City Center
+CRIME-002,Street Theft in Indiranagar,Theft from parked car,THEFT,HIGH,INVESTIGATING,2026-07-16,22:15:00,12.9784,77.6408,456 100 Feet Road,Bangalore Urban,Bangalore,Karnataka,India,Officer Suresh,Indiranagar
+CRIME-003,Murder in Whitefield,Shooting incident in residential area,MURDER,CRITICAL,OPEN,2026-07-14,23:45:00,12.9698,77.7499,789 ITPL Road,Bangalore Urban,Bangalore,Karnataka,India,Officer Kumar,Whitefield
+CRIME-004,Cyber Fraud in Koramangala,Online banking fraud,CYBER_CRIME,HIGH,INVESTIGATING,2026-07-13,10:15:00,12.9352,77.6245,321 80 Feet Road,Bangalore Urban,Bangalore,Karnataka,India,Officer Priya,Koramangala
+CRIME-005,Robbery at Jewel Store,Armed robbery at jewelry store,ROBBERY,CRITICAL,CLOSED,2026-07-12,19:00:00,12.9421,77.5718,567 Commercial Street,Bangalore Urban,Bangalore,Karnataka,India,Officer Ravi,Commercial Street
+CRIME-006,Vehicle Theft in Jayanagar,Car stolen from parking lot,VEHICLE_THEFT,MEDIUM,OPEN,2026-07-11,20:30:00,12.9299,77.5854,890 4th Block,Bangalore Urban,Bangalore,Karnataka,India,Officer Ananya,Jayanagar
+CRIME-007,Assault in Electronic City,Physical assault in office campus,ASSAULT,HIGH,INVESTIGATING,2026-07-10,16:45:00,12.8354,77.6794,123 Electronics City Phase 1,Bangalore Urban,Bangalore,Karnataka,India,Officer Vikram,Electronic City
+CRIME-008,Drug Offense in Yelahanka,Narcotics possession,DRUG_OFFENSE,HIGH,CLOSED,2026-07-09,02:30:00,13.1007,77.5963,456 Yelahanka New Town,Bangalore Urban,Bangalore,Karnataka,India,Officer Sharma,Yelahanka
+CRIME-009,Burglary in Rajajinagar,House break-in,BURGLARY,MEDIUM,OPEN,2026-07-08,03:15:00,12.9988,77.5529,789 Rajajinagar 1st Block,Bangalore Urban,Bangalore,Karnataka,India,Officer Reddy,Rajajinagar
+CRIME-010,Extortion in Bellandur,Threats and extortion case,EXTORTION,HIGH,INVESTIGATING,2026-07-07,18:00:00,12.9268,77.6762,321 Bellandur Outer Ring Road,Bangalore Urban,Bangalore,Karnataka,India,Officer Priya,Bellandur
