@@ -15,15 +15,15 @@ export const Badge: React.FC<BadgeProps> = ({
     className,
 }) => {
     const variants = {
-        critical: 'bg-red-100 text-red-800',
-        high: 'bg-orange-100 text-orange-800',
-        medium: 'bg-yellow-100 text-yellow-800',
-        low: 'bg-green-100 text-green-800',
-        open: 'bg-blue-100 text-blue-800',
-        investigating: 'bg-cyan-100 text-cyan-800',
-        closed: 'bg-gray-100 text-gray-800',
-        'cold-case': 'bg-purple-100 text-purple-800',
-        default: 'bg-gray-100 text-gray-600',
+        critical: 'bg-red-500/15 text-red-700 dark:text-red-400 border border-red-500/20 font-semibold',
+        high: 'bg-amber-500/15 text-amber-700 dark:text-amber-400 border border-amber-500/20 font-semibold',
+        medium: 'bg-yellow-500/15 text-yellow-800 dark:text-yellow-400 border border-yellow-500/20 font-semibold',
+        low: 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20 font-semibold',
+        open: 'bg-blue-500/15 text-blue-700 dark:text-blue-400 border border-blue-500/20 font-semibold',
+        investigating: 'bg-cyan-500/15 text-cyan-700 dark:text-cyan-400 border border-cyan-500/20 font-semibold',
+        closed: 'bg-slate-500/15 text-slate-700 dark:text-slate-400 border border-slate-500/20 font-semibold',
+        'cold-case': 'bg-purple-500/15 text-purple-700 dark:text-purple-400 border border-purple-500/20 font-semibold',
+        default: 'bg-slate-500/15 text-slate-700 dark:text-slate-400 border border-slate-500/20 font-semibold',
     };
 
     return (

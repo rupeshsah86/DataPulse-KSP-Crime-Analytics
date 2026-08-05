@@ -101,12 +101,12 @@ export const LiveAlerts: React.FC<LiveAlertsProps> = ({
         </div>
 
         {liveCrimes.length === 0 ? (
-          <div className="py-12 px-4 text-center bg-gradient-to-b from-indigo-50/40 to-slate-50/60 dark:from-slate-800/40 dark:to-slate-900/40 rounded-2xl border border-indigo-100/80 dark:border-slate-800">
-            <div className="w-12 h-12 mx-auto rounded-full bg-indigo-100 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-3 shadow-inner">
+          <div className="py-10 px-4 text-center bg-slate-50 dark:bg-slate-800/90 rounded-xl border border-slate-200 dark:border-slate-700">
+            <div className="w-12 h-12 mx-auto rounded-full bg-indigo-100 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-3 shadow-inner">
               <RadioReceiver className="w-6 h-6 animate-pulse" />
             </div>
-            <p className="text-sm font-bold text-slate-800 dark:text-slate-200">Listening for live crime events...</p>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-xs mx-auto">
+            <p className="text-sm font-bold text-slate-900 dark:text-slate-100">Listening for live crime events...</p>
+            <p className="text-xs font-medium text-slate-600 dark:text-slate-300 mt-1 max-w-sm mx-auto">
               New incidents logged by police stations will stream here automatically without page refresh.
             </p>
           </div>

@@ -138,8 +138,9 @@ export default function DashboardPage() {
     const recentCrimes = crimes?.slice(0, 5) || [];
     const totalCrimes = stats?.totalCrimes || 0;
     const activeCases = stats?.activeCases || 0;
-    const resolutionRate = stats?.resolutionRate || 0;
-    const resolvedCases = Math.round((resolutionRate / 100) * totalCrimes);
+    const rawResolutionRate = Number(stats?.resolutionRate || 0);
+    const resolutionRateFormatted = rawResolutionRate.toFixed(1);
+    const resolvedCases = Math.round((rawResolutionRate / 100) * totalCrimes);
     const criticalCount = stats?.crimesBySeverity?.find(([s]) => s === 'CRITICAL')?.[1] || 0;
 
     return (
@@ -149,8 +150,8 @@ export default function DashboardPage() {
                     {/* Page Header */}
                     <div className="flex items-center justify-between">
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
-                            <p className="text-sm text-gray-500">Welcome back! Here's what's happening with your crime data.</p>
+                            <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">Dashboard</h1>
+                            <p className="text-sm text-slate-500 dark:text-slate-400">Welcome back! Here's what's happening with your crime data.</p>
                         </div>
                         <div className="flex items-center gap-2">
                             <Button variant="outline" size="sm" onClick={handleExportCSV}>
@@ -161,7 +162,7 @@ export default function DashboardPage() {
                                 <FileSpreadsheet className="w-4 h-4 mr-1" />
                                 Excel
                             </Button>
-                            <span className="text-xs text-gray-500">Last updated: Today</span>
+                            <span className="text-xs text-slate-500 dark:text-slate-400">Last updated: Today</span>
                         </div>
                     </div>
 
@@ -170,7 +171,7 @@ export default function DashboardPage() {
                         <Card className="border-l-4 border-l-blue-600 shadow-xs hover:shadow-md transition-shadow">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">Total Crimes</p>
+                                    <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Total Crimes</p>
                                     <p className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-1">{totalCrimes}</p>
                                     <p className="text-xs text-emerald-600 font-medium flex items-center gap-1 mt-1">
                                         <TrendingUp className="w-3.5 h-3.5" />
@@ -186,7 +187,7 @@ export default function DashboardPage() {
                         <Card className="border-l-4 border-l-cyan-500 shadow-xs hover:shadow-md transition-shadow">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">Active Cases</p>
+                                    <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Active Cases</p>
                                     <p className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-1">{activeCases}</p>
                                     <p className="text-xs text-cyan-600 font-medium flex items-center gap-1 mt-1">
                                         <Clock className="w-3.5 h-3.5" />
@@ -202,11 +203,11 @@ export default function DashboardPage() {
                         <Card className="border-l-4 border-l-emerald-500 shadow-xs hover:shadow-md transition-shadow">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">Resolved Cases</p>
+                                    <p className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Resolved Cases</p>
                                     <p className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-1">{resolvedCases}</p>
                                     <p className="text-xs text-emerald-600 font-medium flex items-center gap-1 mt-1">
                                         <CheckCircle className="w-3.5 h-3.5" />
-                                        {resolutionRate}% resolution rate
+                                        {resolutionRateFormatted}% resolution rate
                                     </p>
                                 </div>
                                 <div className="w-11 h-11 bg-emerald-50 dark:bg-emerald-950/40 rounded-xl flex items-center justify-center text-emerald-600 dark:text-emerald-400">

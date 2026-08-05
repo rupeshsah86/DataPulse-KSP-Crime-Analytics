@@ -109,22 +109,22 @@ export const AlertsPanel: React.FC<AlertsPanelProps> = ({ crimes, onAlertClick }
                 </div>
             </div>
 
-            <div className="space-y-2 max-h-[400px] overflow-y-auto">
+            <div className="space-y-2.5 max-h-[400px] overflow-y-auto pr-1">
                 {(isExpanded ? activeAlerts : activeAlerts.slice(0, 3)).map((alert) => (
                     <div
                         key={alert.id}
-                        className={`p-3 rounded-lg border-l-4 ${getSeverityColor(alert.severity)} bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer`}
+                        className={`p-3.5 rounded-xl border-l-4 ${getSeverityColor(alert.severity)} bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer shadow-xs`}
                         onClick={() => onAlertClick?.(alert)}
                     >
                         <div className="flex items-start justify-between">
                             <div className="flex-1">
                                 <div className="flex items-center gap-2">
-                                    <AlertTriangle className="w-4 h-4 text-status-critical" />
-                                    <p className="text-sm font-medium text-gray-800">
+                                    <AlertTriangle className="w-4 h-4 text-rose-600 shrink-0" />
+                                    <p className="text-sm font-bold text-slate-900 dark:text-slate-100">
                                         {alert.title}
                                     </p>
                                 </div>
-                                <div className="flex items-center gap-3 mt-1 text-xs text-gray-500">
+                                <div className="flex items-center gap-3 mt-1.5 text-xs font-medium text-slate-600 dark:text-slate-400">
                                     <span>📍 {alert.district}</span>
                                     <span>📅 {alert.incidentDate}</span>
                                     <span>🕐 {getTimeAgo(alert.incidentDate)}</span>
@@ -141,7 +141,7 @@ export const AlertsPanel: React.FC<AlertsPanelProps> = ({ crimes, onAlertClick }
                             <Button
                                 variant="secondary"
                                 size="sm"
-                                className="text-gray-400 hover:text-gray-600 bg-transparent hover:bg-gray-100"
+                                className="text-slate-400 hover:text-rose-600 bg-transparent hover:bg-slate-200/60 dark:hover:bg-slate-700"
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     dismissAlert(alert.id);
@@ -154,7 +154,7 @@ export const AlertsPanel: React.FC<AlertsPanelProps> = ({ crimes, onAlertClick }
                 ))}
 
                 {!isExpanded && activeAlerts.length > 3 && (
-                    <p className="text-xs text-gray-400 text-center pt-2">
+                    <p className="text-xs font-medium text-slate-500 dark:text-slate-400 text-center pt-2">
                         +{activeAlerts.length - 3} more alerts. Click Expand to view all.
                     </p>
                 )}
