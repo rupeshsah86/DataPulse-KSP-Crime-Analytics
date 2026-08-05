@@ -26,7 +26,7 @@ export const LiveAlerts: React.FC<LiveAlertsProps> = ({
     switch (status) {
       case 'CONNECTED':
         return (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
@@ -36,7 +36,7 @@ export const LiveAlerts: React.FC<LiveAlertsProps> = ({
         );
       case 'CONNECTING':
         return (
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/30">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200">
             <RefreshCw className="w-3 h-3 animate-spin text-amber-600" />
             CONNECTING...
           </span>
@@ -46,7 +46,7 @@ export const LiveAlerts: React.FC<LiveAlertsProps> = ({
         return (
           <button
             onClick={onReconnect}
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-rose-500/10 text-rose-700 dark:text-rose-400 border border-rose-500/30 hover:bg-rose-500/20 transition-colors"
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100 transition-colors"
           >
             <Radio className="w-3 h-3 text-rose-600" />
             RECONNECT
@@ -70,18 +70,18 @@ export const LiveAlerts: React.FC<LiveAlertsProps> = ({
   };
 
   return (
-    <Card className="relative overflow-hidden border border-indigo-100 dark:border-slate-800 shadow-md h-full flex flex-col justify-between">
+    <Card className="bg-white border border-slate-200 shadow-sm flex flex-col justify-between">
       <div>
-        <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800 mb-4">
+        <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
           <div className="flex items-center gap-2.5">
-            <div className="p-2.5 rounded-xl bg-indigo-600 text-white shadow-sm shadow-indigo-500/30">
+            <div className="p-2.5 rounded-xl bg-indigo-600 text-white shadow-xs">
               <Activity className="w-5 h-5 animate-pulse" />
             </div>
             <div>
-              <h3 className="font-bold text-slate-900 dark:text-slate-100 text-base">
+              <h3 className="font-bold text-slate-900 text-base">
                 Real-Time Crime Feed
               </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
+              <p className="text-xs font-medium text-slate-500">
                 Live updates via WebSocket stream
               </p>
             </div>
@@ -93,7 +93,7 @@ export const LiveAlerts: React.FC<LiveAlertsProps> = ({
               size="sm"
               onClick={() => playAlertSound()}
               title="Test alert audio"
-              className="p-2 text-slate-600 hover:text-indigo-600 hover:border-indigo-200"
+              className="p-2 text-slate-600 hover:text-indigo-600 border-slate-200 hover:border-indigo-200"
             >
               <Volume2 className="w-4 h-4" />
             </Button>
@@ -101,12 +101,12 @@ export const LiveAlerts: React.FC<LiveAlertsProps> = ({
         </div>
 
         {liveCrimes.length === 0 ? (
-          <div className="py-10 px-4 text-center bg-slate-50 dark:bg-slate-800/90 rounded-xl border border-slate-200 dark:border-slate-700">
-            <div className="w-12 h-12 mx-auto rounded-full bg-indigo-100 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-3 shadow-inner">
+          <div className="py-10 px-4 text-center bg-slate-50 rounded-xl border border-slate-200">
+            <div className="w-12 h-12 mx-auto rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center mb-3 shadow-inner">
               <RadioReceiver className="w-6 h-6 animate-pulse" />
             </div>
-            <p className="text-sm font-bold text-slate-900 dark:text-slate-100">Listening for live crime events...</p>
-            <p className="text-xs font-medium text-slate-600 dark:text-slate-300 mt-1 max-w-sm mx-auto">
+            <p className="text-sm font-bold text-slate-900">Listening for live crime events...</p>
+            <p className="text-xs font-medium text-slate-600 mt-1 max-w-sm mx-auto">
               New incidents logged by police stations will stream here automatically without page refresh.
             </p>
           </div>
@@ -116,12 +116,12 @@ export const LiveAlerts: React.FC<LiveAlertsProps> = ({
               <div
                 key={`${crime.id}-${crime.createdAt || Math.random()}`}
                 onClick={() => onSelectCrime?.(crime)}
-                className={`p-3.5 rounded-xl border transition-all cursor-pointer shadow-xs hover:shadow-sm ${
+                className={`p-3.5 rounded-xl border transition-all cursor-pointer shadow-xs ${
                   crime.severity === 'CRITICAL'
-                    ? 'bg-rose-50/90 dark:bg-rose-950/40 border-rose-200 dark:border-rose-800 hover:bg-rose-100/90'
+                    ? 'bg-rose-50/90 border-rose-200 hover:bg-rose-100/90'
                     : crime.severity === 'HIGH'
-                    ? 'bg-amber-50/90 dark:bg-amber-950/40 border-amber-200 dark:border-amber-800 hover:bg-amber-100/90'
-                    : 'bg-white dark:bg-slate-800/80 border-slate-200/80 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800'
+                    ? 'bg-amber-50/90 border-amber-200 hover:bg-amber-100/90'
+                    : 'bg-white border-slate-200 hover:bg-slate-50'
                 }`}
               >
                 <div className="flex items-start justify-between gap-2">
@@ -130,12 +130,12 @@ export const LiveAlerts: React.FC<LiveAlertsProps> = ({
                       {crime.severity === 'CRITICAL' && (
                         <AlertOctagon className="w-4 h-4 text-rose-600 animate-pulse shrink-0" />
                       )}
-                      <span className="font-bold text-sm text-slate-900 dark:text-slate-100">
+                      <span className="font-bold text-sm text-slate-900">
                         {crime.title}
                       </span>
                     </div>
-                    <div className="flex items-center gap-3 text-xs text-slate-500 dark:text-slate-400">
-                      <span className="flex items-center gap-1 font-medium">
+                    <div className="flex items-center gap-3 text-xs font-medium text-slate-600">
+                      <span className="flex items-center gap-1">
                         <MapPin className="w-3 h-3 text-slate-400" />
                         {crime.district}
                       </span>
@@ -147,7 +147,7 @@ export const LiveAlerts: React.FC<LiveAlertsProps> = ({
                   </div>
                   <div className="flex flex-col items-end gap-1 shrink-0">
                     {getSeverityBadge(crime.severity)}
-                    <span className="text-[10px] font-mono text-slate-400 font-medium">{crime.crimeNumber}</span>
+                    <span className="text-[10px] font-mono text-slate-400 font-semibold">{crime.crimeNumber}</span>
                   </div>
                 </div>
               </div>

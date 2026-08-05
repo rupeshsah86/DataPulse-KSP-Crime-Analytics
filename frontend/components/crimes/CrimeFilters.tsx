@@ -37,7 +37,7 @@ export const CrimeFilters: React.FC<CrimeFiltersProps> = ({ onSearch, onFilter }
     };
 
     return (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200/50 p-4">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
             {/* Search Bar */}
             <form onSubmit={handleSearch} className="flex gap-2">
                 <div className="flex-1">
@@ -45,36 +45,39 @@ export const CrimeFilters: React.FC<CrimeFiltersProps> = ({ onSearch, onFilter }
                         placeholder="Search crimes by title, description..."
                         value={keyword}
                         onChange={(e) => setKeyword(e.target.value)}
-                        icon={<Search className="w-4 h-4" />}
+                        icon={<Search className="w-4 h-4 text-slate-400" />}
+                        className="bg-white border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-indigo-500"
                     />
                 </div>
-                <Button type="submit">Search</Button>
+                <Button type="submit" className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold">Search</Button>
                 <Button
                     type="button"
                     variant="outline"
                     onClick={() => setShowFilters(!showFilters)}
+                    className="border-slate-300 text-slate-700 hover:bg-slate-50 font-medium"
                 >
-                    <Filter className="w-4 h-4 mr-2" />
+                    <Filter className="w-4 h-4 mr-2 text-slate-500" />
                     Filters
                 </Button>
             </form>
 
             {/* Filters Panel */}
             {showFilters && (
-                <div className="mt-4 pt-4 border-t border-gray-200">
+                <div className="mt-4 pt-4 border-t border-slate-200">
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">District</label>
+                            <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">District</label>
                             <Input
                                 placeholder="Enter district"
                                 value={district}
                                 onChange={(e) => setDistrict(e.target.value)}
+                                className="bg-white border-slate-300 text-slate-900"
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                            <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Category</label>
                             <select
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                                className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-xl text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                 value={category}
                                 onChange={(e) => setCategory(e.target.value)}
                             >
@@ -85,9 +88,9 @@ export const CrimeFilters: React.FC<CrimeFiltersProps> = ({ onSearch, onFilter }
                             </select>
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                            <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Status</label>
                             <select
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                                className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-xl text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                 value={status}
                                 onChange={(e) => setStatus(e.target.value)}
                             >
@@ -98,9 +101,9 @@ export const CrimeFilters: React.FC<CrimeFiltersProps> = ({ onSearch, onFilter }
                             </select>
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Severity</label>
+                            <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">Severity</label>
                             <select
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+                                className="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-xl text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                 value={severity}
                                 onChange={(e) => setSeverity(e.target.value)}
                             >
@@ -112,8 +115,8 @@ export const CrimeFilters: React.FC<CrimeFiltersProps> = ({ onSearch, onFilter }
                         </div>
                     </div>
                     <div className="flex gap-2 mt-4">
-                        <Button onClick={handleApplyFilters}>Apply Filters</Button>
-                        <Button variant="outline" onClick={handleClearFilters}>
+                        <Button onClick={handleApplyFilters} className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold">Apply Filters</Button>
+                        <Button variant="outline" onClick={handleClearFilters} className="border-slate-300 text-slate-700 hover:bg-slate-50">
                             <X className="w-4 h-4 mr-2" />
                             Clear
                         </Button>

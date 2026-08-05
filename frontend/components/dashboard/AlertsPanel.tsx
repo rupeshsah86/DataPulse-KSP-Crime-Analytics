@@ -1,12 +1,11 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { AlertTriangle, Bell, Clock, X, CheckCircle } from 'lucide-react';
+import React, { useState } from 'react';
+import { AlertTriangle, Bell, ChevronRight, X } from 'lucide-react';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { Crime } from '@/services/crimeService';
-import toast from 'react-hot-toast';
 
 interface AlertsPanelProps {
     crimes: Crime[];
@@ -14,117 +13,109 @@ interface AlertsPanelProps {
 }
 
 export const AlertsPanel: React.FC<AlertsPanelProps> = ({ crimes, onAlertClick }) => {
-    const [alerts, setAlerts] = useState<Crime[]>([]);
-    const [dismissedAlerts, setDismissedAlerts] = useState<Set<number>>(new Set());
+    const [dismissedIds, setDismissedIds] = useState<number[]>([]);
     const [isExpanded, setIsExpanded] = useState(false);
 
-    // Filter high-priority crimes
-    useEffect(() => {
-        if (!crimes) return;
-
-        const highPriorityCrimes = crimes.filter(
-            (c) =>
-                (c.severity === 'CRITICAL' || c.severity === 'HIGH') &&
-                (c.status === 'OPEN' || c.status === 'INVESTIGATING')
-        );
-
-        // Sort by date (newest first)
-        const sorted = highPriorityCrimes.sort((a, b) =>
-            new Date(b.incidentDate).getTime() - new Date(a.incidentDate).getTime()
-        );
-
-        setAlerts(sorted);
-    }, [crimes]);
+    const activeAlerts = crimes.filter(
+        (crime) =>
+            (crime.severity === 'CRITICAL' || crime.severity === 'HIGH') &&
+            !dismissedIds.includes(crime.id)
+    );
 
     const dismissAlert = (id: number) => {
-        setDismissedAlerts((prev) => new Set(prev).add(id));
-        toast.success('Alert dismissed');
+        setDismissedIds((prev) => [...prev, id]);
     };
 
     const dismissAll = () => {
-        alerts.forEach((alert) => {
-            setDismissedAlerts((prev) => new Set(prev).add(alert.id));
-        });
-        toast.success('All alerts dismissed');
+        setDismissedIds(activeAlerts.map((c) => c.id));
+    };
+
+    const getTimeAgo = (dateStr: string) => {
+        const date = new Date(dateStr);
+        const now = new Date();
+        const diffDays = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
+        if (diffDays === 0) return 'Today';
+        if (diffDays === 1) return 'Yesterday';
+        return `${diffDays}d ago`;
     };
 
     const getSeverityColor = (severity: string) => {
         switch (severity) {
-            case 'CRITICAL': return 'bg-status-critical';
-            case 'HIGH': return 'bg-status-high';
-            default: return 'bg-status-medium';
+            case 'CRITICAL':
+                return 'border-l-rose-500 bg-rose-50/70';
+            case 'HIGH':
+                return 'border-l-amber-500 bg-amber-50/70';
+            default:
+                return 'border-l-slate-400 bg-slate-50';
         }
     };
 
-    const getTimeAgo = (date: string) => {
-        const diff = new Date().getTime() - new Date(date).getTime();
-        const hours = Math.floor(diff / (1000 * 60 * 60));
-        if (hours < 1) return 'Just now';
-        if (hours < 24) return `${hours}h ago`;
-        return `${Math.floor(hours / 24)}d ago`;
-    };
-
-    const activeAlerts = alerts.filter((a) => !dismissedAlerts.has(a.id));
-
     if (activeAlerts.length === 0) {
         return (
-            <Card className="border-l-4 border-l-green-500">
-                <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                        <CheckCircle className="w-5 h-5 text-green-600" />
+            <Card className="bg-white border border-slate-200 shadow-sm">
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-slate-700">
+                        <Bell className="w-5 h-5 text-emerald-600" />
+                        <span className="font-bold text-sm">No critical alerts requiring action</span>
                     </div>
-                    <div>
-                        <p className="text-sm font-medium text-gray-800">All Clear! 🎉</p>
-                        <p className="text-xs text-gray-500">No active alerts</p>
-                    </div>
+                    <span className="text-xs text-slate-500 font-medium">All clear</span>
                 </div>
             </Card>
         );
     }
 
     return (
-        <Card className="relative">
-            <div className="flex items-center justify-between mb-3">
+        <Card className="bg-white border border-slate-200 shadow-sm">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
                 <div className="flex items-center gap-2">
-                    <div className="relative">
-                        <Bell className="w-5 h-5 text-status-critical" />
-                        <span className="absolute -top-1 -right-1 w-4 h-4 bg-status-critical text-white text-[10px] rounded-full flex items-center justify-center">
-                            {activeAlerts.length}
-                        </span>
+                    <div className="p-2 rounded-lg bg-rose-100 text-rose-600">
+                        <Bell className="w-5 h-5" />
                     </div>
-                    <h3 className="font-semibold text-gray-800">Live Alerts</h3>
-                    <Badge variant="critical">{activeAlerts.length} Active</Badge>
+                    <div>
+                        <h3 className="font-bold text-slate-900 text-base">
+                            Live Alerts
+                        </h3>
+                        <p className="text-xs font-medium text-slate-500">
+                            {activeAlerts.length} high-priority crime cases
+                        </p>
+                    </div>
                 </div>
-                <div className="flex gap-2">
-                    <Button variant="outline" size="sm" onClick={dismissAll}>
+                <div className="flex items-center gap-2">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={dismissAll}
+                        className="text-xs border-slate-200 text-slate-600 hover:bg-slate-100"
+                    >
                         Dismiss All
                     </Button>
                     <Button
                         variant="outline"
                         size="sm"
                         onClick={() => setIsExpanded(!isExpanded)}
+                        className="text-xs border-slate-200 text-slate-600 hover:bg-slate-100"
                     >
                         {isExpanded ? 'Collapse' : 'Expand'}
                     </Button>
                 </div>
             </div>
 
-            <div className="space-y-2.5 max-h-[400px] overflow-y-auto pr-1">
+            <div className="space-y-2.5 max-h-[360px] overflow-y-auto pr-1">
                 {(isExpanded ? activeAlerts : activeAlerts.slice(0, 3)).map((alert) => (
                     <div
                         key={alert.id}
-                        className={`p-3.5 rounded-xl border-l-4 ${getSeverityColor(alert.severity)} bg-slate-50 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer shadow-xs`}
+                        className={`p-3.5 rounded-xl border-l-4 ${getSeverityColor(alert.severity)} border-slate-200 hover:bg-slate-100/80 transition-colors cursor-pointer shadow-xs`}
                         onClick={() => onAlertClick?.(alert)}
                     >
                         <div className="flex items-start justify-between">
                             <div className="flex-1">
                                 <div className="flex items-center gap-2">
                                     <AlertTriangle className="w-4 h-4 text-rose-600 shrink-0" />
-                                    <p className="text-sm font-bold text-slate-900 dark:text-slate-100">
+                                    <p className="text-sm font-bold text-slate-900">
                                         {alert.title}
                                     </p>
                                 </div>
-                                <div className="flex items-center gap-3 mt-1.5 text-xs font-medium text-slate-600 dark:text-slate-400">
+                                <div className="flex items-center gap-3 mt-1.5 text-xs font-medium text-slate-600">
                                     <span>📍 {alert.district}</span>
                                     <span>📅 {alert.incidentDate}</span>
                                     <span>🕐 {getTimeAgo(alert.incidentDate)}</span>
@@ -141,7 +132,7 @@ export const AlertsPanel: React.FC<AlertsPanelProps> = ({ crimes, onAlertClick }
                             <Button
                                 variant="secondary"
                                 size="sm"
-                                className="text-slate-400 hover:text-rose-600 bg-transparent hover:bg-slate-200/60 dark:hover:bg-slate-700"
+                                className="text-slate-400 hover:text-rose-600 bg-transparent hover:bg-slate-200/60"
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     dismissAlert(alert.id);
@@ -154,7 +145,7 @@ export const AlertsPanel: React.FC<AlertsPanelProps> = ({ crimes, onAlertClick }
                 ))}
 
                 {!isExpanded && activeAlerts.length > 3 && (
-                    <p className="text-xs font-medium text-slate-500 dark:text-slate-400 text-center pt-2">
+                    <p className="text-xs font-bold text-slate-400 text-center pt-2">
                         +{activeAlerts.length - 3} more alerts. Click Expand to view all.
                     </p>
                 )}

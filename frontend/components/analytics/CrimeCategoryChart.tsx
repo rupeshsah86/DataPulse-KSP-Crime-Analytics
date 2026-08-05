@@ -34,7 +34,7 @@ const CATEGORY_COLORS = [
 export const CrimeCategoryChart: React.FC<CrimeCategoryChartProps> = ({ data }) => {
     if (!data || data.length === 0) {
         return (
-            <div className="h-[340px] flex items-center justify-center text-gray-400">
+            <div className="h-[340px] flex items-center justify-center text-slate-400 font-medium">
                 No category data available
             </div>
         );
@@ -47,8 +47,8 @@ export const CrimeCategoryChart: React.FC<CrimeCategoryChartProps> = ({ data }) 
             const item = payload[0];
             const percent = ((item.value / totalCount) * 100).toFixed(1);
             return (
-                <div className="bg-slate-900/90 backdrop-blur-md text-white text-xs p-3 rounded-lg shadow-xl border border-slate-700/50">
-                    <p className="font-semibold text-slate-200 mb-1">{item.name}</p>
+                <div className="bg-slate-900 text-white text-xs p-3 rounded-lg shadow-xl border border-slate-700">
+                    <p className="font-bold text-slate-100 mb-1">{item.name}</p>
                     <p className="flex items-center gap-2">
                         <span className="w-2.5 h-2.5 rounded-full inline-block" style={{ backgroundColor: item.payload.fill }}></span>
                         <span>Incidents: <strong className="text-white">{item.value}</strong> ({percent}%)</span>
@@ -77,7 +77,7 @@ export const CrimeCategoryChart: React.FC<CrimeCategoryChartProps> = ({ data }) 
                                 <Cell
                                     key={`cell-${index}`}
                                     fill={CATEGORY_COLORS[index % CATEGORY_COLORS.length]}
-                                    stroke="rgba(255,255,255,0.8)"
+                                    stroke="#FFFFFF"
                                     strokeWidth={2}
                                 />
                             ))}
@@ -87,25 +87,25 @@ export const CrimeCategoryChart: React.FC<CrimeCategoryChartProps> = ({ data }) 
                 </ResponsiveContainer>
                 {/* Donut Center Summary */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                    <span className="text-2xl font-bold text-slate-800 dark:text-slate-100">{totalCount}</span>
-                    <span className="text-[11px] font-medium text-slate-400 uppercase tracking-wider">Total</span>
+                    <span className="text-2xl font-extrabold text-slate-900">{totalCount}</span>
+                    <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Total</span>
                 </div>
             </div>
 
             {/* Custom Clean Legend Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 pt-2 border-t border-slate-100 dark:border-slate-800 max-h-[120px] overflow-y-auto pr-1">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 pt-3 border-t border-slate-100 max-h-[120px] overflow-y-auto pr-1">
                 {data.map((item, index) => {
                     const percent = ((item.value / totalCount) * 100).toFixed(1);
                     const color = CATEGORY_COLORS[index % CATEGORY_COLORS.length];
                     return (
-                        <div key={item.name} className="flex items-center justify-between p-1.5 rounded-md hover:bg-slate-50 dark:hover:bg-slate-800/50 text-xs transition-colors">
+                        <div key={item.name} className="flex items-center justify-between p-1.5 rounded-md hover:bg-slate-50 text-xs transition-colors">
                             <div className="flex items-center gap-1.5 min-w-0 pr-1">
                                 <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: color }}></span>
-                                <span className="font-medium text-slate-700 dark:text-slate-300 truncate" title={item.name}>
+                                <span className="font-bold text-slate-700 truncate" title={item.name}>
                                     {item.name}
                                 </span>
                             </div>
-                            <span className="font-semibold text-slate-500 dark:text-slate-400 shrink-0 text-[11px]">
+                            <span className="font-semibold text-slate-500 shrink-0 text-[11px]">
                                 {item.value} ({percent}%)
                             </span>
                         </div>

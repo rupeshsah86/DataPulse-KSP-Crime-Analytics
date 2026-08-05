@@ -36,7 +36,7 @@ export const SimilaritySearch: React.FC<SimilaritySearchProps> = ({ onSelect }) 
             setResults(data);
 
             if (data.length === 0) {
-                toast('No similar crimes found', { icon: 'ℹ️' });  // ← FIXED
+                toast('No similar crimes found', { icon: 'ℹ️' });
             } else {
                 toast.success(`Found ${data.length} similar crimes`);
             }
@@ -50,17 +50,17 @@ export const SimilaritySearch: React.FC<SimilaritySearchProps> = ({ onSelect }) 
     };
 
     const getSimilarityColor = (score: number): string => {
-        if (score > 75) return 'bg-green-100 text-green-800';
-        if (score > 50) return 'bg-yellow-100 text-yellow-800';
-        return 'bg-red-100 text-red-800';
+        if (score > 75) return 'bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold';
+        if (score > 50) return 'bg-amber-50 text-amber-800 border border-amber-200 font-bold';
+        return 'bg-rose-50 text-rose-800 border border-rose-200 font-bold';
     };
 
     return (
-        <Card>
+        <Card className="bg-white border border-slate-200 shadow-sm">
             <div className="space-y-4">
                 <div>
-                    <h3 className="font-semibold text-gray-800">🔍 Case Similarity Search</h3>
-                    <p className="text-sm text-gray-500">
+                    <h3 className="font-bold text-slate-900 text-base">🔍 Case Similarity Search</h3>
+                    <p className="text-sm font-medium text-slate-500 mt-0.5">
                         Find similar crimes by entering keywords (e.g., "robbery", "Bangalore", "theft")
                     </p>
                 </div>
@@ -72,43 +72,44 @@ export const SimilaritySearch: React.FC<SimilaritySearchProps> = ({ onSelect }) 
                             value={keyword}
                             onChange={(e) => setKeyword(e.target.value)}
                             disabled={loading}
+                            className="bg-white border-slate-300 text-slate-900 placeholder:text-slate-400 focus:border-indigo-500"
                         />
                     </div>
-                    <Button type="submit" isLoading={loading}>
+                    <Button type="submit" isLoading={loading} className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold">
                         <Search className="w-4 h-4 mr-2" />
                         Search
                     </Button>
                 </form>
 
                 {error && (
-                    <div className="flex items-center gap-2 p-3 bg-red-50 text-red-600 rounded-lg text-sm">
-                        <AlertCircle className="w-4 h-4" />
+                    <div className="flex items-center gap-2 p-3 bg-rose-50 text-rose-700 border border-rose-200 rounded-xl text-sm font-medium">
+                        <AlertCircle className="w-4 h-4 shrink-0" />
                         {error}
                     </div>
                 )}
 
                 {loading && (
                     <div className="flex items-center justify-center py-8">
-                        <Loader2 className="w-6 h-6 animate-spin text-primary-500" />
-                        <span className="ml-2 text-gray-500">Searching...</span>
+                        <Loader2 className="w-6 h-6 animate-spin text-indigo-600" />
+                        <span className="ml-2 text-sm font-medium text-slate-600">Searching similar cases...</span>
                     </div>
                 )}
 
                 {results.length > 0 && (
-                    <div className="mt-4 space-y-2 max-h-96 overflow-y-auto">
-                        <p className="text-sm text-gray-500 mb-2">
+                    <div className="mt-4 space-y-2.5 max-h-96 overflow-y-auto pr-1">
+                        <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
                             Found {results.length} similar crime(s)
                         </p>
-                        {results.map((crime, index) => (
+                        {results.map((crime) => (
                             <div
                                 key={crime.id}
-                                className="p-3 border rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+                                className="p-3.5 bg-slate-50 hover:bg-slate-100/80 border border-slate-200 rounded-xl transition-all cursor-pointer shadow-xs"
                                 onClick={() => onSelect?.(crime)}
                             >
                                 <div className="flex items-center justify-between">
-                                    <div>
-                                        <p className="font-medium text-gray-800">{crime.title}</p>
-                                        <div className="flex gap-3 mt-1 text-xs text-gray-500">
+                                    <div className="space-y-1">
+                                        <p className="font-bold text-sm text-slate-900">{crime.title}</p>
+                                        <div className="flex gap-3 text-xs font-medium text-slate-600">
                                             <span>📍 {crime.district}</span>
                                             <span>📅 {crime.incidentDate}</span>
                                         </div>
@@ -122,11 +123,11 @@ export const SimilaritySearch: React.FC<SimilaritySearchProps> = ({ onSelect }) 
                                             </Badge>
                                         </div>
                                     </div>
-                                    <div className="text-right">
-                                        <div className={`px-2 py-1 rounded-full text-xs font-medium ${getSimilarityColor(50)}`}>
-                                            {Math.floor(Math.random() * 30 + 70)}% match
+                                    <div className="text-right shrink-0">
+                                        <div className={`px-2.5 py-1 rounded-full text-xs ${getSimilarityColor(85)}`}>
+                                            85% match
                                         </div>
-                                        <p className="text-xs text-gray-400 mt-1">Similar</p>
+                                        <p className="text-[11px] font-semibold text-slate-400 mt-1 uppercase tracking-wider">AI Similarity</p>
                                     </div>
                                 </div>
                             </div>

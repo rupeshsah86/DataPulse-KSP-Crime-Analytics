@@ -249,8 +249,8 @@ export default function CrimesPage() {
                     {/* Page Header */}
                     <div className="flex items-center justify-between">
                         <div>
-                            <h1 className="text-2xl font-bold text-gray-800">Crime Management</h1>
-                            <p className="text-sm text-gray-500">View and manage all crime records</p>
+                            <h1 className="text-2xl font-bold text-slate-900">Crime Management</h1>
+                            <p className="text-sm font-medium text-slate-500">View and manage all crime records</p>
                         </div>
                         <div className="flex gap-2 flex-wrap">
                             {/* ✅ BULK DELETE BUTTON */}
@@ -259,25 +259,25 @@ export default function CrimesPage() {
                                     variant="outline"
                                     size="sm"
                                     onClick={handleBulkDelete}
-                                    className="border-red-300 text-red-600 hover:bg-red-50 hover:text-red-700"
+                                    className="border-rose-300 text-rose-600 hover:bg-rose-50 hover:text-rose-700 font-semibold"
                                 >
                                     <Trash2 className="w-4 h-4 mr-1" />
                                     Delete ({selectedIds.length})
                                 </Button>
                             )}
-                            <Button variant="outline" size="sm" onClick={handleExportCSV}>
+                            <Button variant="outline" size="sm" onClick={handleExportCSV} className="border-slate-300 text-slate-700 hover:bg-slate-50 font-medium">
                                 <Download className="w-4 h-4 mr-1" />
                                 CSV
                             </Button>
-                            <Button variant="outline" size="sm" onClick={handleExportExcel}>
+                            <Button variant="outline" size="sm" onClick={handleExportExcel} className="border-slate-300 text-slate-700 hover:bg-slate-50 font-medium">
                                 <FileSpreadsheet className="w-4 h-4 mr-1" />
                                 Excel
                             </Button>
-                            <Button variant="outline" size="sm" onClick={handleDownloadPDF}>
+                            <Button variant="outline" size="sm" onClick={handleDownloadPDF} className="border-slate-300 text-slate-700 hover:bg-slate-50 font-medium">
                                 <FileDown className="w-4 h-4 mr-1" />
                                 PDF
                             </Button>
-                            <Button onClick={() => setIsCreateModalOpen(true)}>
+                            <Button onClick={() => setIsCreateModalOpen(true)} className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold">
                                 <Plus className="w-4 h-4 mr-2" />
                                 Add Crime
                             </Button>

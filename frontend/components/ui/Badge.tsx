@@ -15,21 +15,21 @@ export const Badge: React.FC<BadgeProps> = ({
     className,
 }) => {
     const variants = {
-        critical: 'bg-red-500/15 text-red-700 dark:text-red-400 border border-red-500/20 font-semibold',
-        high: 'bg-amber-500/15 text-amber-700 dark:text-amber-400 border border-amber-500/20 font-semibold',
-        medium: 'bg-yellow-500/15 text-yellow-800 dark:text-yellow-400 border border-yellow-500/20 font-semibold',
-        low: 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20 font-semibold',
-        open: 'bg-blue-500/15 text-blue-700 dark:text-blue-400 border border-blue-500/20 font-semibold',
-        investigating: 'bg-cyan-500/15 text-cyan-700 dark:text-cyan-400 border border-cyan-500/20 font-semibold',
-        closed: 'bg-slate-500/15 text-slate-700 dark:text-slate-400 border border-slate-500/20 font-semibold',
-        'cold-case': 'bg-purple-500/15 text-purple-700 dark:text-purple-400 border border-purple-500/20 font-semibold',
-        default: 'bg-slate-500/15 text-slate-700 dark:text-slate-400 border border-slate-500/20 font-semibold',
+        critical: 'bg-red-50 text-red-700 border border-red-200 font-bold',
+        high: 'bg-amber-50 text-amber-800 border border-amber-200 font-bold',
+        medium: 'bg-yellow-50 text-yellow-800 border border-yellow-200 font-bold',
+        low: 'bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold',
+        open: 'bg-blue-50 text-blue-800 border border-blue-200 font-bold',
+        investigating: 'bg-cyan-50 text-cyan-800 border border-cyan-200 font-bold',
+        closed: 'bg-slate-100 text-slate-700 border border-slate-300 font-bold',
+        'cold-case': 'bg-purple-50 text-purple-800 border border-purple-200 font-bold',
+        default: 'bg-slate-100 text-slate-700 border border-slate-200 font-semibold',
     };
 
     return (
         <span
             className={cn(
-                'px-2.5 py-0.5 rounded-full text-xs font-medium inline-flex items-center',
+                'px-2.5 py-0.5 rounded-full text-xs inline-flex items-center',
                 variants[variant] || variants.default,
                 className
             )}

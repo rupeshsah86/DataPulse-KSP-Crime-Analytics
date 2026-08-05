@@ -32,56 +32,56 @@ export default function AIPage() {
                 <div className="space-y-6">
                     {/* Page Header */}
                     <div>
-                        <h1 className="text-2xl font-bold text-gray-800">AI Crime Analytics</h1>
-                        <p className="text-sm text-gray-500">
+                        <h1 className="text-2xl font-bold text-slate-900">AI Crime Analytics</h1>
+                        <p className="text-sm font-medium text-slate-500">
                             AI-powered crime prediction, hotspot detection, and pattern analysis
                         </p>
                     </div>
 
                     {/* Stats Cards */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                        <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200/80 dark:border-slate-800 p-5 flex items-center justify-between border-l-4 border-l-rose-500">
+                        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5 flex items-center justify-between border-l-4 border-l-rose-500">
                             <div>
-                                <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">Hotspots Detected</p>
-                                <p className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-1">{hotspots?.length || 0}</p>
+                                <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Hotspots Detected</p>
+                                <p className="text-2xl font-extrabold text-slate-900 mt-1">{hotspots?.length || 0}</p>
                             </div>
-                            <div className="w-11 h-11 bg-rose-50 dark:bg-rose-950/40 rounded-xl flex items-center justify-center text-rose-600 dark:text-rose-400">
+                            <div className="w-11 h-11 bg-rose-50 rounded-xl flex items-center justify-center text-rose-600">
                                 <AlertTriangle className="w-5 h-5" />
                             </div>
                         </div>
 
-                        <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200/80 dark:border-slate-800 p-5 flex items-center justify-between border-l-4 border-l-orange-500">
+                        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5 flex items-center justify-between border-l-4 border-l-orange-500">
                             <div>
-                                <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">Critical Areas</p>
-                                <p className="text-2xl font-bold text-rose-600 mt-1">
+                                <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Critical Areas</p>
+                                <p className="text-2xl font-extrabold text-rose-600 mt-1">
                                     {hotspots?.filter(h => h.level === 'CRITICAL').length || 0}
                                 </p>
                             </div>
-                            <div className="w-11 h-11 bg-orange-50 dark:bg-orange-950/40 rounded-xl flex items-center justify-center text-orange-600 dark:text-orange-400">
+                            <div className="w-11 h-11 bg-orange-50 rounded-xl flex items-center justify-center text-orange-600">
                                 <TrendingUp className="w-5 h-5" />
                             </div>
                         </div>
 
-                        <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200/80 dark:border-slate-800 p-5 flex items-center justify-between border-l-4 border-l-amber-500">
+                        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5 flex items-center justify-between border-l-4 border-l-amber-500">
                             <div>
-                                <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">High Risk Areas</p>
-                                <p className="text-2xl font-bold text-amber-600 mt-1">
+                                <p className="text-xs font-bold uppercase tracking-wider text-slate-500">High Risk Areas</p>
+                                <p className="text-2xl font-extrabold text-amber-600 mt-1">
                                     {hotspots?.filter(h => h.level === 'HIGH').length || 0}
                                 </p>
                             </div>
-                            <div className="w-11 h-11 bg-amber-50 dark:bg-amber-950/40 rounded-xl flex items-center justify-center text-amber-600 dark:text-amber-400">
+                            <div className="w-11 h-11 bg-amber-50 rounded-xl flex items-center justify-center text-amber-600">
                                 <Activity className="w-5 h-5" />
                             </div>
                         </div>
 
-                        <div className="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200/80 dark:border-slate-800 p-5 flex items-center justify-between border-l-4 border-l-emerald-500">
+                        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5 flex items-center justify-between border-l-4 border-l-emerald-500">
                             <div>
-                                <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">Patterns Detected</p>
-                                <p className="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-1">
+                                <p className="text-xs font-bold uppercase tracking-wider text-slate-500">Patterns Detected</p>
+                                <p className="text-2xl font-extrabold text-slate-900 mt-1">
                                     {patterns ? Object.keys(patterns.category_patterns || {}).length : 0}
                                 </p>
                             </div>
-                            <div className="w-11 h-11 bg-emerald-50 dark:bg-emerald-950/40 rounded-xl flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                            <div className="w-11 h-11 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600">
                                 <MapPin className="w-5 h-5" />
                             </div>
                         </div>
