@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Sidebar } from './Sidebar';
 import { Navbar } from './Navbar';
+import { VoiceAssistant } from '../voice/VoiceAssistant';
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -39,6 +40,9 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
                     {children}
                 </div>
             </main>
+
+            {/* Global AI Voice Copilot Assistant */}
+            <VoiceAssistant />
         </div>
     );
 };
