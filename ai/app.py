@@ -28,6 +28,7 @@ from services.data_loader import load_crime_data
 from models.predictor import CrimePredictor
 from api.investigation_routes import router as investigation_router
 from api.patrol_routes import router as patrol_router
+from api.ocr_routes import router as ocr_router
 
 # ============================================
 # RAG CHATBOT IMPORTS
@@ -74,6 +75,7 @@ app.add_middleware(
 # Mount Routers
 app.include_router(investigation_router)
 app.include_router(patrol_router)
+app.include_router(ocr_router)
 
 # ============================================
 # INITIALIZE PREDICTOR

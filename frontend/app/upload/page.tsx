@@ -101,10 +101,13 @@ export default function UploadPage() {
                                 Import crime records in bulk using structured CSV or Excel spreadsheets
                             </p>
                         </div>
-                        <div className="flex items-center gap-2">
-                            <span className="px-3 py-1 bg-indigo-50 text-indigo-700 border border-indigo-200 rounded-full text-xs font-bold">
-                                CSV & XLSX Supported
-                            </span>
+                        <div className="flex items-center gap-3">
+                            <a
+                                href="/upload/document"
+                                className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition-all shadow-xs flex items-center gap-1.5"
+                            >
+                                📄 Scan FIR PDF / Image (OCR)
+                            </a>
                         </div>
                     </div>
 
