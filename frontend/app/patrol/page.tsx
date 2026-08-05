@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/Button';
 import { Spinner } from '@/components/ui/Spinner';
 import { PatrolMap, WaypointItem, ItineraryItem } from '@/components/patrol/PatrolMap';
 import { Compass, Sparkles, Navigation, Shield, Download, RefreshCw, Layers } from 'lucide-react';
+import api from '@/services/api';
 import toast from 'react-hot-toast';
 
 export default function PatrolPage() {
@@ -60,27 +61,42 @@ export default function PatrolPage() {
 
     const fetchRoute = async () => {
         setGenerating(true);
+        const payload = {
+            district,
+            unit_name: unitName,
+            shift_time: shiftTime
+        };
+
+        try {
+            // Try Spring Boot proxy endpoint
+            const res = await api.post('/patrol/routes', payload);
+            const data = res.data?.data || res.data;
+            if (data && data.summary) {
+                setRouteData(data);
+                toast.success('AI Patrol Route generated successfully! 🚓');
+                return;
+            }
+        } catch (proxyErr) {
+            console.warn('Spring Boot Patrol Proxy note, trying direct AI service...', proxyErr);
+        }
+
+        // Direct FastAPI fallback
         try {
             const res = await fetch('http://localhost:8000/api/patrol/routes', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    district,
-                    unit_name: unitName,
-                    shift_time: shiftTime
-                })
+                body: JSON.stringify(payload)
             });
-
-            if (!res.ok) {
-                throw new Error(`AI Patrol Service responded with status ${res.status}`);
+            if (res.ok) {
+                const data = await res.json();
+                setRouteData(data);
+                toast.success('AI Patrol Route generated successfully! 🚓');
+            } else {
+                throw new Error('AI Patrol Service returned non-200');
             }
-
-            const data = await res.json();
-            setRouteData(data);
-            toast.success('AI Patrol Route generated successfully! 🚓');
-        } catch (err: any) {
+        } catch (err) {
             console.error('Patrol Route error:', err);
-            toast.error('Failed to generate route. Ensure AI Service is running on port 8000.');
+            toast.error('Failed to generate route. Ensure AI Service is running.');
         } finally {
             setLoading(false);
             setGenerating(false);

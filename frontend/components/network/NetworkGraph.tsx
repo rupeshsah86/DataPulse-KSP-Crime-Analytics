@@ -47,11 +47,11 @@ export const NetworkGraph: React.FC<NetworkGraphProps> = ({
             networkRef.current = null;
         }
 
-        // Format Vis.js Nodes with prominent size & clear high-contrast text
+        // Format Vis.js Nodes with prominent size, spaced layout, and high-contrast labels
         const visNodes = nodes.map((node) => ({
             id: node.id,
             label: node.name,
-            title: `<b>${node.name}</b><br/>Type: ${node.type || 'Criminal'}<br/>Risk: ${node.riskLevel || 'Unknown'}<br/>Crimes: ${node.crimeCount || 0}`,
+            title: `<b>${node.name}</b><br/>Type: ${node.type || 'Criminal'}<br/>Risk Level: ${node.riskLevel || 'Unknown'}<br/>Crime Incidents: ${node.crimeCount || 0}`,
             color: {
                 background: getNodeColor(node.riskLevel),
                 border: '#FFFFFF',
@@ -64,28 +64,29 @@ export const NetworkGraph: React.FC<NetworkGraphProps> = ({
                     border: '#4F46E5',
                 }
             },
-            size: 26 + Math.min((node.crimeCount || 1) * 3, 14),
-            borderWidth: 3,
-            borderWidthSelected: 5,
+            size: 32 + Math.min((node.crimeCount || 1) * 4, 16),
+            borderWidth: 4,
+            borderWidthSelected: 6,
             font: {
-                size: 13,
+                size: 14,
                 color: '#0F172A',
                 face: 'Inter, system-ui, sans-serif',
                 strokeWidth: 4,
                 strokeColor: '#FFFFFF',
                 bold: { color: '#0F172A', size: 14 },
+                vadjust: 4,
             },
             shape: 'dot',
             shadow: {
                 enabled: true,
-                color: 'rgba(0,0,0,0.12)',
-                size: 8,
+                color: 'rgba(0,0,0,0.18)',
+                size: 10,
                 x: 2,
-                y: 3,
+                y: 4,
             },
         }));
 
-        // Format Vis.js Edges with thick visible lines & clean labels
+        // Format Vis.js Edges with distinct line styles & labels
         const visEdges = edges.map((edge) => {
             const isSameCategory = edge.relationship?.toLowerCase().includes('category');
             return {
@@ -95,14 +96,14 @@ export const NetworkGraph: React.FC<NetworkGraphProps> = ({
                 title: edge.relationship || 'Associated Incident Connection',
                 width: 3,
                 color: {
-                    color: isSameCategory ? '#818CF8' : '#CBD5E1',
+                    color: isSameCategory ? '#818CF8' : '#94A3B8',
                     highlight: '#4F46E5',
                     hover: '#6366F1',
                 },
                 font: {
-                    size: 10,
+                    size: 11,
                     align: 'top',
-                    color: '#475569',
+                    color: '#334155',
                     strokeWidth: 3,
                     strokeColor: '#FFFFFF',
                 },
@@ -133,16 +134,16 @@ export const NetworkGraph: React.FC<NetworkGraphProps> = ({
                 enabled: true,
                 solver: 'barnesHut',
                 barnesHut: {
-                    gravitationalConstant: -3000,
-                    centralGravity: 0.3,
-                    springLength: 140,
-                    springConstant: 0.04,
+                    gravitationalConstant: -16000, // Strong repulsion to spread out nodes nicely
+                    centralGravity: 0.05,           // Gentle centering force
+                    springLength: 200,              // Spacious edges between criminal nodes
+                    springConstant: 0.03,
                     damping: 0.09,
-                    avoidOverlap: 0.5,
+                    avoidOverlap: 1.0,              // Prevent node overlaps
                 },
                 stabilization: {
                     enabled: true,
-                    iterations: 1000,
+                    iterations: 1200,
                     updateInterval: 50,
                     onlyDynamicEdges: false,
                     fit: true,
@@ -161,16 +162,15 @@ export const NetworkGraph: React.FC<NetworkGraphProps> = ({
         const network = new Network(containerRef.current, data, options);
         networkRef.current = network;
 
-        // Auto zoom and center on node graph
+        // Auto zoom and center on node graph after physics stabilization
         network.once('stabilized', () => {
             network.fit({
                 animation: {
-                    duration: 500,
+                    duration: 600,
                     easingFunction: 'easeInOutQuad',
                 },
             });
-            // Ensure optimal scale so nodes are prominent and easily clickable
-            if (network.getScale() < 0.8) {
+            if (network.getScale() < 0.85) {
                 network.moveTo({ scale: 1.0, animation: true });
             }
         });
@@ -227,7 +227,7 @@ export const NetworkGraph: React.FC<NetworkGraphProps> = ({
     const handleReset = () => {
         if (networkRef.current) {
             networkRef.current.fit({ animation: true });
-            if (networkRef.current.getScale() < 0.8) {
+            if (networkRef.current.getScale() < 0.85) {
                 networkRef.current.moveTo({ scale: 1.0, animation: true });
             }
         }
@@ -235,16 +235,16 @@ export const NetworkGraph: React.FC<NetworkGraphProps> = ({
 
     if (loading || !isMounted) {
         return (
-            <div className="flex flex-col items-center justify-center h-[550px] bg-slate-50 rounded-2xl border border-slate-200">
+            <div className="flex flex-col items-center justify-center h-[560px] bg-slate-50 rounded-2xl border border-slate-200">
                 <Spinner size="lg" />
-                <p className="text-sm font-semibold text-slate-500 mt-3">Rendering Intelligence Graph...</p>
+                <p className="text-sm font-semibold text-slate-500 mt-3">Rendering Criminal Network Intelligence Graph...</p>
             </div>
         );
     }
 
     if (nodes.length === 0 || edges.length === 0) {
         return (
-            <div className="flex items-center justify-center h-[550px] bg-slate-50 rounded-2xl border border-slate-200">
+            <div className="flex items-center justify-center h-[560px] bg-slate-50 rounded-2xl border border-slate-200">
                 <div className="text-center p-6">
                     <ShieldAlert className="w-10 h-10 mx-auto text-slate-400 mb-2" />
                     <p className="text-sm font-bold text-slate-700">No network connections available</p>
@@ -259,7 +259,7 @@ export const NetworkGraph: React.FC<NetworkGraphProps> = ({
             {/* Graph Canvas */}
             <div
                 ref={containerRef}
-                className="h-[560px] w-full bg-slate-50/50"
+                className="h-[560px] w-full bg-gradient-to-br from-slate-50/80 via-white to-slate-50/80"
             />
 
             {/* Interactive Control Floating Toolbar */}

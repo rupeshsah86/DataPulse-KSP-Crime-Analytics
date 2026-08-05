@@ -60,32 +60,23 @@ public class SecurityConfig {
                                 "/webjars/**"
                         ).permitAll()
 
-                        // ✅ USER ENDPOINTS - Settings page
+                        // ✅ USER & APP ENDPOINTS
                         .requestMatchers("/api/v1/users/**").authenticated()
-
-                        // ✅ PDF REPORTS
                         .requestMatchers("/api/v1/reports/**").authenticated()
-
-                        // ✅ AI ENDPOINTS
-                        .requestMatchers("/api/v1/ai/**").authenticated()
-
-                        // ✅ OFFICER PERFORMANCE
-                        .requestMatchers("/api/v1/officers/**").authenticated()
-
-                        // ✅ REPEAT OFFENDERS
-                        .requestMatchers("/api/v1/offenders/**").authenticated()
-
-                        // ✅ CRIMINAL NETWORK
-                        .requestMatchers("/api/v1/criminals/**").authenticated()
+                        .requestMatchers("/api/v1/ai/**").hasAnyRole("ADMIN", "OFFICER", "ANALYST", "INVESTIGATOR")
+                        .requestMatchers("/api/v1/patrol/**").hasAnyRole("ADMIN", "OFFICER", "ANALYST", "INVESTIGATOR")
+                        .requestMatchers("/api/v1/documents/**").hasAnyRole("ADMIN", "OFFICER", "ANALYST", "INVESTIGATOR")
+                        .requestMatchers("/api/v1/officers/**").hasAnyRole("ADMIN", "OFFICER", "ANALYST", "INVESTIGATOR")
+                        .requestMatchers("/api/v1/offenders/**").hasAnyRole("ADMIN", "OFFICER", "ANALYST", "INVESTIGATOR")
+                        .requestMatchers("/api/v1/criminals/**").hasAnyRole("ADMIN", "OFFICER", "ANALYST", "INVESTIGATOR")
+                        .requestMatchers("/api/v1/network/**").hasAnyRole("ADMIN", "OFFICER", "ANALYST", "INVESTIGATOR")
 
                         // ✅ ADMIN only endpoints
                         .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
 
-                        // ✅ OFFICER, ADMIN, ANALYST, INVESTIGATOR
+                        // ✅ ALL ROLES
                         .requestMatchers("/api/v1/crimes/**").hasAnyRole("ADMIN", "OFFICER", "ANALYST", "INVESTIGATOR")
-
-                        // ✅ ANALYST and ADMIN
-                        .requestMatchers("/api/v1/analytics/**").hasAnyRole("ADMIN", "ANALYST")
+                        .requestMatchers("/api/v1/analytics/**").hasAnyRole("ADMIN", "OFFICER", "ANALYST", "INVESTIGATOR")
 
                         // ✅ All other requests need authentication
                         .anyRequest().authenticated()
