@@ -107,13 +107,6 @@ export default function CrimesPage() {
             console.error(error);
         }
     };
-    {/* Similarity Search */ }
-    <SimilaritySearch
-        onSelect={(crime) => {
-            console.log('Selected similar crime:', crime);
-            // Navigate to crime details or highlight it
-        }}
-    />
 
     // ============================================
     // PDF DOWNLOAD
@@ -128,7 +121,8 @@ export default function CrimesPage() {
 
             toast.loading('Generating PDF...', { id: 'pdf-loading' });
 
-            const response = await fetch('http://localhost:8082/api/v1/reports/pdf', {
+            const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8083';
+            const response = await fetch(`${baseUrl}/api/v1/reports/pdf`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
@@ -289,6 +283,13 @@ export default function CrimesPage() {
                             </Button>
                         </div>
                     </div>
+
+                    {/* AI Similarity Search */}
+                    <SimilaritySearch
+                        onSelect={(crime) => {
+                            searchCrimes(crime.title);
+                        }}
+                    />
 
                     {/* Filters */}
                     <CrimeFilters onSearch={handleSearch} onFilter={handleFilter} />
