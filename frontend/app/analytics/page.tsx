@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
+import Link from 'next/link';
 import { Layout } from '@/components/layout';
 import { ProtectedRoute } from '@/components/auth';
 import { Card } from '@/components/ui/Card';
@@ -189,12 +190,12 @@ export default function AnalyticsPage() {
                             <p className="text-sm font-medium text-slate-500">Visualize crime trends and patterns</p>
                         </div>
                         <div className="flex gap-2">
-                            <a
+                            <Link
                                 href="/analytics/multi-state"
                                 className="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold transition-all shadow-xs flex items-center gap-1.5"
                             >
                                 🌐 Multi-State Analytics
-                            </a>
+                            </Link>
                             <Button variant="outline" size="sm" onClick={handleExportCSV} className="border-slate-300 text-slate-700 hover:bg-slate-50 font-medium">
                                 <Download className="w-4 h-4 mr-1" />
                                 CSV

@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { Layout } from '@/components/layout';
 import { ProtectedRoute } from '@/components/auth';
 import { Card } from '@/components/ui/Card';
@@ -27,11 +28,21 @@ export default function MapPage() {
         <ProtectedRoute>
             <Layout>
                 <div className="space-y-6">
-                    <div>
-                        <h1 className="text-2xl font-bold text-slate-900">Crime Map</h1>
-                        <p className="text-sm font-medium text-slate-500">
-                            Visualize crime locations and hotspots
-                        </p>
+                    <div className="flex items-center justify-between">
+                        <div>
+                            <h1 className="text-2xl font-bold text-slate-900">Crime Map</h1>
+                            <p className="text-sm font-medium text-slate-500">
+                                Visualize crime locations and hotspots
+                            </p>
+                        </div>
+                        <div className="flex items-center gap-3">
+                            <Link
+                                href="/map/3d"
+                                className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition-all shadow-xs flex items-center gap-1.5"
+                            >
+                                🧊 Open 3D Spatial Map
+                            </Link>
+                        </div>
                     </div>
 
                     <Card>

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useCallback } from 'react';
+import Link from 'next/link';
 import { useDropzone } from 'react-dropzone';
 import { UploadCloud, FileSpreadsheet, FileText, X, CheckCircle2, AlertTriangle, Download, ArrowRight, Database, Sparkles } from 'lucide-react';
 import { Layout } from '@/components/layout';
@@ -102,12 +103,12 @@ export default function UploadPage() {
                             </p>
                         </div>
                         <div className="flex items-center gap-3">
-                            <a
+                            <Link
                                 href="/upload/document"
                                 className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold transition-all shadow-xs flex items-center gap-1.5"
                             >
                                 📄 Scan FIR PDF / Image (OCR)
-                            </a>
+                            </Link>
                         </div>
                     </div>
 

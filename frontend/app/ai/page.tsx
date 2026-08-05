@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { Layout } from '@/components/layout';
 import { ProtectedRoute } from '@/components/auth';
 import { Card } from '@/components/ui/Card';
