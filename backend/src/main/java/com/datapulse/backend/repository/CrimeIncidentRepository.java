@@ -25,8 +25,13 @@ public interface CrimeIncidentRepository extends JpaRepository<CrimeIncident, Lo
     List<CrimeIncident> findByTitleContainingIgnoreCase(String keyword);
     List<CrimeIncident> findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCase(String titleKeyword, String descriptionKeyword);
 
+    List<CrimeIncident> findByState(String state);
+
     @Query("SELECT c.district, COUNT(c) FROM CrimeIncident c GROUP BY c.district")
     List<Object[]> countCrimesByDistrict();
+
+    @Query("SELECT COALESCE(c.state, 'Karnataka'), COUNT(c) FROM CrimeIncident c GROUP BY COALESCE(c.state, 'Karnataka')")
+    List<Object[]> countCrimesByState();
 
     @Query("SELECT c.status, COUNT(c) FROM CrimeIncident c GROUP BY c.status")
     List<Object[]> countByStatus();
